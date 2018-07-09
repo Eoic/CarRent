@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Segment, Grid, Header, Button } from 'semantic-ui-react';
+import { Form, Segment, Grid, Header, Button, Message, Icon} from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 class Register extends Component {
@@ -22,10 +22,11 @@ class Register extends Component {
                         <Segment>
                             <Button form='register-form' type='submit' color='blue' fluid> Register </Button>
                         </Segment>
-                        <Segment>
+                        <Message warning attached='bottom'>
+                            <Icon name='help' />
                             Already have an account?
                             <Link to='/'> Login here </Link>
-                        </Segment>
+                        </Message>
                     </Segment.Group>
                 </Grid.Column>
             </Grid>

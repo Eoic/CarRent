@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Segment, Header, Button, Form } from 'semantic-ui-react';
+import { Grid, Segment, Header, Button, Form, Message, Icon } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
@@ -26,16 +26,17 @@ class Login extends Component {
                         <Segment>
                             <Form id='login-form' onSubmit={this.handleSubmit}>
                                 <Form.Input type='text' placeholder='Username'/>
-                                <Form.Input type='password' placeholder='Password'/>
+                                <Form.Input type='password' placeholder='Password' autocomplete="off"/>
                             </Form> 
                         </Segment>
                         <Segment>
                             <Button form='login-form' type='submit' color='blue' fluid> Login </Button>
                         </Segment>
-                        <Segment>
+                        <Message warning attached='bottom'>
+                            <Icon name='help' />
                             Don't have an account? 
                             <Link to='/register'> Register here </Link>
-                        </Segment>
+                        </Message>
                     </Segment.Group>
                 </Grid.Column>
             </Grid>

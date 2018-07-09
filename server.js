@@ -21,6 +21,11 @@ mongoose.connect(db).then(() => {
 // Use routes.
 app.use('/api/cars', cars);   
 
+app.get('/api', function (req, res) {
+    res.set('Content-Type', 'application/json');
+    res.send('{"message":"Hello from the custom server!"}');
+});
+
 // Serve static assets if in production.
 if(process.env.NODE_ENV === 'production'){
     //Set static folder.
