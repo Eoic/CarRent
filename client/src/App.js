@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import Login from './components/Login';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
+
+// Components.
+import Login from './components/Login';
 import Sidebar from './components/Sidebar';
 import Register from './components/Register';
 
@@ -10,16 +12,11 @@ import Cars from './components/Cars';
 import Reports from './components/Reports';
 import Settings from './components/Settings';
 
-// Redux.
-import store from './store';
-import { Provider } from 'react-redux';
-
 class App extends Component {
 	render() {
 		return (
 			<div className="App" style={{ height: '100%'}}>
 				<BrowserRouter>
-					<Provider store={store}>
 						<Switch>
 							<Route exact path='/' component={Login}/>
 							<Route exact path='/register' component={Register}/>
@@ -30,7 +27,6 @@ class App extends Component {
 								<Route path='/settings' component={Settings}/>
 							</Sidebar>
 						</Switch>
-					</Provider>
 				</BrowserRouter>
 			</div>
 		);

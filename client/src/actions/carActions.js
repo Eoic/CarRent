@@ -1,37 +1,28 @@
-import axios from 'axios';
-import {
-    GET_CARS,
-    DELETE_CAR,
-    ADD_CAR,
-    CARS_LOADING
-} from './types';
+import dispatcher from '../Dispatcher';
 
-export const getCars = () => dispatch => {
-    dispatch(setCarsLoading());
-    axios.get('/api/cars').then(res => dispatch({
-        type: GET_CARS,
-        payload: res.data
-    }))
+export const CAR_ACTIONS = {
+    ADD_CAR: 'carActions.AddCar',
+    UPDATE_CAR: 'carActions.UpdateCar',
+    DELETE_CAR: 'carActions.DeleteCar',
+    GET_CARS: 'carActions.GetCars'
 };
 
-export const addCar = (car) => dispatch => {
-    axios.post('/api/cars', car).then(res => dispatch({
-        type: ADD_CAR,
-        payload: res.data
-    }));
-};
+export function addCar(carData){
+    dispatcher.dispatch({
+        type: CAR_ACTIONS.ADD_CAR,
+        value: carData
+    });
+}
 
-export const deleteCar = (id) => dispatch => {
-    axios.delete(`api/cars/${id}`).then(res => dispatch(
-        {
-           type: DELETE_CAR,
-           payload: id
-        }
-    ));
-};
+export function deleteCar(id){
+    dispatcher.dispatch({
+        type: CAR_ACTIONS.DELETE_CAR,
+        value: id
+    });
+}
 
-export const setCarsLoading = () => {
-    return {
-        type: CARS_LOADING
-    }
-};
+export function getCars(){
+    dispatcher.dispatch({
+        type: CAR_ACTIONS.GET_CARS
+    });
+}

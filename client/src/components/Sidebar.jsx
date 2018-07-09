@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Sidebar, Segment, Menu, Icon, Header, Label } from 'semantic-ui-react';
+import { Sidebar, Segment, Menu, Icon, Header } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
 function ItemText(props){
@@ -32,7 +32,7 @@ class SidebarMenu extends Component {
                 </Sidebar>
 
                 <Sidebar.Pusher>
-                    <Segment>
+                    <Segment style={{ paddingRight: '165px'}}>
                         {this.props.children}
                     </Segment>
                 </Sidebar.Pusher>
