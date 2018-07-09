@@ -16,6 +16,16 @@ router.get('/', (req, res) => {
     });
 });
 
+// @route   GET api/cars
+// @desc    Get car by id.
+// @access  Public.
+
+router.get('/:id', (req, res) => {
+    Car.findById(req.params.id).then(response => {
+        res.json(response);
+    });
+});
+
 // @route   POST api/cars
 // @desc    Create a car.
 // @access  Public.

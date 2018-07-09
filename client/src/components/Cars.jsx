@@ -44,8 +44,8 @@ class Cars extends Component{
             <Table selectable>
                 <Table.Header>
                     <Table.Row>
+                        <Table.HeaderCell width='4'> Registration nr. </Table.HeaderCell>
                         <Table.HeaderCell> Model </Table.HeaderCell>
-                        <Table.HeaderCell> Registration nr. </Table.HeaderCell>
                         <Table.HeaderCell> Status </Table.HeaderCell>
                         <Table.HeaderCell/>
                     </Table.Row>
@@ -53,10 +53,10 @@ class Cars extends Component{
                 <Table.Body>
                     { this.state.cars.map(car => 
                         <Table.Row key={car._id}>
-                            <Table.Cell> {car.model} </Table.Cell>
                             <Table.Cell> 
                                 <Link to={'/car/' + car._id} > {car.registrationNumber} </Link> 
                             </Table.Cell>
+                            <Table.Cell> {car.model} </Table.Cell>
                             <Table.Cell> {car.status} </Table.Cell>
                             <Table.Cell> 
                                 <Dropdown icon='ellipsis horizontal'>

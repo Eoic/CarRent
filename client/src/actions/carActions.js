@@ -5,7 +5,8 @@ export const CAR_ACTIONS = {
     ADD_CAR: 'carActions.AddCar',
     UPDATE_CAR: 'carActions.UpdateCar',
     DELETE_CAR: 'carActions.DeleteCar',
-    GET_CARS: 'carActions.GetCars'
+    GET_CARS: 'carActions.GetCars',
+    GET_CAR_BY_ID: 'carActions.GetCarById'
 };
 
 export function addCar(carData){
@@ -29,4 +30,13 @@ export function getCars() {
             value: response.data
         });
     })
+}
+
+export function getCarById(id){
+    axios.get(`/api/cars/${id}`).then(response => {
+        dispatcher.dispatch({
+            type: CAR_ACTIONS.GET_CAR_BY_ID,
+            value: response.data
+        });
+    });
 }

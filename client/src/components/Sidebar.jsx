@@ -16,7 +16,7 @@ class SidebarMenu extends Component {
         return (
             <Sidebar.Pushable as={Segment} style={{ borderRadius: '0px', borderStyle: 'none' }}>
                 <Sidebar as={Menu} icon='labeled' inverted vertical visible width='thin' style={{ backgroundColor: '#303f9f' }}>
-                    <Menu.Item as={Header} icon='map'/>
+                    <Menu.Item as={Header} content='Navigation' subheader='sss'/>
                     <Menu.Item as={NavLink} to='/overview' content={
                         <ItemText content='Overview' icon='home'/>
                     } />

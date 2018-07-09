@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Button, Form } from 'semantic-ui-react';
+import { Modal, Button, Form, Icon } from 'semantic-ui-react';
 import { addCar } from '../actions/carActions'
 
 class CarModal extends Component {
@@ -46,7 +46,7 @@ class CarModal extends Component {
 
     render() {
         return (
-            <Modal trigger={<Button color='red' onClick={this.handleOpen}> ADD NEW </Button>} closeOnDimmerClick={false} closeIcon centered={false} open={this.state.open}>
+            <Modal trigger={<Button color='blue' onClick={this.handleOpen}> <Icon name='plus square'/> ADD NEW </Button>} closeOnDimmerClick={false} centered={false} open={this.state.open}>
                 <Modal.Header>
                     ADD NEW CAR
                 </Modal.Header>

@@ -8,6 +8,7 @@ class CarStore extends EventEmitter {
     constructor(){
         super();
         this.cars = [];
+        this.car = {};
     }
 
     handleActions(action){
@@ -27,6 +28,11 @@ class CarStore extends EventEmitter {
                 axios.delete(`/api/cars/${action.value}`).then(response => {
                     this.emit('storeUpdated');
                 });
+                break;
+            }
+            case CarActions.CAR_ACTIONS.GET_CAR_BY_ID: {
+                this.car = action.value;
+                this.emit('storeUpdated');
                 break;
             }
             default: {}
