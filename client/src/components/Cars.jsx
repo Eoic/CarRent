@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Button } from 'semantic-ui-react';
+import axios from 'axios';
 
 class Cars extends Component{
 
@@ -12,29 +12,18 @@ class Cars extends Component{
     }
 
     componentDidMount(){
-        fetch('/api').then(response => {
-            if(!response.ok)
-                throw new Error(`status ${response.status}`);
-            
-            return response.json();
-        }).then(json => {
+        axios.get('/api').then(response => {
             this.setState({
-                message: json.message,
-                fetching: false
+                fetching: false,
+                message: response.data
             });
-        }).catch(e => {
-            this.setState({
-                message: `API call failed: ${e}`,
-                fetching: false
-            });
-        })
+        });
     }
 
     render(){
         return(
             <div>
-                Message: 
-                { this.state.fetching ? 'Fetching data from API' : this.state.message }
+                { this.state.fetching ? 'Fetching data from API' :  this.state.message.message }
             </div>
         );
     }
