@@ -26,8 +26,8 @@ class Login extends Component {
                         <Segment>
                             <Form id='login-form' onSubmit={this.handleSubmit}>
                                 <Form.Input type='text' placeholder='Username'/>
-                                <Form.Input type='password' placeholder='Password' autocomplete="off"/>
-                            </Form> 
+                                <Form.Input type='password' placeholder='Password' autoComplete="off"/>
+                            </Form>  
                         </Segment>
                         <Segment>
                             <Button form='login-form' type='submit' color='blue' fluid> Login </Button>
