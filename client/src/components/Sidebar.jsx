@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Sidebar, Segment, Menu, Icon, Header } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 function ItemText(props){
     return(
@@ -17,16 +17,16 @@ class SidebarMenu extends Component {
             <Sidebar.Pushable as={Segment} style={{ borderRadius: '0px', borderStyle: 'none' }}>
                 <Sidebar as={Menu} icon='labeled' inverted vertical visible width='thin' style={{ backgroundColor: '#303f9f' }}>
                     <Menu.Item as={Header} icon='map'/>
-                    <Menu.Item as={Link} to='/overview' content={
+                    <Menu.Item as={NavLink} to='/overview' content={
                         <ItemText content='Overview' icon='home'/>
                     } />
-                    <Menu.Item as={Link} to='/cars' content={
+                    <Menu.Item as={NavLink} to='/cars' content={
                         <ItemText content='Cars' icon='truck'/>
                     } />
-                    <Menu.Item as={Link} to='/reports' content={
+                    <Menu.Item as={NavLink} to='/reports' content={
                         <ItemText content='History' icon='history'/>
                     } />
-                    <Menu.Item as={Link} to='/settings' content={
+                    <Menu.Item as={NavLink} to='/settings' content={
                         <ItemText content='Setings' icon='cogs'/>
                     } />
                 </Sidebar>

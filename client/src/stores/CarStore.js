@@ -3,22 +3,18 @@ import { EventEmitter } from 'events';
 import * as CarActions from '../actions/carActions';
 import axios from 'axios';
 
-class AppStore extends EventEmitter {
+class CarStore extends EventEmitter {
+
     constructor(){
         super();
-        this.state = {
-            cars: []
-        }
+        this.cars = [];
     }
 
     handleActions(action){
         switch(action.type){
             case CarActions.CAR_ACTIONS.GET_CARS: {
-                axios.get('/api/cars').then(response => {
-                    const cars = response.data;
-                    this.setState({ cars });
-                    this.emit('storeUpdated');
-                });
+                this.cars = action.value;
+                this.emit('storeUpdated');
                 break;
             }
             case CarActions.CAR_ACTIONS.ADD_CAR: {
@@ -38,10 +34,10 @@ class AppStore extends EventEmitter {
     }
 
     getCars(){
-        return this.state.cars;
+        return this.cars;
     }
 }
 
-const appStore = new AppStore();
-dispatcher.register(appStore.handleActions.bind(appStore));
-export default appStore;
+const carStore = new CarStore();
+dispatcher.register(carStore.handleActions.bind(carStore));
+export default carStore;

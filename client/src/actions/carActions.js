@@ -1,4 +1,5 @@
 import dispatcher from '../Dispatcher';
+import axios from 'axios';
 
 export const CAR_ACTIONS = {
     ADD_CAR: 'carActions.AddCar',
@@ -21,8 +22,11 @@ export function deleteCar(id){
     });
 }
 
-export function getCars(){
-    dispatcher.dispatch({
-        type: CAR_ACTIONS.GET_CARS
-    });
+export function getCars() {
+    axios.get('/api/cars').then(response => {
+        dispatcher.dispatch({
+            type: CAR_ACTIONS.GET_CARS,
+            value: response.data
+        });
+    })
 }

@@ -6,31 +6,47 @@ class CarModal extends Component {
 
     constructor() {
         super();
+
         this.state = {
             carModel: '',
-            carRegistrationNumber: ''
+            carRegistrationNumber: '',
+            status: 'Available',
+            open: false
         }
+
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleOpen = this.handleOpen.bind(this);
     }
 
     handleChange = event => {
         this.setState({ [event.target.name]: event.target.value });
-        console.log(this.state.carRegistrationNumber);
-    }
+    }   
 
     handleSubmit(event, data) {
         event.preventDefault();
 
+        // Close after validating fields.
+        this.setState({ open: false });
+
         addCar({
             model: this.state.carModel,
-            registrationNumber: this.state.carRegistrationNumber
+            registrationNumber: this.state.carRegistrationNumber,
+            status: this.state.status
         });
+    }
+
+    handleOpen(){
+        this.setState({ open: true });
+    }
+
+    handleClose(){
+        this.setState({ open: false });
     }
 
     render() {
         return (
-            <Modal trigger={this.props.children} closeOnDimmerClick={false} closeIcon centered={false}>
+            <Modal trigger={<Button color='red' onClick={this.handleOpen}> ADD NEW </Button>} closeOnDimmerClick={false} closeIcon centered={false} open={this.state.open}>
                 <Modal.Header>
                     ADD NEW CAR
                 </Modal.Header>
@@ -42,6 +58,7 @@ class CarModal extends Component {
                 </Modal.Content>
                 <Modal.Actions>
                     <Button type='submit' form='car-add-form' color='blue'> Save </Button>
+                    <Button color='red' onClick={() => { this.setState({ open: false })}}> Close </Button>
                 </Modal.Actions>
             </Modal>
         );

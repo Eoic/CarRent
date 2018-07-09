@@ -1,22 +1,24 @@
 import React, { Component } from 'react';
 import { Table, Dropdown, Button, Icon } from 'semantic-ui-react';
-import { withRouter } from 'react-router-dom';
 import * as CarActions from '../actions/carActions';
 import store from '../stores/CarStore';
 import CarModal from './CarModal';
+import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 class Cars extends Component{
 
     constructor(props){
         super(props);
-        this.state = {
-            cars: [],
-            fetching: true
-        }
+        this.state = { cars: store.getCars() };
+        this.updateList = this.updateList.bind(this);
+    }
+
+    componentWillMount(){
+        CarActions.getCars();
     }
 
     componentDidMount(){
-        CarActions.getCars();
         store.on('storeUpdated', this.updateList);
     }
 
@@ -26,6 +28,7 @@ class Cars extends Component{
 
     updateList(){
         CarActions.getCars();
+        this.setState({ cars: store.getCars() });
     }
 
     handleDelete = id => {
@@ -33,14 +36,7 @@ class Cars extends Component{
     }
 
     handleEdit = id => {
-        
-    }
-
-    handleAdd(){
-        CarActions.addCar({
-            model: "dummyModel",
-            registrationNumber: "regNumberDummy"
-        });
+        this.props.history.push('/car/' + id);
     }
 
     render(){
@@ -58,7 +54,9 @@ class Cars extends Component{
                     { this.state.cars.map(car => 
                         <Table.Row key={car._id}>
                             <Table.Cell> {car.model} </Table.Cell>
-                            <Table.Cell> {car.registrationNumber} </Table.Cell>
+                            <Table.Cell> 
+                                <Link to={'/car/' + car._id} > {car.registrationNumber} </Link> 
+                            </Table.Cell>
                             <Table.Cell> {car.status} </Table.Cell>
                             <Table.Cell> 
                                 <Dropdown icon='ellipsis horizontal'>
@@ -74,12 +72,8 @@ class Cars extends Component{
                 <Table.Footer>
                     <Table.Row>
                         <Table.HeaderCell colSpan='5'>
-                            <CarModal>
-                                <Button floated='left' icon labelPosition='left' primary size='small'>
-                                    <Icon name='truck' /> ADD NEW
-                                </Button>
-                            </CarModal>
-                        </Table.HeaderCell> 
+                            <CarModal/>
+                        </Table.HeaderCell>
                     </Table.Row>
                 </Table.Footer>
             </Table>
