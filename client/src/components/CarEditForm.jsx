@@ -16,21 +16,20 @@ class CarEditForm extends Component {
 
     render() {
         return (
-            <Segment.Group>
-                <Segment>
-                    <p> Route ID: {this.props.match.params.id} </p>
-                </Segment>
-
-                <Segment as={Header} color='blue' inverted>
+            <Segment.Group style={{ borderRadius: '0px'}}>
+                <Segment as={Header} color='blue' inverted style={{ borderRadius: '0px'}}>
                     CAR INFO
                 </Segment>
                 <Segment>
                     <Form id='car-edit-form'>
-                        <Form.Group>
-                            <Form.Input label='Model' width='7' />
-                            <Form.Input label='Registration number' width='7' />
-                            <Form.Input label='Value' icon='euro'/>
+                        <Form.Group widths='equal'>
+                            <Form.Input label='Model'/>
+                            <Form.Input label='Registration number' />
                         </Form.Group>
+                        <Form.Button color='green'> 
+                            <Icon name='save'/>
+                            Save changes 
+                        </Form.Button>
                     </Form>
                 </Segment>
 
@@ -39,11 +38,14 @@ class CarEditForm extends Component {
                 </Segment>
                 <Segment>
                     <Form id='expenses-form' onSubmit={this.handleSubmit}>
-                        <Form.Group>
-                            <Form.Input icon='euro' placeholder='Value' name='value' width='2' style={{ marginTop: '5px' }}/>
-                            <Form.TextArea placeholder='Details' name='details' width='12' style={{ minHeight: '38px', maxHeight: '76px', marginTop: '5px' }}/>
-                            <Form.Button type='submit' icon='plus' color='linkedin' style={{ marginTop: '5px'}} />
+                        <Form.Group widths='equal'>
+                            <Form.Input icon='euro' label='Value' name='value' width='2'/>
+                            <Form.Input label='Details' name='details' width='14'/>
                         </Form.Group>
+                        <Form.Button type='submit' icon='plus' color='green'> 
+                            <Icon name='plus'/>
+                            Add
+                        </Form.Button>
                     </Form>
                     <ExpensesTable/>
                 </Segment>
@@ -51,8 +53,11 @@ class CarEditForm extends Component {
                 <Segment as={Header} inverted color='blue'>
                     LEASE
                 </Segment>
-                <Segment>
-
+                <Segment style={{ borderRadius: '0px'}}>
+                    <Button color='violet'>
+                        <Icon name='print'/>
+                        Print
+                    </Button>
                 </Segment>
 
             </Segment.Group>

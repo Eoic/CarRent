@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Grid, Segment, Header, Button, Form, Message, Icon } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-
+import StickyHeader from './StickyHeader';
+ 
 class Login extends Component {
 
     constructor(){
@@ -18,15 +19,16 @@ class Login extends Component {
     render() {
         return (
             <Grid columns={1} centered style={{ height: 'inherit' }}>
+                <StickyHeader/>
                 <Grid.Column verticalAlign='middle' style={{ maxWidth: '400px'}}>
                     <Segment.Group raised>
-                        <Header as={Segment}>
+                        <Header as={Segment} inverted color='blue' size='huge'>
                             Authentication
                         </Header>
                         <Segment>
                             <Form id='login-form' onSubmit={this.handleSubmit}>
-                                <Form.Input type='text' placeholder='Username'/>
-                                <Form.Input type='password' placeholder='Password' autoComplete="off"/>
+                                <Form.Input icon='user' type='text' placeholder='Username'/>
+                                <Form.Input icon='lock' type='password' placeholder='Password' autoComplete="off"/>
                             </Form>  
                         </Segment>
                         <Segment>

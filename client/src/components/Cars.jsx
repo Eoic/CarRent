@@ -41,7 +41,7 @@ class Cars extends Component{
 
     render(){
         return(
-            <Table selectable>
+            <Table selectable size='large'>
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell width='4'> Registration nr. </Table.HeaderCell>
@@ -62,7 +62,7 @@ class Cars extends Component{
                                 <Dropdown icon='ellipsis horizontal'>
                                     <Dropdown.Menu>
                                         <Dropdown.Item onClick={this.handleEdit.bind(this, car._id)}> Edit </Dropdown.Item>
-                                        <Dropdown.Item onClick={this.handleDelete.bind(this, car._id)}> Delete </Dropdown.Item>
+                                        <Dropdown.Item onClick={this.handleDelete.bind(this, car._id)} style={{ color: '#c62828'}}> Delete </Dropdown.Item>
                                     </Dropdown.Menu>
                                 </Dropdown>
                             </Table.Cell>

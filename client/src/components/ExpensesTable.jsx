@@ -49,7 +49,7 @@ class ExpensesTable extends Component {
                                 <Dropdown icon='ellipsis horizontal'>
                                     <Dropdown.Menu>
                                         <Dropdown.Item onClick={this.handleEdit.bind(this, data._id)}> Edit </Dropdown.Item>
-                                        <Dropdown.Item onClick={this.handleDelete.bind(this, data._id)}> Delete </Dropdown.Item>
+                                        <Dropdown.Item onClick={this.handleDelete.bind(this, data._id)} style={{ color: '#c62828'}}> Delete </Dropdown.Item>
                                     </Dropdown.Menu>
                                 </Dropdown>
                             </Table.Cell>

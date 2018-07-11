@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Segment, Grid, Divider, Statistic, Icon } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
 
 class Overview extends Component {
     render() {
@@ -9,7 +8,7 @@ class Overview extends Component {
                 <Grid.Column>
                     <Segment.Group horizontal>
                         <Segment color='green'>
-                            <Statistic horizontal color='green'>
+                            <Statistic size='huge'>
                                 <Statistic.Value> + &euro; 0 </Statistic.Value>
                                 <Statistic.Label> Profit this month </Statistic.Label>
                             </Statistic>
@@ -19,8 +18,8 @@ class Overview extends Component {
                 </Grid.Column>
                 <Grid.Column>
                     <Segment.Group horizontal>
-                        <Segment color='red'>
-                            <Statistic horizontal color='red'>
+                        <Segment color='red' >
+                            <Statistic size='huge'>
                                 <Statistic.Value> - &euro; 0 </Statistic.Value>
                                 <Statistic.Label> Expenses this month </Statistic.Label>
                             </Statistic>
