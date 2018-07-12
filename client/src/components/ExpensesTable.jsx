@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Table, Dropdown, Tab, Icon } from 'semantic-ui-react';
+import { Table, Button, Icon } from 'semantic-ui-react';
+import shortid from 'shortid';
 
 const dummyData = [
     {
@@ -16,13 +17,9 @@ const dummyData = [
 
 class ExpensesTable extends Component {
 
-    constructor(props) {
-        super(props);
-    }
-
     handleEdit = (id) => {
 
-    } 
+    }
 
     handleDelete = (id) => {
 
@@ -30,7 +27,7 @@ class ExpensesTable extends Component {
 
     render() {
         return (
-            <Table selectable>
+            <Table selectable compact>
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell> Value, &euro; </Table.HeaderCell>
@@ -41,25 +38,24 @@ class ExpensesTable extends Component {
                 </Table.Header>
                 <Table.Body>
                     {dummyData.map(data =>
-                        <Table.Row>
+                        <Table.Row key={shortid.generate()}>
                             <Table.Cell> {data.value} </Table.Cell>
                             <Table.Cell> {data.description} </Table.Cell>
-                            <Table.Cell> { new Date().toLocaleDateString('lt-LT') } </Table.Cell> 
+                            <Table.Cell> {new Date().toLocaleDateString('lt-LT')} </Table.Cell>
                             <Table.Cell>
-                                <Dropdown icon='ellipsis horizontal'>
-                                    <Dropdown.Menu>
-                                        <Dropdown.Item onClick={this.handleEdit.bind(this, data._id)}> Edit </Dropdown.Item>
-                                        <Dropdown.Item onClick={this.handleDelete.bind(this, data._id)} style={{ color: '#c62828'}}> Delete </Dropdown.Item>
-                                    </Dropdown.Menu>
-                                </Dropdown>
+                                <Button icon color='google plus' onClick={this.handleDelete.bind(this, data._id)}>
+                                    <Icon name='trash'/>
+                                </Button>
                             </Table.Cell>
                         </Table.Row>
                     )}
                 </Table.Body>
-                <Table.Footer fullWidth>
-                    <Table.HeaderCell colSpan='4'>
-                        14.90 <Icon name='euro'/> TOTAL
-                    </Table.HeaderCell>
+                <Table.Footer>
+                    <Table.Row>
+                        <Table.HeaderCell colSpan='4'>
+                            14.90 <Icon name='euro' /> TOTAL
+                        </Table.HeaderCell>
+                    </Table.Row>
                 </Table.Footer>
             </Table>
         );

@@ -4,18 +4,44 @@ const router = express.Router();
 // Expense model.
 const Expense = require('../../models/Expense');
 
-// @route   DELETE api/cars/:id
-// @desc    Delete a car.
+// @route   GET api/expenses/:id
+// @desc    Get all car expenses.
 // @access  Public.
 
 router.get('/:id', (req, res) => {
-    /*
-    Expense.findById(req.params.id).then(car => car.remove().then(() => res.json({
-        success: true
-    }))).catch(err => res.status(404).json({
-        success: false
-    }));
-    */
+    Expense.find({
+        'carId': req.params.id
+    }).then(response => {
+        res.json(response);
+    }).catch(err => {
+        console.log(err);
+    })
+});
+
+// @route   POST api/expenses/:id
+// @desc    Add cost for car with id.
+// @access  Public.
+
+router.post('/', (req, res) => {
+    const newCost = new Expense({
+        carId: req.body.carId,
+        value: req.body.value,
+        description: req.body.description
+    });
+
+    newCost.save().then(cost => res.json(cost));
+});
+
+// @route   DELETE api/expenses/:id
+// @desc    Delete cost from car with id.
+// @access  Public.
+
+router.delete('/:id', (req, res) => {
+    Expense.findByIdAndRemove(req.params.id).then(response => {
+        console.log(response);
+    }).catch(err => {
+        console.log(err);
+    });
 });
 
 module.exports = router;

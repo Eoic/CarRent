@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Sidebar, Segment, Menu, Icon, Sticky, Divider } from 'semantic-ui-react';
+import { Sidebar, Segment, Menu, Icon } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import MenuTop from './MenuTop';
 
@@ -36,7 +36,7 @@ class SidebarMenu extends Component {
                     } />
                 </Sidebar>
 
-                <Sidebar.Pusher style={{ marginLeft: '60px', marginRight: '170px', paddingTop: '65px' }}>
+                <Sidebar.Pusher style={{ marginLeft: '60px', marginRight: '170px' }}>
                     {this.props.children}
                 </Sidebar.Pusher>
             </Sidebar.Pushable>

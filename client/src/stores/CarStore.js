@@ -32,7 +32,7 @@ class CarStore extends EventEmitter {
             }
             case CarActions.CAR_ACTIONS.GET_CAR_BY_ID: {
                 this.car = action.value;
-                this.emit('storeUpdated');
+                this.emit('dataReceived');
                 break;
             }
             default: {}
@@ -41,6 +41,10 @@ class CarStore extends EventEmitter {
 
     getCars(){
         return this.cars;
+    }
+
+    getCarById(){
+        return this.car;
     }
 }
 

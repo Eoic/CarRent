@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Dropdown, Button, Icon } from 'semantic-ui-react';
+import { Table, Dropdown } from 'semantic-ui-react';
 import * as CarActions from '../actions/carActions';
 import store from '../stores/CarStore';
 import CarModal from './CarModal';
@@ -12,9 +12,6 @@ class Cars extends Component{
         super(props);
         this.state = { cars: store.getCars() };
         this.updateList = this.updateList.bind(this);
-    }
-
-    componentWillMount(){
         CarActions.getCars();
     }
 
@@ -31,11 +28,11 @@ class Cars extends Component{
         this.setState({ cars: store.getCars() });
     }
 
-    handleDelete = id => {
+    handleDelete = id => { 
         CarActions.deleteCar(id);
     }
 
-    handleEdit = id => {
+    handleEdit = id => { 
         this.props.history.push('/car/' + id);
     }
 

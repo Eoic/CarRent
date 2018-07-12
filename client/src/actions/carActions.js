@@ -6,7 +6,10 @@ export const CAR_ACTIONS = {
     UPDATE_CAR: 'carActions.UpdateCar',
     DELETE_CAR: 'carActions.DeleteCar',
     GET_CARS: 'carActions.GetCars',
-    GET_CAR_BY_ID: 'carActions.GetCarById'
+    GET_CAR_BY_ID: 'carActions.GetCarById',
+    GET_COSTS: 'carActions.GetCosts',
+    ADD_COST: 'carActions.AddCost',
+    DELETE_COST: 'carActions.DeleteCost'
 };
 
 export function addCar(carData){
@@ -29,7 +32,7 @@ export function getCars() {
             type: CAR_ACTIONS.GET_CARS,
             value: response.data
         });
-    })
+    });
 }
 
 export function getCarById(id){
@@ -45,6 +48,22 @@ export function updateCar(id, data){
     axios.put(`/api/cars/${id}`, data).then(response => {
         dispatcher.dispatch({
             type: CAR_ACTIONS.UPDATE_CAR
-        })
+        });
+    });
+}
+
+export function addCost(id, data){
+    axios.post(`/api/expenses`, data).then(response => {
+        dispatcher.dispatch({
+            type: CAR_ACTIONS.ADD_COST
+        });
+    });
+}
+
+export function removeCost(id){
+    axios.delete(`/api/expenses/${id}`).then(response => {
+        dispatcher.dispatch({
+            type: CAR_ACTIONS.DELETE_COST
+        });
     });
 }
