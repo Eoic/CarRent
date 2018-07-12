@@ -8,7 +8,7 @@ class Overview extends Component {
                 <Grid.Column>
                     <Segment.Group horizontal>
                         <Segment color='green'>
-                            <Statistic size='huge'>
+                            <Statistic size='huge' color='green'>
                                 <Statistic.Value> + &euro; 0 </Statistic.Value>
                                 <Statistic.Label> Profit this month </Statistic.Label>
                             </Statistic>
@@ -19,7 +19,7 @@ class Overview extends Component {
                 <Grid.Column>
                     <Segment.Group horizontal>
                         <Segment color='red' >
-                            <Statistic size='huge'>
+                            <Statistic size='huge' color='red'>
                                 <Statistic.Value> - &euro; 0 </Statistic.Value>
                                 <Statistic.Label> Expenses this month </Statistic.Label>
                             </Statistic>

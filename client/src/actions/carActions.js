@@ -40,3 +40,11 @@ export function getCarById(id){
         });
     });
 }
+
+export function updateCar(id, data){
+    axios.put(`/api/cars/${id}`, data).then(response => {
+        dispatcher.dispatch({
+            type: CAR_ACTIONS.UPDATE_CAR
+        })
+    });
+}

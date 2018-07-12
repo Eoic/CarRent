@@ -56,7 +56,7 @@ class CarEditForm extends Component {
                 <Segment style={{ borderRadius: '0px'}}>
                     <Button color='violet'>
                         <Icon name='print'/>
-                        Print
+                        Invoice
                     </Button>
                 </Segment>
 

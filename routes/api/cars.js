@@ -40,6 +40,21 @@ router.post('/', (req, res) => {
     newCar.save().then(car => res.json(car));
 });
 
+// @route   PUT api/cars/:id
+// @desc    Update car info.
+// @access  Public.
+
+router.put('/:id', (req, res) => {
+    Car.findOneAndUpdate(req.params.id, {
+        model: req.body.model,
+        registrationNumber: req.body.registrationNumber
+    }).then(updatedCar => {
+        console.log(updatedCar);
+    }).catch(err => {
+        cpnsole.log(err);
+    });
+});
+
 // @route   DELETE api/cars/:id
 // @desc    Delete a car.
 // @access  Public.
