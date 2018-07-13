@@ -8,6 +8,7 @@ class CarStore extends EventEmitter {
     constructor(){
         super();
         this.cars = [];
+        this.costs = [];
         this.car = {};
     }
 
@@ -20,24 +21,35 @@ class CarStore extends EventEmitter {
             }
             case CarActions.CAR_ACTIONS.ADD_CAR: {
                 axios.post('/api/cars', action.value).then(response => {
-                    this.emit('storeUpdated');
+                    this.emit('updateRequired');
                 });
                 break;
             }
             case CarActions.CAR_ACTIONS.DELETE_CAR: {
                 axios.delete(`/api/cars/${action.value}`).then(response => {
-                    this.emit('storeUpdated');
+                    console.log('DELETE action received');
+                }).then(response => {
+                    this.emit('updateRequired');
                 });
                 break;
             }
             case CarActions.CAR_ACTIONS.GET_CAR_BY_ID: {
                 this.car = action.value;
-                this.emit('dataReceived');
+                this.emit('storeUpdated');
                 break;
             }
             case CarActions.CAR_ACTIONS.UPDATE_CAR: {
-                console.log('UPDATE ACTION: ');
-                console.log(action.value);
+                // TODO: Check response.
+                break;
+            }
+            case CarActions.CAR_ACTIONS.GET_COSTS: {
+                console.log('GET_COST received');
+                this.costs = action.value;
+                this.emit('storeUpdated');
+                break;
+            }
+            case CarActions.CAR_ACTIONS.DELETE_COST: {
+                this.emit('updateRequired');
                 break;
             }
             default: {}
@@ -50,6 +62,10 @@ class CarStore extends EventEmitter {
 
     getCarById(){
         return this.car;
+    }
+
+    getCosts(){
+        return this.costs;
     }
 }
 

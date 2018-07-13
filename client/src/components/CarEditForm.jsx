@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
-import { getCarById, updateCar } from '../actions/carActions';
-import store from '../stores/CarStore';
 import { Form, Segment, Header, Button, Icon } from 'semantic-ui-react';
+
+// Flux.
+import { getCarById, updateCar, addCost } from '../actions/carActions';
+import store from '../stores/CarStore';
+
+// Components.
 import ExpensesTable from './ExpensesTable';
+
+// Toast.
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -11,6 +17,8 @@ class CarEditForm extends Component {
     constructor(props) {
         super(props);
         this.state = { 
+            value: '',
+            details: '',
             model: '',
             registrationNumber: '',
             infoChanged: false,
@@ -20,18 +28,16 @@ class CarEditForm extends Component {
         this.handleExpensesSubmit = this.handleExpensesSubmit.bind(this);
         this.handleInfoChange = this.handleInfoChange.bind(this);
         this.fillForm = this.fillForm.bind(this);
-    }
-
-    componentWillMount(){
-        getCarById(this.state.carId);
+        this.handleExpensesChange = this.handleExpensesChange.bind(this)
     }
 
     componentDidMount(){
-        store.on('dataReceived', this.fillForm);
+        store.on('storeUpdated', this.fillForm);
+        getCarById(this.state.carId);
     }
 
     componentWillUnmount(){
-        store.removeListener('dataReceived', this.fillForm);
+        store.removeListener('storeUpdated', this.fillForm);
     }
 
     fillForm(){
@@ -44,7 +50,14 @@ class CarEditForm extends Component {
     }
 
     handleExpensesSubmit(){
-        
+        const cost = {
+            carId: this.state.carId,
+            value: this.state.value,
+            details: this.state.details
+        }
+
+        addCost(cost);
+        toast.success('Successfully added.');
     }
 
     handleInfoSubmit(){
@@ -65,6 +78,10 @@ class CarEditForm extends Component {
             [event.target.name]: event.target.value,
             infoChanged: true
         });
+    }
+
+    handleExpensesChange(event){
+        this.setState({ [event.target.name]: event.target.value });
     }
 
     render() {
@@ -93,15 +110,15 @@ class CarEditForm extends Component {
                 <Segment>
                     <Form id='expenses-form' onSubmit={this.handleExpensesSubmit}>
                         <Form.Group widths='equal'>
-                            <Form.Input icon='euro' label='Value' name='value' width='2'/>
-                            <Form.Input label='Details' name='details' width='14'/>
+                            <Form.Input icon='euro' label='Value' name='value' value={this.state.value} onChange={this.handleExpensesChange} width='2'/>
+                            <Form.Input label='Details' name='details' width='14' value={this.state.details} onChange={this.handleExpensesChange}/>
                         </Form.Group>
                         <Form.Button type='submit' color='green'> 
                             <Icon name='plus'/>
                             Add
                         </Form.Button>
                     </Form>
-                    <ExpensesTable/>
+                    <ExpensesTable carId={this.state.carId}/>
                 </Segment>
                 
                 <Segment as={Header} inverted color='blue'>

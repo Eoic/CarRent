@@ -8,8 +8,12 @@ const ExpenseSchema = new Schema({
     value: {
         type: Number
     },
-    description: {
+    details: {
         type: String
+    },
+    added: {
+        type: Date,
+        default: Date.now()
     }
 });
 

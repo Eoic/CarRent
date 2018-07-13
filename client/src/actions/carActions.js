@@ -1,6 +1,11 @@
 import dispatcher from '../Dispatcher';
 import axios from 'axios';
 
+const ROUTE = {
+    CARS: '/api/cars/',
+    EXPENSES: '/api/expenses/'
+}
+
 export const CAR_ACTIONS = {
     ADD_CAR: 'carActions.AddCar',
     UPDATE_CAR: 'carActions.UpdateCar',
@@ -27,7 +32,7 @@ export function deleteCar(id){
 }
 
 export function getCars() {
-    axios.get('/api/cars').then(response => {
+    axios.get(ROUTE.CARS).then(response => {
         dispatcher.dispatch({
             type: CAR_ACTIONS.GET_CARS,
             value: response.data
@@ -36,7 +41,7 @@ export function getCars() {
 }
 
 export function getCarById(id){
-    axios.get(`/api/cars/${id}`).then(response => {
+    axios.get(ROUTE.CARS + id).then(response => {
         dispatcher.dispatch({
             type: CAR_ACTIONS.GET_CAR_BY_ID,
             value: response.data
@@ -45,23 +50,33 @@ export function getCarById(id){
 }
 
 export function updateCar(data){
-    axios.put('/api/cars/', data).then(response => {
-        console.log(response);
+    axios.put(ROUTE.CARS, data).then(response => {
+        //console.log(response);
     }).catch(err => console.log(err));
 }
 
-export function addCost(id, data){
-    axios.post(`/api/expenses`, data).then(response => {
+export function getCosts(carId){
+    axios.get(ROUTE.EXPENSES + carId).then(response => {
+        dispatcher.dispatch({
+            type: CAR_ACTIONS.GET_COSTS,
+            value: response.data
+        });
+    }).catch(err => console.log(err));
+}
+
+export function addCost(data){
+    axios.post(ROUTE.EXPENSES, data).then(response => {
         dispatcher.dispatch({
             type: CAR_ACTIONS.ADD_COST
         });
-    });
+    }).catch(err => console.log(err));
 }
 
-export function removeCost(id){
-    axios.delete(`/api/expenses/${id}`).then(response => {
+export function deleteCost(id){
+    axios.delete(ROUTE.EXPENSES + id).then(response => {
         dispatcher.dispatch({
-            type: CAR_ACTIONS.DELETE_COST
+            type: CAR_ACTIONS.DELETE_COST,
+            value: response.data
         });
     });
 }

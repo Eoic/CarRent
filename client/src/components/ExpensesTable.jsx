@@ -1,28 +1,40 @@
 import React, { Component } from 'react';
 import { Table, Button, Icon } from 'semantic-ui-react';
-import shortid from 'shortid';
-
-const dummyData = [
-    {
-        _id: '1',
-        value: '12.45',
-        description: 'none'
-    },
-    {
-        _id: '2',
-        value: '2.45',
-        description: 'none'
-    },
-]
+import { getCosts, deleteCost } from '../actions/carActions';
+import store from '../stores/CarStore';
 
 class ExpensesTable extends Component {
 
-    handleEdit = (id) => {
+    constructor(props) {
+        super(props);
+        this.state = { 
+            costs: store.getCosts()
+        };
+        this.updateList = this.updateList.bind(this);
+        this.fetchData = this.fetchData.bind(this);
+    }
 
+    componentDidMount() {
+        store.on('storeUpdated', this.updateList);
+        store.on('updateRequired', this.fetchData);
+        this.fetchData();
+    }
+
+    componentWillUnmount() {
+        store.removeListener('storeUpdated', this.updateList);
+        store.removeListener('updateRequired', this.fetchData);
+    }
+
+    fetchData(){
+        getCosts(this.props.id);
+    }
+
+    updateList() {
+        this.setState({ costs: store.getCosts() });
     }
 
     handleDelete = (id) => {
-
+        deleteCost(id);
     }
 
     render() {
@@ -37,14 +49,14 @@ class ExpensesTable extends Component {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {dummyData.map(data =>
-                        <Table.Row key={shortid.generate()}>
-                            <Table.Cell> {data.value} </Table.Cell>
-                            <Table.Cell> {data.description} </Table.Cell>
-                            <Table.Cell> {new Date().toLocaleDateString('lt-LT')} </Table.Cell>
+                    {this.state.costs.map(cost =>
+                        <Table.Row key={cost._id}>
+                            <Table.Cell> {cost.value} </Table.Cell>
+                            <Table.Cell> {cost.details} </Table.Cell>
+                            <Table.Cell> {cost.added} </Table.Cell>
                             <Table.Cell>
-                                <Button icon color='google plus' onClick={this.handleDelete.bind(this, data._id)}>
-                                    <Icon name='trash'/>
+                                <Button icon color='google plus' onClick={this.handleDelete.bind(this, cost._id)}>
+                                    <Icon name='trash' />
                                 </Button>
                             </Table.Cell>
                         </Table.Row>
@@ -63,17 +75,3 @@ class ExpensesTable extends Component {
 }
 
 export default ExpensesTable;
-
-/*
-{ dummyData.map(obj => {
-                        <Table.Row key={obj.key}>
-                            <Table.Cell> {obj.value} </Table.Cell>
-                            <Table.Cell> {obj.quantity} </Table.Cell>
-                            <Table.Cell> {obj.description} </Table.Cell>
-                            <Table.Cell>
-                                <Button color='red' icon='trash'/>    
-                            </Table.Cell>
-                        </Table.Row>
-                    }) }
-
-*/

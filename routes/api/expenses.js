@@ -26,7 +26,7 @@ router.post('/', (req, res) => {
     const newCost = new Expense({
         carId: req.body.carId,
         value: req.body.value,
-        description: req.body.description
+        details: req.body.details
     });
 
     newCost.save().then(cost => res.json(cost));
