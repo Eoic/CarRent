@@ -1,0 +1,18 @@
+.input-style {
+    border-style: solid;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    padding: 8px;
+}
+
+.input-style:focus {
+    box-shadow: 1px 1px 4px rgb(194, 216, 203);
+    -moz-box-shadow: 1px 1px 4px rgb(194, 216, 203);
+    -webkit-box-shadow: 1px 1px 4px rgb(194, 216, 203); 
+    transition: all 0.30s ease-in-out;
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+}
