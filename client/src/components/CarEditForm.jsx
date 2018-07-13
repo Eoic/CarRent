@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getCars, getCarById, updateCar } from '../actions/carActions';
+import { getCarById, updateCar } from '../actions/carActions';
 import store from '../stores/CarStore';
 import { Form, Segment, Header, Button, Icon } from 'semantic-ui-react';
 import ExpensesTable from './ExpensesTable';
@@ -36,6 +36,7 @@ class CarEditForm extends Component {
 
     fillForm(){
         const car = store.getCarById();
+        
         this.setState({
             model: car.model,
             registrationNumber: car.registrationNumber
@@ -51,10 +52,11 @@ class CarEditForm extends Component {
 
         const car = {
             model: this.state.model,
-            registrationNumber: this.state.registrationNumber
+            registrationNumber: this.state.registrationNumber,
+            id: this.state.carId
         }
 
-        updateCar(this.state.carId, car);
+        updateCar(car);
         toast.success('Changes saved.');
     }
 

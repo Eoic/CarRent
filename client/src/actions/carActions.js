@@ -44,12 +44,10 @@ export function getCarById(id){
     });
 }
 
-export function updateCar(id, data){
-    axios.put(`/api/cars/${id}`, data).then(response => {
-        dispatcher.dispatch({
-            type: CAR_ACTIONS.UPDATE_CAR
-        });
-    });
+export function updateCar(data){
+    axios.put('/api/cars/', data).then(response => {
+        console.log(response);
+    }).catch(err => console.log(err));
 }
 
 export function addCost(id, data){

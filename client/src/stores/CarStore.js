@@ -35,6 +35,11 @@ class CarStore extends EventEmitter {
                 this.emit('dataReceived');
                 break;
             }
+            case CarActions.CAR_ACTIONS.UPDATE_CAR: {
+                console.log('UPDATE ACTION: ');
+                console.log(action.value);
+                break;
+            }
             default: {}
         }
     }

@@ -44,14 +44,12 @@ router.post('/', (req, res) => {
 // @desc    Update car info.
 // @access  Public.
     
-router.put('/:id', (req, res) => {
-    Car.findOneAndUpdate(req.params.id, {
+router.put('/', (req, res) => {
+    Car.findByIdAndUpdate(req.body.id, {
         model: req.body.model,
         registrationNumber: req.body.registrationNumber
-    }).then(updatedCar => {
-        console.log(updatedCar);
-    }).catch(err => {
-        cpnsole.log(err);
+    }).then(response => {
+        res.json(response);
     });
 });
 
