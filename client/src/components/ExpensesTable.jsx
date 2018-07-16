@@ -12,6 +12,7 @@ class ExpensesTable extends Component {
         };
         this.updateList = this.updateList.bind(this);
         this.fetchData = this.fetchData.bind(this);
+        console.log("Received car id: " + this.props.carId);
     }
 
     componentDidMount() {
@@ -39,10 +40,10 @@ class ExpensesTable extends Component {
 
     render() {
         return (
-            <Table selectable compact>
+            <Table selectable unstackable singleLine>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell> Value, &euro; </Table.HeaderCell>
+                        <Table.HeaderCell> Value </Table.HeaderCell>
                         <Table.HeaderCell> Description </Table.HeaderCell>
                         <Table.HeaderCell> Date Added </Table.HeaderCell>
                         <Table.HeaderCell />

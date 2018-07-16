@@ -45,7 +45,7 @@ class Cars extends Component{
 
     render(){
         return(
-            <Table selectable size='large'>
+            <Table selectable size='large' unstackable singleLine>
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell width='4'> Registration nr. </Table.HeaderCell>

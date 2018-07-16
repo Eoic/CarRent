@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import { Form, Segment, Header, Button, Icon, Input, Label } from 'semantic-ui-react';
+import { Form, Segment, Header, Button, Icon } from 'semantic-ui-react';
 import 'react-datepicker/dist/react-datepicker.css';
-import DatePicker from 'react-datepicker';
-import moment from 'moment';
-import '../App.css';
 
 // Flux.
 import { getCarById, updateCar, addCost } from '../actions/carActions';
@@ -11,6 +8,7 @@ import store from '../stores/CarStore';
 
 // Components.
 import ExpensesTable from './ExpensesTable';
+import RentFrom from './RentForm';
 
 // Toast.
 import { ToastContainer, toast } from 'react-toastify';
@@ -26,17 +24,13 @@ class CarEditForm extends Component {
             model: '',
             registrationNumber: '',
             infoChanged: false,
-            carId: this.props.match.params.id,
-            startDate: moment(),
-            endDate: moment()
+            carId: this.props.match.params.id
         };
         this.handleInfoSubmit = this.handleInfoSubmit.bind(this);
         this.handleExpensesSubmit = this.handleExpensesSubmit.bind(this);
         this.handleInfoChange = this.handleInfoChange.bind(this);
         this.fillForm = this.fillForm.bind(this);
-        this.handleExpensesChange = this.handleExpensesChange.bind(this)
-        this.handleStartDateChange = this.handleStartDateChange.bind(this);
-        this.handleEndDateChange = this.handleEndDateChange.bind(this);
+        this.handleExpensesChange = this.handleExpensesChange.bind(this);
     }
 
     componentDidMount() {
@@ -92,14 +86,6 @@ class CarEditForm extends Component {
         this.setState({ [event.target.name]: event.target.value });
     }
 
-    handleStartDateChange(date) {
-        this.setState({ startDate: date });
-    }
-
-    handleEndDateChange(date) {
-        this.setState({ endDate: date });
-    }
-
     render() {
         return (
             <Segment.Group style={{ borderRadius: '0px' }}>
@@ -138,29 +124,19 @@ class CarEditForm extends Component {
                 </Segment>
 
                 <Segment as={Header} inverted color='blue'>
-                    LEASE
+                    RENT
                 </Segment>
                 <Segment>
-                    <Form.Group inline>
-                        <Label content='Start date' />
-                        <DatePicker
-                            className='input-style'
-                            selected={this.state.startDate}
-                            onChange={this.handleStartDateChange}
-                        />
-
-                        <Label content='End date' />
-                        <DatePicker
-                            className='input-style'
-                            selected={this.state.endDate}
-                            onChange={this.handleEndDateChange}
-                        />
-                    </Form.Group>
+                    <RentFrom />
                 </Segment>
                 <Segment style={{ borderRadius: '0px' }}>
-                    <Button color='violet'>
+                    <Button color='green'>
+                        <Icon name='payment' />
+                        Rent
+                    </Button>
+                    <Button color='violet' disabled>
                         <Icon name='print' />
-                        Invoice
+                        Print Invoice
                     </Button>
                 </Segment>
 

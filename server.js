@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cars = require('./routes/api/cars');
 const expenses = require('./routes/api/expenses');
+const logs = require('./routes/api/logs');
 const path = require('path');
 
 const app = express();
@@ -22,6 +23,7 @@ mongoose.connect(db).then(() => {
 // Use routes.
 app.use('/api/cars', cars);
 app.use('/api/expenses', expenses);
+app.use('/api/logs', logs);
 
 app.get('/api', function (req, res) {
     res.set('Content-Type', 'application/json');

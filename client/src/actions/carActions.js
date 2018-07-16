@@ -66,6 +66,9 @@ export function getCosts(carId){
 
 export function addCost(data){
     axios.post(ROUTE.EXPENSES, data).then(response => {
+        console.log("Dispatching action with data: ");
+        console.log(data);
+        
         dispatcher.dispatch({
             type: CAR_ACTIONS.ADD_COST
         });

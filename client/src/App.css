@@ -4,6 +4,7 @@
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     padding: 8px;
+    width: 170px;
 }
 
 .input-style:focus {
@@ -15,4 +16,12 @@
     -moz-transition: all 0.30s ease-in-out;
     -ms-transition: all 0.30s ease-in-out;
     -o-transition: all 0.30s ease-in-out;
+}
+
+.react-datepicker__time-list{
+    padding: unset !important;
+}
+
+.date-label {
+    width: 145px;
 }
