@@ -11,7 +11,7 @@ import ExpensesTable from './ExpensesTable';
 import RentFrom from './RentForm';
 
 // Toast.
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 class CarEditForm extends Component {
@@ -35,11 +35,17 @@ class CarEditForm extends Component {
 
     componentDidMount() {
         store.on('storeUpdated', this.fillForm);
+        store.on('requestFailed', this.handleError);
         getCarById(this.state.carId);
     }
 
     componentWillUnmount() {
         store.removeListener('storeUpdated', this.fillForm);
+        store.removeListener('requestFailed', this.handleError);
+    }
+
+    handleError(){
+        toast.error(store.getErrorMsg());
     }
 
     fillForm() {
@@ -59,7 +65,6 @@ class CarEditForm extends Component {
         }
 
         addCost(cost);
-        toast.success('Successfully added.');
     }
 
     handleInfoSubmit() {
@@ -72,7 +77,6 @@ class CarEditForm extends Component {
         }
 
         updateCar(car);
-        toast.success('Changes saved.');
     }
 
     handleInfoChange(event) {
@@ -89,7 +93,6 @@ class CarEditForm extends Component {
     render() {
         return (
             <Segment.Group style={{ borderRadius: '0px' }}>
-                <ToastContainer />
                 <Segment as={Header} color='blue' inverted style={{ borderRadius: '0px' }}>
                     CAR INFO
                 </Segment>

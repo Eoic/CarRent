@@ -1,4 +1,3 @@
-// [ npm run dev ]
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -25,13 +24,9 @@ app.use('/api/cars', cars);
 app.use('/api/expenses', expenses);
 app.use('/api/logs', logs);
 
-app.get('/api', function (req, res) {
-    res.set('Content-Type', 'application/json');
-    res.send('{"message":"Hello from the custom server!"}');
-});
-
 // Serve static assets if in production.
 if(process.env.NODE_ENV === 'production'){
+    
     //Set static folder.
     app.use(express.static('client/build'));
     

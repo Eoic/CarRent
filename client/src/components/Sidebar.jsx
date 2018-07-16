@@ -16,7 +16,7 @@ class SidebarMenu extends Component {
 
     render() {
         return (
-            <Sidebar.Pushable as={Segment} style={{ borderRadius: '0px', borderStyle: 'none', backgroundColor: '#eceff1' }}>
+            <Sidebar.Pushable as={Segment} style={{ borderRadius: '0px', borderStyle: 'none', marginBottom: '0px', backgroundColor: '#eceff1' }}>
                 <MenuTop/>
                 <Sidebar as={Menu} icon='labeled' inverted vertical width='thin' visible style={{ backgroundColor: '#303f9f', width: '190px' }}>
                     <Menu.Item style={{ backgroundColor: '#001970', height: '42.85px'}} content={

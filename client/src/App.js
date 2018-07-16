@@ -12,6 +12,7 @@ import Cars from './components/Cars';
 import Reports from './components/Reports';
 import Settings from './components/Settings';
 import CarEditForm from './components/CarEditForm';
+import { ToastContainer } from '../node_modules/react-toastify';
 
 class App extends Component {
 	render() {
@@ -30,6 +31,7 @@ class App extends Component {
 							</Sidebar>
 						</Switch>
 				</BrowserRouter>
+				<ToastContainer/>
 			</div>
 		);
 	}

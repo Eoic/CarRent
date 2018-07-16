@@ -29,7 +29,9 @@ router.post('/', (req, res) => {
         details: req.body.details
     });
 
-    newCost.save().then(cost => res.json(cost));
+    newCost.save().then(cost => res.json(cost)).catch(err => {
+        res.status(400).send("Failed to add cost. ");
+    });
 });
 
 // @route   DELETE api/expenses/:id

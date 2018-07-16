@@ -1,12 +1,13 @@
 import dispatcher from '../Dispatcher';
 import { EventEmitter } from 'events';
-import * as CarActions from '../actions/carActions';
-import axios from 'axios';
+import { CAR_ACTIONS, GLOBAL_ACTIONS } from '../actions/types';
 
 class CarStore extends EventEmitter {
 
     constructor(){
         super();
+        this.fetching = false;
+        this.errorMsg = '';
         this.cars = [];
         this.costs = [];
         this.car = {};
@@ -14,42 +15,44 @@ class CarStore extends EventEmitter {
 
     handleActions(action){
         switch(action.type){
-            case CarActions.CAR_ACTIONS.GET_CARS: {
+            case CAR_ACTIONS.GET_CARS: {
                 this.cars = action.value;
                 this.emit('storeUpdated');
                 break;
             }
-            case CarActions.CAR_ACTIONS.ADD_CAR: {
-                axios.post('/api/cars', action.value).then(response => {
-                    this.emit('updateRequired');
-                });
+            case CAR_ACTIONS.ADD_CAR: {
+                this.emit('updateRequired');
                 break;
             }
-            case CarActions.CAR_ACTIONS.DELETE_CAR: {
-                axios.delete(`/api/cars/${action.value}`).then(response => {
-                    console.log('DELETE action received');
-                }).then(response => {
-                    this.emit('updateRequired');
-                });
+            case CAR_ACTIONS.DELETE_CAR: {
+                this.emit('updateRequired');
                 break;
             }
-            case CarActions.CAR_ACTIONS.GET_CAR_BY_ID: {
+            case CAR_ACTIONS.GET_CAR_BY_ID: {
                 this.car = action.value;
                 this.emit('storeUpdated');
                 break;
             }
-            case CarActions.CAR_ACTIONS.UPDATE_CAR: {
+            case CAR_ACTIONS.UPDATE_CAR: {
                 // TODO: Check response.
                 break;
             }
-            case CarActions.CAR_ACTIONS.GET_COSTS: {
-                console.log('GET_COST received');
+            case CAR_ACTIONS.ADD_COST: {
+                //this.emit('actionSuccess');
+                break;
+            }
+            case CAR_ACTIONS.GET_COSTS: {
                 this.costs = action.value;
                 this.emit('storeUpdated');
                 break;
             }
-            case CarActions.CAR_ACTIONS.DELETE_COST: {
+            case CAR_ACTIONS.DELETE_COST: {
                 this.emit('updateRequired');
+                break;
+            }
+            case GLOBAL_ACTIONS.REQUEST_FAILED: {
+                this.errorMsg = action.value.statusText;
+                this.emit('requestFailed');
                 break;
             }
             default: {}
@@ -66,6 +69,10 @@ class CarStore extends EventEmitter {
 
     getCosts(){
         return this.costs;
+    }
+
+    getErrorMsg(){
+        return this.errorMsg;
     }
 }
 

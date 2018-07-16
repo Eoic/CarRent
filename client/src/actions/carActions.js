@@ -1,33 +1,19 @@
 import dispatcher from '../Dispatcher';
 import axios from 'axios';
+import { CAR_ACTIONS, GLOBAL_ACTIONS } from './types';
 
 const ROUTE = {
     CARS: '/api/cars/',
     EXPENSES: '/api/expenses/'
 }
 
-export const CAR_ACTIONS = {
-    ADD_CAR: 'carActions.AddCar',
-    UPDATE_CAR: 'carActions.UpdateCar',
-    DELETE_CAR: 'carActions.DeleteCar',
-    GET_CARS: 'carActions.GetCars',
-    GET_CAR_BY_ID: 'carActions.GetCarById',
-    GET_COSTS: 'carActions.GetCosts',
-    ADD_COST: 'carActions.AddCost',
-    DELETE_COST: 'carActions.DeleteCost'
-};
-
-export function addCar(carData){
+function dispatchError(error){
     dispatcher.dispatch({
-        type: CAR_ACTIONS.ADD_CAR,
-        value: carData
-    });
-}
-
-export function deleteCar(id){
-    dispatcher.dispatch({
-        type: CAR_ACTIONS.DELETE_CAR,
-        value: id
+        type: GLOBAL_ACTIONS.REQUEST_FAILED,
+        value: {
+            status: error.status,
+            statusText: error.data
+        }
     });
 }
 
@@ -40,7 +26,7 @@ export function getCars() {
     });
 }
 
-export function getCarById(id){
+export function getCarById(id) {
     axios.get(ROUTE.CARS + id).then(response => {
         dispatcher.dispatch({
             type: CAR_ACTIONS.GET_CAR_BY_ID,
@@ -49,13 +35,34 @@ export function getCarById(id){
     });
 }
 
-export function updateCar(data){
-    axios.put(ROUTE.CARS, data).then(response => {
-        //console.log(response);
+export function addCar(carData) {
+    axios.post(ROUTE.CARS, carData).then(response => {
+        dispatcher.dispatch({
+            type: CAR_ACTIONS.ADD_CAR,
+            value: response.data
+        });
     }).catch(err => console.log(err));
 }
 
-export function getCosts(carId){
+export function updateCar(data) {
+    axios.put(ROUTE.CARS, data).then(response => {
+        dispatcher.dispatch({
+            type: CAR_ACTIONS.UPDATE_CAR,
+            value: response.data
+        })
+    }).catch(err => console.log(err));
+}
+
+export function deleteCar(id) {
+    axios.delete(ROUTE.CARS + id).then(response => {
+        dispatcher.dispatch({
+            type: CAR_ACTIONS.DELETE_CAR,
+            value: response.data
+        });
+    });
+}
+
+export function getCosts(carId) {
     axios.get(ROUTE.EXPENSES + carId).then(response => {
         dispatcher.dispatch({
             type: CAR_ACTIONS.GET_COSTS,
@@ -64,18 +71,17 @@ export function getCosts(carId){
     }).catch(err => console.log(err));
 }
 
-export function addCost(data){
+export function addCost(data) {
     axios.post(ROUTE.EXPENSES, data).then(response => {
-        console.log("Dispatching action with data: ");
-        console.log(data);
-        
         dispatcher.dispatch({
-            type: CAR_ACTIONS.ADD_COST
+            type: CAR_ACTIONS.ADD_COST,
+            value: response.data,
+            status: response.status
         });
-    }).catch(err => console.log(err));
+    }).catch(err => dispatchError(err.response));
 }
 
-export function deleteCost(id){
+export function deleteCost(id) {
     axios.delete(ROUTE.EXPENSES + id).then(response => {
         dispatcher.dispatch({
             type: CAR_ACTIONS.DELETE_COST,
