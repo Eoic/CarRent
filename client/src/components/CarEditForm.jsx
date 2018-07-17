@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactToPrint from 'react-to-print';
 import { Form, Segment, Header, Button, Icon } from 'semantic-ui-react';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -9,6 +10,7 @@ import store from '../stores/CarStore';
 // Components.
 import ExpensesTable from './ExpensesTable';
 import RentFrom from './RentForm';
+import Invoice from './Invoice';
 
 // Toast.
 import { toast } from 'react-toastify';
@@ -44,7 +46,7 @@ class CarEditForm extends Component {
         store.removeListener('requestFailed', this.handleError);
     }
 
-    handleError(){
+    handleError() {
         toast.error(store.getErrorMsg());
     }
 
@@ -137,10 +139,15 @@ class CarEditForm extends Component {
                         <Icon name='payment' />
                         Rent
                     </Button>
-                    <Button color='violet' disabled>
-                        <Icon name='print' />
-                        Print Invoice
-                    </Button>
+                    <ReactToPrint
+                        trigger={() =>  <Button as='a' color='violet'> 
+                                            <Icon name='print'/>
+                                            Print 
+                                        </Button>}
+                        content={() => this.componentRef}
+                    />
+                    <Invoice content={'Hello there.'} ref={el => (this.componentRef = el)} />
+
                 </Segment>
 
             </Segment.Group>
