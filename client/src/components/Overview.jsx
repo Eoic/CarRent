@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Grid, Segment, Statistic, Header, Table } from 'semantic-ui-react';
+import { Grid, Segment, Statistic, Table } from 'semantic-ui-react';
 import { ResponsiveLine } from '@nivo/line'
-import Calendar from 'react-calendar';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 
@@ -231,7 +230,7 @@ class Overview extends Component {
                     <Table.Body>
                         <Table.Row>
                             <Table.Cell>John</Table.Cell>
-                            <Table.Cell>Approved</Table.Cell>
+                            <Table.Cell>Active</Table.Cell>
                             <Table.Cell textAlign='right'>None</Table.Cell>
                         </Table.Row>
                         <Table.Row>
