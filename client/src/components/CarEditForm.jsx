@@ -94,8 +94,8 @@ class CarEditForm extends Component {
 
     render() {
         return (
-            <Segment.Group style={{ borderRadius: '0px' }}>
-                <Segment as={Header} color='blue' inverted style={{ borderRadius: '0px' }}>
+            <Segment.Group>
+                <Segment as={Header} color='blue' inverted>
                     CAR INFO
                 </Segment>
                 <Segment>
@@ -133,21 +133,6 @@ class CarEditForm extends Component {
                 </Segment>
                 <Segment>
                     <RentFrom />
-                </Segment>
-                <Segment style={{ borderRadius: '0px' }}>
-                    <Button color='green'>
-                        <Icon name='payment' />
-                        Rent
-                    </Button>
-                    <ReactToPrint
-                        trigger={() =>  <Button as='a' color='violet'> 
-                                            <Icon name='print'/>
-                                            Print 
-                                        </Button>}
-                        content={() => this.componentRef}
-                    />
-                    <Invoice content={'Hello there.'} ref={el => (this.componentRef = el)} />
-
                 </Segment>
 
             </Segment.Group>

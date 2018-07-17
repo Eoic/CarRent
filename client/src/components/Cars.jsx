@@ -7,9 +7,6 @@ import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 
 const styles = {
-    table: {
-        borderRadius: 0
-    },
     deleteButton: {
         color: '#c62828'
     }
@@ -65,7 +62,7 @@ class Cars extends Component {
 
     render() {
         return (
-            <Table selectable size='large' unstackable singleLine style={styles.table}>
+            <Table selectable size='large' unstackable singleLine>
 
                 <Modal size='mini' open={this.state.deleteConfirmOpen}>
                     <Modal.Header>Are you sure?</Modal.Header>

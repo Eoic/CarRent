@@ -21,7 +21,8 @@ const sidebarStyles = {
     },
     pushedContent: {
         marginLeft: 205, 
-        marginRight: 15
+        marginRight: 15,
+        marginBottom: 15
     }
 }
 

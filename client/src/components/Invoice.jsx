@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 
 const pageStyle = {
     size: {
-        width: 842,
-        height: 595
+        width: 595,
+        height: 842,
+        border: '1px solid #2a2a2a',
+        marginTop: 15
     }
 }
 

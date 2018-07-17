@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Form, Label, Grid, Divider } from 'semantic-ui-react';
+import { Form, Label, Grid, Divider, Button, Icon } from 'semantic-ui-react';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import '../App.css';
+import Invoice from './Invoice';
+import ReactToPrint from 'react-to-print';
 
 function DateLabel(props) {
     return (<Label size='big' color='violet' pointing='right' icon='time' content={props.content} className='date-label' />);
@@ -11,13 +13,26 @@ function DateLabel(props) {
 const paymentOptions = [
     {
         text: 'In Cash',
-        value: 2
+        value: 1
     },
     {
         text: 'Bank Transfer',
-        value: 1
+        value: 2
     }
 ];
+
+const styles = {
+    label: {
+        paddingTop: '7px',
+        fontWeight: 'bold'
+    },
+    innerGrid: {
+        paddingBottom: '10px'
+    },
+    formColumn: {
+        maxWidth: '780px'
+    }
+}
 
 class RentForm extends Component {
 
@@ -49,8 +64,8 @@ class RentForm extends Component {
     render() {
         return (
             <Grid padded columns='1' centered>
-                <Grid padded style={{ paddingBottom: '10px' }}>
-                    <DateLabel content='Start Date' />
+                <Grid padded style={styles.innerGrid}>
+                    <label style={styles.label}> Start Date </label>
                     <DatePicker
                         className='input-style'
                         showTimeSelect
@@ -58,12 +73,13 @@ class RentForm extends Component {
                         timeIntervals={30}
                         dateFormat="LLL"
                         timeCaption="time"
+                        shouldCloseOnSelect={false}
                         selected={this.state.startDate}
                         onChange={this.handleStartDateChange}
                     />
                 </Grid>
-                <Grid padded style={{ paddingBottom: '10px' }}>
-                    <DateLabel content='End Date' />
+                <Grid padded style={styles.innerGrid}>
+                    <label style={styles.label}> End Date </label>
                     <DatePicker
                         className='input-style'
                         showTimeSelect
@@ -71,14 +87,14 @@ class RentForm extends Component {
                         timeIntervals={15}
                         dateFormat="LLL"
                         timeCaption="time"
+                        shouldCloseOnSelect={false}
                         selected={this.state.endDate}
                         onChange={this.handleEndDateChange}
                     />
                 </Grid>
 
-                { /* Other info here. */}
                 <Grid.Row>
-                    <Grid.Column style={{ maxWidth: '780px' }}>
+                    <Grid.Column style={styles.formColumn}>
                         <Form>
                             <Form.Group widths='equal'>
                                 <Form.Input label='First Name' />
@@ -91,10 +107,22 @@ class RentForm extends Component {
                             <Form.Group widths='equal'>
                                 <Form.Checkbox toggle label='Deposit' />
                             </Form.Group>
+
+                            <Divider />
+
+                            <Button color='green'>
+                                <Icon name='payment' />
+                                Rent
+                            </Button>
+                            <ReactToPrint
+                                trigger={() =>  <Button as='a' color='violet'>
+                                                    <Icon name='print' />
+                                                    Print
+                                                </Button>}
+                                content={() => this.componentRef}
+                            />
+                            <Invoice content={'Hello there.'} ref={el => (this.componentRef = el)} />
                         </Form>
-                        <Divider />
-                        <label> Duration: </label> <br />
-                        <label> Rent costs:  </label>
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
