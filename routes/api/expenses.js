@@ -9,13 +9,28 @@ const Expense = require('../../models/Expense');
 // @access  Public.
 
 router.get('/:id', (req, res) => {
-    Expense.find({
-        'carId': req.params.id
-    }).then(response => {
-        res.json(response);
-    }).catch(err => {
-        console.log(err);
-    })
+
+    Expense.aggregate([{
+        $match: {
+            carId: req.params.id
+        }
+    }, {
+        $group: {
+            _id: null,
+            total: {
+                $sum: "$value"
+            }
+        }
+    }], function (err, sum) {
+        Expense.find({
+            'carId': req.params.id
+        }).then(response => {
+            res.json({
+                response,
+                sum: (sum.length === 0 || err) ? 0 : sum[0].total
+            });
+        });
+    });
 });
 
 // @route   POST api/expenses/:id
@@ -40,9 +55,9 @@ router.post('/', (req, res) => {
 
 router.delete('/:id', (req, res) => {
     Expense.findByIdAndRemove(req.params.id).then(response => {
-        console.log(response);
+        res.json(response)
     }).catch(err => {
-        console.log(err);
+        res.json(err);
     });
 });
 

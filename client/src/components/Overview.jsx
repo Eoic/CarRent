@@ -135,7 +135,7 @@ class Overview extends Component {
         return (
             <div>
                 <Grid columns={2} stackable style={{ marginTop: '15px', marginLeft: '0px' }}>
-                    <Grid.Column width={12} style={{ height: '450px', minWidth: '780px' }} elevated as={Segment}>
+                    <Grid.Column width={12} style={{ height: '450px', minWidth: '780px' }} elevated='true' as={Segment}>
                         <ResponsiveLine
                             data={chartData}
                             margin={{

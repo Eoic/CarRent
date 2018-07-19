@@ -6,10 +6,6 @@ import '../App.css';
 import Invoice from './Invoice';
 import ReactToPrint from 'react-to-print';
 
-function DateLabel(props) {
-    return (<Label size='big' color='violet' pointing='right' icon='time' content={props.content} className='date-label' />);
-}
-
 const paymentOptions = [
     {
         text: 'In Cash',

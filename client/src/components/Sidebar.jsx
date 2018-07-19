@@ -41,7 +41,7 @@ class SidebarMenu extends Component {
         return (
             <div>
                 <MenuTop />
-                <Menu icon='labeled' inverted vertical visible style={sidebarStyles.menu}>
+                <Menu icon='labeled' inverted vertical visible='true' style={sidebarStyles.menu}>
                     <Menu.Item style={sidebarStyles.menuHeader} content={
                         <ItemText content='NAVIGATION' />
                     } />

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Button, Icon } from 'semantic-ui-react';
+import { Table, Icon, Button } from 'semantic-ui-react';
 import { getCosts, deleteCost } from '../actions/carActions';
 import store from '../stores/CarStore';
 
@@ -7,12 +7,11 @@ class ExpensesTable extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { 
+        this.state = {
             costs: store.getCosts()
         };
         this.updateList = this.updateList.bind(this);
         this.fetchData = this.fetchData.bind(this);
-        console.log("Received car id: " + this.props.carId);
     }
 
     componentDidMount() {
@@ -26,8 +25,8 @@ class ExpensesTable extends Component {
         store.removeListener('updateRequired', this.fetchData);
     }
 
-    fetchData(){
-        getCosts(this.props.id);
+    fetchData() {
+        getCosts(this.props.carId);
     }
 
     updateList() {
@@ -40,7 +39,7 @@ class ExpensesTable extends Component {
 
     render() {
         return (
-            <Table selectable unstackable singleLine>
+            <Table selectable unstackable singleLine compact>
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell> Value </Table.HeaderCell>
@@ -66,7 +65,7 @@ class ExpensesTable extends Component {
                 <Table.Footer>
                     <Table.Row>
                         <Table.HeaderCell colSpan='4'>
-                            14.90 <Icon name='euro' /> TOTAL
+                            {this.state.costs.sum} <Icon name='euro' /> TOTAL
                         </Table.HeaderCell>
                     </Table.Row>
                 </Table.Footer>

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import ReactToPrint from 'react-to-print';
-import { Form, Segment, Header, Button, Icon } from 'semantic-ui-react';
+import { Form, Segment, Header, Icon } from 'semantic-ui-react';
 import 'react-datepicker/dist/react-datepicker.css';
 
 // Flux.
@@ -10,7 +9,6 @@ import store from '../stores/CarStore';
 // Components.
 import ExpensesTable from './ExpensesTable';
 import RentFrom from './RentForm';
-import Invoice from './Invoice';
 
 // Toast.
 import { toast } from 'react-toastify';
@@ -125,7 +123,7 @@ class CarEditForm extends Component {
                             Add
                         </Form.Button>
                     </Form>
-                    <ExpensesTable carId={this.state.carId} />
+                    <ExpensesTable carId={this.props.match.params.id} />
                 </Segment>
 
                 <Segment as={Header} inverted color='blue'>

@@ -87,5 +87,5 @@ export function deleteCost(id) {
             type: CAR_ACTIONS.DELETE_COST,
             value: response.data
         });
-    });
+    }).catch(err => console.log(err));
 }

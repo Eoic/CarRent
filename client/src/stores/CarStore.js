@@ -34,15 +34,15 @@ class CarStore extends EventEmitter {
                 break;
             }
             case CAR_ACTIONS.UPDATE_CAR: {
-                // TODO: Check response.
                 break;
             }
             case CAR_ACTIONS.ADD_COST: {
-                //this.emit('actionSuccess');
+                this.emit('updateRequired');
                 break;
             }
             case CAR_ACTIONS.GET_COSTS: {
-                this.costs = action.value;
+                this.costs = action.value.response;
+                this.costs.sum = action.value.sum;
                 this.emit('storeUpdated');
                 break;
             }
