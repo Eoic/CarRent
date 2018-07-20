@@ -84,7 +84,7 @@ class Cars extends Component {
                 <Modal size='mini' open={this.state.deleteConfirmOpen}>
                     <Modal.Header>Are you sure?</Modal.Header>
                     <Modal.Content>
-                        <p> Are you sure you want to delete <b> { this.state.deleteItem.regNumber } </b> ? </p>
+                        <p> Are you sure you want to delete <b> {this.state.deleteItem.regNumber} </b> ? </p>
                     </Modal.Content>
                     <Modal.Actions>
                         <Button negative icon='times' labelPosition='right' content='No' onClick={this.handleCancel} />

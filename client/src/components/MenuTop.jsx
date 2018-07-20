@@ -2,7 +2,7 @@ import React from 'react';
 import { Menu } from 'semantic-ui-react';
 
 const MenuTop = () => (
-    <Menu size='large' inverted style={{ paddingLeft: '190px', backgroundColor: '#303f9f'}}>
+    <Menu size='large' inverted style={{ paddingLeft: '190px', backgroundColor: '#303f9f', borderRadius: 0}}>
         <Menu.Item as='a' position='left' icon='bars'/>
     </Menu>
 );
