@@ -14,7 +14,11 @@ class Invoice extends Component {
     render() {
         return (
             <div style={pageStyle.size}>
-                {this.props.content}
+                <p> First name: { this.props.invoiceData.firstName } </p>
+                <p> LastName: { this.props.invoiceData.lastName } </p>
+                <p> Phone: { this.props.invoiceData.phone} </p>
+                <p> Deposit: { this.props.invoiceData.deposit + '' } </p>
+                <p> Payment: {this.props.invoiceData.payment.text} </p>
             </div>
         );
     }

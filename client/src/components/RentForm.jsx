@@ -9,11 +9,11 @@ import ReactToPrint from 'react-to-print';
 const paymentOptions = [
     {
         text: 'In Cash',
-        value: 1
+        value: 0
     },
     {
         text: 'Bank Transfer',
-        value: 2
+        value: 1
     }
 ];
 
@@ -43,13 +43,18 @@ class RentForm extends Component {
             lastName: '',
             deposit: false,
             phone: '',
-            payment: ''
+            payment: {
+                value: paymentOptions[0].value,
+                text: paymentOptions[0].text
+            }
         }
 
         this.handleStartDateChange = this.handleStartDateChange.bind(this);
         this.handleEndDateChange = this.handleEndDateChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.getDuration = this.getDuration.bind(this);
+        this.handlePaymentChange = this.handlePaymentChange.bind(this);
     }
 
     handleStartDateChange(date) {
@@ -60,8 +65,22 @@ class RentForm extends Component {
         this.setState({ endDate: date }, () => this.getDuration());
     }
 
-    handleSubmit(event) {
+    handleChange(event){
+        this.setState({ [event.target.name]: event.target.value });
+    }
 
+    handleSubmit(event) {
+        event.preventDefault();
+        console.log(this.state);
+    }
+
+    handlePaymentChange(event, data){
+        this.setState({
+            payment: {
+                value: data.value,
+                text: data.options[data.value].text
+            }
+        });
     }
 
     // Get duration between start and end dates.
@@ -120,15 +139,15 @@ class RentForm extends Component {
                     <Grid.Column style={styles.formColumn}>
                         <Form>
                             <Form.Group widths='equal'>
-                                <Form.Input label='First Name' />
-                                <Form.Input label='Last Name' />
+                                <Form.Input name='firstName' label='First Name' onChange={this.handleChange} />
+                                <Form.Input name='lastName' label='Last Name' onChange={this.handleChange} />
                             </Form.Group>
                             <Form.Group widths='equal'>
-                                <Form.Input label='Phone Number' />
-                                <Form.Dropdown selection options={paymentOptions} defaultValue={paymentOptions[0].value} label='Payment Type' />
+                                <Form.Input onChange={this.handleChange} name='phone' label='Phone Number' />
+                                <Form.Dropdown selection options={paymentOptions} defaultValue={paymentOptions[0].value} onChange={this.handlePaymentChange} label='Payment Type' />
                             </Form.Group>
                             <Form.Group widths='equal'>
-                                <Form.Checkbox toggle label='Deposit' />
+                                <Form.Checkbox onChange={(e, data) => this.setState({ deposit: data.checked})} toggle label='Deposit' />
                             </Form.Group>   
 
                             <Divider />
@@ -138,7 +157,7 @@ class RentForm extends Component {
                                 </Header>
                             <Divider/>
 
-                            <Button color='green'>
+                            <Button color='green' onClick={this.handleSubmit}>
                                 <Icon name='payment' />
                                 Rent
                             </Button>
@@ -149,7 +168,7 @@ class RentForm extends Component {
                                                 </Button>}
                                 content={() => this.componentRef}
                             />
-                            <Invoice content={'Invoice coontent'} ref={el => (this.componentRef = el)} />
+                            <Invoice invoiceData={ this.state } ref={el => (this.componentRef = el)} />
                         </Form>
                     </Grid.Column>
                 </Grid.Row>

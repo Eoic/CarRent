@@ -51,7 +51,9 @@ class ExpensesTable extends Component {
                 <Table.Body>
                     {this.state.costs.map(cost =>
                         <Table.Row key={cost._id}>
-                            <Table.Cell> {cost.value} </Table.Cell>
+                            <Table.Cell> 
+                                {cost.value} 
+                            </Table.Cell>
                             <Table.Cell> {cost.details} </Table.Cell>
                             <Table.Cell> {cost.added} </Table.Cell>
                             <Table.Cell>
