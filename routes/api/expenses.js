@@ -1,8 +1,19 @@
 const express = require('express');
 const router = express.Router();
+const moment = require('moment');
 
 // Expense model.
 const Expense = require('../../models/Expense');
+
+// @route   GET api/expenses/
+// @desc    Get expenses from all cars.
+// @access  Public.
+
+router.get('/', (req, res) => {
+    Expense.find().then(costs => {
+        res.json(costs);
+    }).catch(err => res.json(err));
+});
 
 // @route   GET api/expenses/:id
 // @desc    Get all car expenses.
@@ -41,7 +52,8 @@ router.post('/', (req, res) => {
     const newCost = new Expense({
         carId: req.body.carId,
         value: req.body.value,
-        details: req.body.details
+        details: req.body.details,
+        added: moment(Date.now()).locale('lt').format('LLL')
     });
 
     newCost.save().then(cost => res.json(cost)).catch(err => {

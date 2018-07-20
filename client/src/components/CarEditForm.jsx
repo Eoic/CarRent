@@ -18,14 +18,15 @@ class CarEditForm extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
+        this.initialState = {
             value: '',
             details: '',
             model: '',
             registrationNumber: '',
             infoChanged: false,
             carId: this.props.match.params.id
-        };
+        } 
+        this.state = this.initialState;
         this.handleInfoSubmit = this.handleInfoSubmit.bind(this);
         this.handleExpensesSubmit = this.handleExpensesSubmit.bind(this);
         this.handleInfoChange = this.handleInfoChange.bind(this);

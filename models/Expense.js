@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const moment = require('moment');
 
 const ExpenseSchema = new Schema({
     carId: {
@@ -13,8 +12,7 @@ const ExpenseSchema = new Schema({
         type: String
     },
     added: {
-        type: String,
-        default: moment().locale('lt').format('LLL')
+        type: String
     }
 });
 

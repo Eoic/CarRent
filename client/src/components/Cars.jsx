@@ -19,11 +19,16 @@ class Cars extends Component {
         this.state = {
             cars: store.getCars(),
             deleteConfirmOpen: false,
-            fetching: false
+            fetching: false,
+            deleteItem: {
+                id: '',
+                regNumber: ''
+            }
         };
         this.updateList = this.updateList.bind(this);
         this.fetchData = this.fetchData.bind(this);
-        this.closeConfirmModal = this.closeConfirmModal.bind(this);
+        this.handleConfirm = this.handleConfirm.bind(this);
+        this.handleCancel = this.handleCancel.bind(this);
     }
 
     componentDidMount() {
@@ -45,14 +50,26 @@ class Cars extends Component {
         getCars();
     }
 
-    handleDelete = id => {
-        this.setState({ deleteConfirmOpen: true });
-        //deleteCar(id);
+    handleDelete(id, regNumber) {
+        this.setState(prevState => ({
+            deleteItem: {
+                ...prevState.deleteItem,
+                id: id,
+                regNumber: regNumber
+            },
+            deleteConfirmOpen: true
+        }));
     }
 
-    closeConfirmModal() {
+    handleConfirm() {
+        deleteCar(this.state.deleteItem.id);
+        this.setState({ deleteConfirmOpen: false });
+    }
+
+    handleCancel() {
         this.setState({
-            deleteConfirmOpen: false
+            deleteConfirmOpen: false,
+            deleteItemId: ''
         });
     }
 
@@ -67,11 +84,11 @@ class Cars extends Component {
                 <Modal size='mini' open={this.state.deleteConfirmOpen}>
                     <Modal.Header>Are you sure?</Modal.Header>
                     <Modal.Content>
-                        <p>Are you sure you want to delete: [item] </p>
+                        <p> Are you sure you want to delete <b> { this.state.deleteItem.regNumber } </b> ? </p>
                     </Modal.Content>
                     <Modal.Actions>
-                        <Button negative icon='times' labelPosition='right' content='No' onClick={this.closeConfirmModal} />
-                        <Button positive icon='checkmark' labelPosition='right' content='Yes' />
+                        <Button negative icon='times' labelPosition='right' content='No' onClick={this.handleCancel} />
+                        <Button positive icon='checkmark' labelPosition='right' content='Yes' onClick={this.handleConfirm} />
                     </Modal.Actions>
                 </Modal>
 
@@ -95,7 +112,7 @@ class Cars extends Component {
                                 <Dropdown icon='ellipsis horizontal'>
                                     <Dropdown.Menu>
                                         <Dropdown.Item onClick={this.handleEdit.bind(this, car._id)}> Edit </Dropdown.Item>
-                                        <Dropdown.Item onClick={this.handleDelete.bind(this, car._id)} style={styles.deleteButton}> Delete </Dropdown.Item>
+                                        <Dropdown.Item onClick={this.handleDelete.bind(this, car._id, car.registrationNumber)} style={styles.deleteButton}> Delete </Dropdown.Item>
                                     </Dropdown.Menu>
                                 </Dropdown>
                             </Table.Cell>
