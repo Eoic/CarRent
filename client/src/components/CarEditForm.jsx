@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Segment, Header, Icon } from 'semantic-ui-react';
+import { Form, Segment, Header, Icon, Label } from 'semantic-ui-react';
 import 'react-datepicker/dist/react-datepicker.css';
 
 // Flux.
@@ -24,8 +24,9 @@ class CarEditForm extends Component {
             model: '',
             registrationNumber: '',
             infoChanged: false,
-            carId: this.props.match.params.id
-        } 
+            carId: this.props.match.params.id,
+            costFieldError: false
+        }
         this.state = this.initialState;
         this.handleInfoSubmit = this.handleInfoSubmit.bind(this);
         this.handleExpensesSubmit = this.handleExpensesSubmit.bind(this);
@@ -59,13 +60,21 @@ class CarEditForm extends Component {
     }
 
     handleExpensesSubmit() {
-        const cost = {
-            carId: this.state.carId,
-            value: this.state.value,
-            details: this.state.details
-        }
 
-        addCost(cost);
+        if (this.state.value === '') {
+            toast.error('Please enter a value');
+            this.setState({ costFieldError: true });
+        } else {
+            this.setState({ costFieldError: false });
+
+            const cost = {
+                carId: this.state.carId,
+                value: this.state.value,
+                details: this.state.details
+            }
+
+            addCost(cost);
+        }
     }
 
     handleInfoSubmit() {
@@ -116,8 +125,8 @@ class CarEditForm extends Component {
                 <Segment>
                     <Form id='expenses-form' onSubmit={this.handleExpensesSubmit}>
                         <Form.Group widths='equal'>
-                            <Form.Input icon='euro' label='Value' name='value' value={this.state.value} onChange={this.handleExpensesChange} width='2' />
-                            <Form.Input label='Details' name='details' width='14' value={this.state.details} onChange={this.handleExpensesChange} />
+                            <Form.Input icon='euro' error={this.state.costFieldError} label='Value' name='value' value={this.state.value} onChange={this.handleExpensesChange} width='2' />
+                            <Form.Input label='Details' name='details' width='13' value={this.state.details} onChange={this.handleExpensesChange} />
                         </Form.Group>
                         <Form.Button type='submit' color='green'>
                             <Icon name='plus' />

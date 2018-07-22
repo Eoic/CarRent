@@ -1,24 +1,86 @@
 import React, { Component } from 'react';
-import { Form, Segment, Grid, Header, Button, Message, Icon} from 'semantic-ui-react';
+import { Form, Segment, Grid, Header, Button, Message, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import StickyHeader from './StickyHeader';
+import { register } from '../actions/appActions';
+import store from '../stores/AppStore';
 
 class Register extends Component {
+
+    constructor() {
+        super();
+        this.state = {
+            username: '',
+            email: '',
+            passwordFirst: '',
+            passwordSecond: '',
+            errors: [],
+            showErrors: false
+        }
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleErrors = this.handleErrors.bind(this);
+        this.handleSuccess = this.handleSuccess.bind(this);
+    }
+
+    componentDidMount() {
+        store.addListener('registrationError', this.handleErrors);
+        store.addListener('registrationSuccess', this.handleSuccess);
+    }
+
+    componentWillUnmount() {
+        store.removeListener('registrationError', this.handleErrors);
+        store.removeListener('registrationSuccess', this.handleSuccess);
+    }
+
+    handleErrors() {
+        console.log('Error');
+        this.setState({
+            errors: store.getErrors(),
+            showErrors: true
+        });
+    }
+
+    handleSuccess() {
+        console.log('Success')
+        this.setState({ showErrors: false });
+    }
+
+    handleChange(event) {
+        this.setState({ [event.target.name]: event.target.value });
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+
+        register({
+            username: this.state.username,
+            email: this.state.email,
+            passwordFirst: this.state.passwordFirst,
+            passwordSecond: this.state.passwordSecond
+        });
+    }
+
     render() {
         return (
             <Grid columns={1} centered style={{ height: 'inherit' }}>
-                <StickyHeader/>
+                <StickyHeader />
                 <Grid.Column verticalAlign='middle' style={{ maxWidth: '400px' }}>
                     <Segment.Group raised>
                         <Header as={Segment} inverted color='blue' size='huge'>
                             Registration
                         </Header>
+                        <Message as={Segment} hidden={!this.state.showErrors} error textAlign='left'>
+                            {(this.state.showErrors) ? this.state.errors.map((error, index) =>
+                                <p key={index}> {error.msg} </p>
+                            ) : ''}
+                        </Message>
                         <Segment>
                             <Form id='register-form' onSubmit={this.handleSubmit}>
-                                <Form.Input icon='user' type='text' placeholder='Username' />
-                                <Form.Input icon='mail' type='email' placeholder='Email' />
-                                <Form.Input icon='lock' type='password' placeholder='Password' />
-                                <Form.Input icon='lock' type='password' placeholder='Repeat password'/>
+                                <Form.Input name='username' icon='user' type='text' placeholder='Username' onChange={this.handleChange} />
+                                <Form.Input name='email' icon='mail' type='email' placeholder='Email' onChange={this.handleChange} />
+                                <Form.Input name='passwordFirst' icon='lock' type='password' placeholder='Password' onChange={this.handleChange} />
+                                <Form.Input name='passwordSecond' icon='lock' type='password' placeholder='Repeat password' onChange={this.handleChange} />
                             </Form>
                         </Segment>
                         <Segment>
