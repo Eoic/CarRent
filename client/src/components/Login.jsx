@@ -3,45 +3,32 @@ import { Grid, Segment, Header, Button, Form, Message, Icon } from 'semantic-ui-
 import { withRouter } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import StickyHeader from './StickyHeader';
-import { login } from '../actions/appActions';
-import store from '../stores/AppStore';
+import PropTypes from 'prop-types';
+import Auth from '../modules/Auth';
 
 class Login extends Component {
 
-    constructor() {
-        super();
-        this.state = {
-            username: '',
-            password: '',
-            errors: [],
-            showErrors: false
+    constructor(props, context) {
+        super(props, context);
+
+        const storedMessage = localStorage.getItem('successMessage');
+        let successMessage = '';
+
+        if(storedMessage){
+            successMessage = storedMessage;
+            localStorage.removeItem('successMessage');
         }
+
+        this.state = {
+            errors: {},
+            showErrors: false,
+            successMessage,
+            username: '',
+            password: ''
+        }
+
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleErrors = this.handleErrors.bind(this);
-        this.handleSuccess = this.handleSuccess.bind(this);
-    }
-
-    componentDidMount() {
-        store.addListener('loginError', this.handleErrors);
-        store.addListener('loginSuccess', this.handleSuccess);
-    }
-
-    componentWillUnmount() {
-        store.removeListener('loginError', this.handleErrors);
-        store.removeListener('loginSuccess', this.handleSuccess);
-    }
-
-    handleErrors() {
-        this.setState({
-            errors: store.getErrors(),
-            showErrors: true
-        });
-    }
-
-    handleSuccess() {
-        this.setState({ showErrors: false });
-        //this.props.history.push('/overview');
     }
 
     handleChange(event) {
@@ -50,10 +37,45 @@ class Login extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        login({
-            username: this.state.username,
-            password: this.state.password
+        
+        const username = encodeURIComponent(this.state.username);
+        const password = encodeURIComponent(this.state.password);
+        const formData = `username=${username}&password=${password}`;
+
+        // AJAX request.
+        const xhr = new XMLHttpRequest();
+        xhr.open('post', '/api/users/login');
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.responseType = 'json';
+
+        xhr.addEventListener('load', () => {
+            if(xhr.status === 200){
+
+                // Success.
+                this.setState({
+                    errors: {},
+                    showErrors: false
+                });
+
+                // Save token.
+                Auth.authenticateUser(xhr.response.token);
+
+                // Update authenticated state.
+                console.log(this.props);
+                //this.props.toggleAuthenticateStatus();
+
+                // Redirect.
+                this.props.history.push('/overview');
+            } else {
+                // Failed.
+                const errors = xhr.response.errors ? xhr.response.errors : {};
+                errors.summary = xhr.response.message;
+
+                this.setState({ errors, showErrors: true });
+            }
         });
+
+        xhr.send(formData);
     }
 
     render() {
@@ -66,9 +88,7 @@ class Login extends Component {
                             Authentication
                         </Header>
                         <Message as={Segment} hidden={!this.state.showErrors} error textAlign='left'>
-                                {(this.state.showErrors) ? this.state.errors.map((error, index) =>
-                                    <p key={index}> {error.msg} </p>
-                                ) : ''}
+                                { (this.state.showErrors) ? Object.keys(this.state.errors).map((key, index) => <p key={index}> { this.state.errors[key] } </p>) : '' }
                         </Message>
                         <Segment>
                             <Form id='login-form' onSubmit={this.handleSubmit}>
@@ -90,5 +110,9 @@ class Login extends Component {
         );
     }
 }
+
+Login.contextTypes = {
+    router: PropTypes.object.isRequired
+};
 
 export default withRouter(Login);

@@ -5,11 +5,14 @@ const cars = require('./routes/api/cars');
 const expenses = require('./routes/api/expenses');
 const users = require('./routes/api/users');
 const logs = require('./routes/api/logs');
+const mock = require('./routes/api/mock');
 const path = require('path');
 const session = require('express-session');
 const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
 const expressValidator = require('express-validator');
+const config = require('./config');
+
+require('./models').connect(config.dbUri);
 
 const app = express();
 
@@ -29,25 +32,23 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// DB config.
-const db = require('./config/keys').mongoURI;
- 
-// Connect to MongoDB.
-mongoose.connect(db).then(() => {
-    console.log('MongoDB connected.');
-}).catch(err => console.log(err));
+// Passport strategies.
+const localRegisterStrategy = require('./passport/local-register');
+const localLoginStrategy = require('./passport/local-login')
+
+passport.use('local-register', localRegisterStrategy);
+passport.use('local-login', localLoginStrategy);
+
+// Auth check middleware.
+const authCheckMiddleware = require('./middleware/auth-check');
+app.use('/api/mock', authCheckMiddleware);
 
 // Use routes.
 app.use('/api/cars', cars);
 app.use('/api/expenses', expenses);
 app.use('/api/logs', logs);
 app.use('/api/users', users);
-
-// Global vars.
-app.use(function(req, res, next){
-    res.locals.user = req.user || null;
-    next();
-});
+app.use('/api/mock', mock);
 
 // Serve static assets if in production.
 if(process.env.NODE_ENV === 'production'){

@@ -1,87 +1,147 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
+const validator = require('validator');
 const LocalStrategy = require('passport-local').Strategy;
 
 // User model.
 const User = require('../../models/User');
 
-router.post('/register', (req, res) => {
-    req.checkBody('username', 'Username is required').notEmpty();
-    req.checkBody('email', 'Email is required').notEmpty();
-    req.checkBody('email', 'Not an email').isEmail();
-    req.checkBody('passwordFirst', 'Password is required').notEmpty();
-    req.checkBody('passwordFirst', 'Password too short').len(5, 100);
-    req.checkBody('passwordSecond', 'Passwords do not match').equals(req.body.passwordFirst);
+function validateRegistration(payload) {
 
-    var errors = req.validationErrors();
+    const errors = {};
+    let isFormValid = true;
+    let message = '';
 
-    if (errors) {
-        res.json({
-            errors: errors
-        });
-    } else {
-        var newUser = new User({
-            username: req.body.username,
-            email: req.body.email,
-            password: req.body.passwordFirst
-        });
-
-        User.createUser(newUser, function (err, user) {
-            if (err) throw err;
-            console.log(user);
-        });
-
-        res.json({});
+    if (!payload || typeof payload.email !== 'string' || !validator.isEmail(payload.email)) {
+        isFormValid = false;
+        errors.email = 'Please provide a correct email address.';
     }
-});
 
-passport.use(new LocalStrategy(
-    function (username, password, done) {
-        User.getUserByUsername(username, function (err, user) {
-            if (err)
-                throw err;
+    if (!payload || typeof payload.passwordFirst !== 'string' || payload.passwordFirst.trim().length < 8) {
+        isFormValid = false;
+        errors.password = 'Password must have at least 8 characters.';
+    }
 
-            if (!user) {
-                return done(null, false, {
-                    message: 'Unknown user.'
+    if (!payload || typeof payload.passwordSecond !== 'string' || payload.passwordSecond.trim().length < 8) {
+        isFormValid = false;
+        errors.password = 'Password must have at least 8 characters.';
+    }
+
+    if (!payload || typeof payload.username !== 'string' || payload.username.trim().length === 0) {
+        isFormValid = false;
+        errors.name = 'Username required';
+    }
+
+    if (!isFormValid) {
+        message = 'Check the form for errors.';
+    }
+
+    return {
+        success: isFormValid,
+        message,
+        errors
+    };
+}
+
+function validateLoginForm(payload) {
+    const errors = {};
+    let isFormValid = true;
+    let message = '';
+
+    if (!payload || typeof payload.username !== 'string' || payload.username.trim().length === 0) {
+        isFormValid = false;
+        errors.username = 'Please provide your username.';
+    }
+
+    if (!payload || typeof payload.password !== 'string' || payload.password.trim().length === 0) {
+        isFormValid = false;
+        errors.password = 'Please provide your password.';
+    }
+
+    if (!isFormValid) {
+        message = 'Check the form for errors.';
+    }
+
+    return {
+        success: isFormValid,
+        message,
+        errors
+    };
+}
+
+router.post('/register', (req, res, next) => {
+
+    const validationResult = validateRegistration(req.body);
+
+    if (!validationResult.success) {
+        return res.status(400).json({
+            success: false,
+            message: validationResult.message,
+            errors: validationResult.errors
+        });
+    }
+
+    return passport.authenticate('local-register', (err) => {
+        if (err) {
+            if (err.name === 'MongoError' && err.code === 11000) {
+                // the 11000 Mongo code is for a duplication email error
+                // the 409 HTTP status code is for conflict error
+                return res.status(409).json({
+                    success: false,
+                    message: 'Check the form for errors.',
+                    errors: {
+                        email: 'This email is already taken.'
+                    }
                 });
             }
 
-            User.comparePasswords(password, user.password, function (err, isMatch) {
-                if (err)
-                    throw err;
+            return res.status(400).json({
+                success: false,
+                message: 'Could not process the form.'
+            });
+        }
 
-                if (isMatch)
-                    return done(null, user);
-                else
-                    return done(null, false, {
-                        message: 'Invalid password'
-                    });
-            })
+        return res.status(200).json({
+            success: true,
+            message: 'You have successfully signed up! Now you should be able to log in.'
+        });
+    })(req, res, next);
+});
+
+router.post('/login', (req, res, next) => {
+    const validationResult = validateLoginForm(req.body);
+
+    if (!validationResult.success) {
+        return res.status(400).json({
+            success: false,
+            message: validationResult.message,
+            errors: validationResult.errors
         });
     }
-));
 
-passport.serializeUser(function (user, done) {
-    done(null, user.id);
-});
+    return passport.authenticate('local-login', (err, token, userData) => {
+        if (err) {
+            if (err.name === 'IncorrectCredentialsError') {
+                return res.status(400).json({
+                    success: false,
+                    message: err.message
+                });
+            }
 
-passport.deserializeUser(function (id, done) {
-    User.getUserById(id, function (err, user) {
-        done(err, user);
-    });
-});
+            return res.status(400).json({
+                success: false,
+                message: 'Could not process the form.'
+            });
+        }
 
-router.post('/login',
-    passport.authenticate('local'),
-
-    function (req, res) {
-        res.json({});
-    });
-
-router.get('/logout', function(req, res){
-    req.logout();
+        return res.json({
+            success: true,
+            message: 'You have successfully logged in.',
+            token,
+            user: userData
+        });
+    })(req, res, next);
 });
 
 module.exports = router;
