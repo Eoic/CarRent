@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Segment, Header, Icon, Label } from 'semantic-ui-react';
+import { Form, Segment, Header, Icon } from 'semantic-ui-react';
 import 'react-datepicker/dist/react-datepicker.css';
 
 // Flux.

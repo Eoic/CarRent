@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Icon, Menu, Label } from 'semantic-ui-react';
+import { Table, Icon, Menu } from 'semantic-ui-react';
 
 class Reports extends Component {
     render() {

@@ -40,19 +40,17 @@ passport.use('local-register', localRegisterStrategy);
 passport.use('local-login', localLoginStrategy);
 
 // Auth check middleware.
-const authCheckMiddleware = require('./middleware/auth-check');
-app.use('/api/mock', authCheckMiddleware);
+//const authCheckMiddleware = require('./middleware/auth-check');
 
 // Use routes.
 app.use('/api/cars', cars);
 app.use('/api/expenses', expenses);
 app.use('/api/logs', logs);
 app.use('/api/users', users);
-app.use('/api/mock', mock);
 
 // Serve static assets if in production.
 if(process.env.NODE_ENV === 'production'){
-    
+      
     //Set static folder.
     app.use(express.static('client/build'));
     

@@ -44,11 +44,13 @@ const LoggedOutRoute = ({ component: Component, ...rest }) => (
 	)}/>
   )
 
+  /*
 const PropsRoute = ({ component: Component, ...rest }) => (
 	<Route {...rest} render={props => (
 	  <Component {...props} {...rest} />
 	)}/>
   )
+  */
 
 class App extends Component {
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Label, Grid, Divider, Button, Icon, Header } from 'semantic-ui-react';
+import { Form, Grid, Divider, Button, Icon, Header } from 'semantic-ui-react';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import '../App.css';

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Segment, Header, Grid, Dropdown, Icon } from 'semantic-ui-react';
 
 // Flux.
-import store from '../stores/AppStore';
 import { } from '../actions/appActions';
 
 const fontOptions = [
