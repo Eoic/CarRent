@@ -1,25 +1,20 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cars = require('./routes/api/cars');
 const expenses = require('./routes/api/expenses');
 const users = require('./routes/api/users');
 const logs = require('./routes/api/logs');
-const mock = require('./routes/api/mock');
 const path = require('path');
 const session = require('express-session');
 const passport = require('passport');
-const expressValidator = require('express-validator');
 const config = require('./config');
+const app = express();
 
 require('./models').connect(config.dbUri);
-
-const app = express();
 
 // Middleware
 app.use(bodyParser.json());  
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(expressValidator()); 
 
 // Express Session
 app.use(session({
