@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker';
 import '../App.css';
 import Invoice from './Invoice';
 import ReactToPrint from 'react-to-print';
+import { addRent } from '../actions/carActions';
 
 const paymentOptions = [
     {
@@ -71,6 +72,13 @@ class RentForm extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
+
+        const newRent = {
+            startDate: this.state.startDate.toLocaleString(),
+            endDate: this.state.endDate.toLocaleString()
+        }
+
+        addRent(newRent);
     }
 
     handlePaymentChange(event, data){
@@ -136,7 +144,7 @@ class RentForm extends Component {
 
                 <Grid.Row>
                     <Grid.Column style={styles.formColumn}>
-                        <Form>
+                        <Form onSubmit={this.handleSubmit}>
                             <Form.Group widths='equal'>
                                 <Form.Input name='firstName' label='First Name' onChange={this.handleChange} />
                                 <Form.Input name='lastName' label='Last Name' onChange={this.handleChange} />
@@ -156,10 +164,11 @@ class RentForm extends Component {
                                 </Header>
                             <Divider/>
 
-                            <Button color='green' onClick={this.handleSubmit}>
+                            <Button color='green'>
                                 <Icon name='payment' />
                                 Rent
                             </Button>
+
                             <ReactToPrint
                                 trigger={() => <Button as='a' color='violet'>
                                                     <Icon name='print' />

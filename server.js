@@ -1,9 +1,14 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+
+// API.
 const cars = require('./routes/api/cars');
 const expenses = require('./routes/api/expenses');
 const users = require('./routes/api/users');
 const logs = require('./routes/api/logs');
+const rents = require('./routes/api/rents');
+// ----
+
 const path = require('path');
 const session = require('express-session');
 const passport = require('passport');
@@ -42,6 +47,7 @@ app.use('/api/cars', cars);
 app.use('/api/expenses', expenses);
 app.use('/api/logs', logs);
 app.use('/api/users', users);
+app.use('/api/rents', rents);
 
 // Serve static assets if in production.
 if(process.env.NODE_ENV === 'production'){

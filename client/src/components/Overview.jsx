@@ -3,6 +3,7 @@ import { Grid, Segment, Statistic, Table } from 'semantic-ui-react';
 import { ResponsiveLine } from '@nivo/line'
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
+import Rents from './Rents';
 
 const chartData = [
     {
@@ -218,33 +219,7 @@ class Overview extends Component {
                     </Grid.Column>
                 </Grid>
 
-                <Table unstackable selectable singleLine>
-                    <Table.Header>
-                        <Table.Row>
-                            <Table.HeaderCell>Car</Table.HeaderCell>
-                            <Table.HeaderCell>Status</Table.HeaderCell>
-                            <Table.HeaderCell textAlign='right'>Time left</Table.HeaderCell>
-                        </Table.Row>
-                    </Table.Header>
-
-                    <Table.Body>
-                        <Table.Row>
-                            <Table.Cell>John</Table.Cell>
-                            <Table.Cell>Active</Table.Cell>
-                            <Table.Cell textAlign='right'>None</Table.Cell>
-                        </Table.Row>
-                        <Table.Row>
-                            <Table.Cell>Jamie</Table.Cell>
-                            <Table.Cell>Approved</Table.Cell>
-                            <Table.Cell textAlign='right'>Requires call</Table.Cell>
-                        </Table.Row>
-                        <Table.Row>
-                            <Table.Cell>Jill</Table.Cell>
-                            <Table.Cell>Denied</Table.Cell>
-                            <Table.Cell textAlign='right'>None</Table.Cell>
-                        </Table.Row>
-                    </Table.Body>
-                </Table>
+                <Rents/>
             </div >
         );
     }

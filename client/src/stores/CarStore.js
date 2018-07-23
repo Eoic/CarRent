@@ -11,6 +11,7 @@ class CarStore extends EventEmitter {
         this.cars = [];
         this.costs = [];
         this.car = {};
+        this.rents = [];
     }
 
     handleActions(action){
@@ -55,6 +56,11 @@ class CarStore extends EventEmitter {
                 this.emit('requestFailed');
                 break;
             }
+            case CAR_ACTIONS.GET_RENTS: {
+                this.rents = action.value;
+                this.emit('storeUpdated');
+                break;
+            }
             default: {}
         }
     }
@@ -69,6 +75,10 @@ class CarStore extends EventEmitter {
 
     getCosts(){
         return this.costs;
+    }
+
+    getRents(){
+        return this.rents;
     }
 
     getErrorMsg(){
