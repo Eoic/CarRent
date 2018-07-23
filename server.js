@@ -10,7 +10,7 @@ const passport = require('passport');
 const config = require('./config');
 const app = express();
 
-require('./models').connect(config.dbUri);
+require('./models/Index').connect(config.dbUri);
 
 // Middleware
 app.use(bodyParser.json());  
