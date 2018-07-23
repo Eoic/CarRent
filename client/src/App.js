@@ -74,7 +74,7 @@ class App extends Component {
 			<div className="App" style={{ height: '100%'}}>
 				<BrowserRouter>
 						<Switch>
-							<LoggedOutRoute exact path='/' randomText={'Hello there'} component={Login} toggleAuthenticateStatus={() => this.toggleAuthenticateStatus()} />
+							<LoggedOutRoute exact path='/' component={Login} toggleAuthenticateStatus={() => this.toggleAuthenticateStatus()} />
 							<LoggedOutRoute exact path='/register' component={Register}/>
 							<Route exact path='/logout' component={Logout} />
 							<Sidebar>
