@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { Table } from 'semantic-ui-react';
 import { getRents } from '../actions/carActions';
 import store from '../stores/CarStore';
-//import { Link } from 'react-router-dom';
 import Countdown from './Countdown';
+import moment from 'moment';
 
 class Rents extends Component {
 
@@ -33,8 +33,10 @@ class Rents extends Component {
             <Table unstackable selectable singleLine>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell>Car</Table.HeaderCell>
-                        <Table.HeaderCell>Status</Table.HeaderCell>
+                        <Table.HeaderCell> Car </Table.HeaderCell>
+                        <Table.HeaderCell> Status </Table.HeaderCell>
+                        <Table.HeaderCell> Start Date </Table.HeaderCell>
+                        <Table.HeaderCell> End Date </Table.HeaderCell>
                         <Table.HeaderCell textAlign='right'>Time left</Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
@@ -42,8 +44,10 @@ class Rents extends Component {
                 <Table.Body>
                     {this.state.rents.map((rent, index) =>
                         <Table.Row key={index}>
-                            <Table.Cell></Table.Cell>
-                            <Table.Cell> </Table.Cell>
+                            <Table.Cell> { rent.carId } </Table.Cell>
+                            <Table.Cell> { rent.status } </Table.Cell>
+                            <Table.Cell> { moment(rent.startDate).format('YYYY/MM/DD HH:mm') } </Table.Cell>
+                            <Table.Cell> { moment(rent.endDate).format('YYYY/MM/DD HH:mm') } </Table.Cell>
                             <Table.Cell textAlign='right'> 
                                 <Countdown startDate={rent.startDate} endDate={rent.endDate} /> 
                             </Table.Cell>

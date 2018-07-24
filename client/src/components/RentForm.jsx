@@ -6,6 +6,7 @@ import '../App.css';
 import Invoice from './Invoice';
 import ReactToPrint from 'react-to-print';
 import { addRent } from '../actions/carActions';
+import { toast } from 'react-toastify';
 
 const paymentOptions = [
     {
@@ -66,22 +67,27 @@ class RentForm extends Component {
         this.setState({ endDate: date }, () => this.getDuration());
     }
 
-    handleChange(event){
+    handleChange(event) {
         this.setState({ [event.target.name]: event.target.value });
     }
 
     handleSubmit(event) {
         event.preventDefault();
 
-        const newRent = {
-            startDate: this.state.startDate.toLocaleString(),
-            endDate: this.state.endDate.toLocaleString()
-        }
+        if (!this.state.startDate.isSameOrBefore(this.state.endDate)) {
+            toast.error('Selected start date if after ending date!');
+        } else {
 
-        addRent(newRent);
+            const newRent = {
+                startDate: this.state.startDate.toLocaleString(),
+                endDate: this.state.endDate.toLocaleString()
+            }
+
+            addRent(newRent);
+        }
     }
 
-    handlePaymentChange(event, data){
+    handlePaymentChange(event, data) {
         this.setState({
             payment: {
                 value: data.value,
@@ -109,7 +115,7 @@ class RentForm extends Component {
         const duration = Math.floor((utc_two - utc_one) / 60000);
         this.setState({ duration });
     }
-   
+
     render() {
         return (
             <Grid padded columns='1' centered>
@@ -154,15 +160,15 @@ class RentForm extends Component {
                                 <Form.Dropdown selection options={paymentOptions} defaultValue={paymentOptions[0].value} onChange={this.handlePaymentChange} label='Payment Type' />
                             </Form.Group>
                             <Form.Group widths='equal'>
-                                <Form.Checkbox onChange={(e, data) => this.setState({ deposit: data.checked})} toggle label='Deposit' />
-                            </Form.Group>   
+                                <Form.Checkbox onChange={(e, data) => this.setState({ deposit: data.checked })} toggle label='Deposit' />
+                            </Form.Group>
 
                             <Divider />
-                                <Header> 
-                                    <Icon name='time' size='huge'/>
-                                        { Math.floor((this.state.duration / 60) / 24)} days { Math.floor((this.state.duration / 60) % 24) } h. { this.state.duration % 60 } min.
+                            <Header>
+                                <Icon name='time' size='huge' />
+                                {Math.floor((this.state.duration / 60) / 24)} days {Math.floor((this.state.duration / 60) % 24)} h. {this.state.duration % 60} min.
                                 </Header>
-                            <Divider/>
+                            <Divider />
 
                             <Button color='green'>
                                 <Icon name='payment' />
@@ -171,12 +177,12 @@ class RentForm extends Component {
 
                             <ReactToPrint
                                 trigger={() => <Button as='a' color='violet'>
-                                                    <Icon name='print' />
-                                                    Print
+                                    <Icon name='print' />
+                                    Print
                                                 </Button>}
                                 content={() => this.componentRef}
                             />
-                            <Invoice invoiceData={ this.state } ref={el => (this.componentRef = el)} />
+                            <Invoice invoiceData={this.state} ref={el => (this.componentRef = el)} />
                         </Form>
                     </Grid.Column>
                 </Grid.Row>

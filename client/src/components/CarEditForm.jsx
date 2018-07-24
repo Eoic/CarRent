@@ -61,7 +61,7 @@ class CarEditForm extends Component {
 
     handleExpensesSubmit() {
 
-        if (this.state.value === '') {
+        if (this.state.value.trim() === '') {
             toast.error('Please enter a value');
             this.setState({ costFieldError: true });
         } else {
@@ -80,13 +80,17 @@ class CarEditForm extends Component {
     handleInfoSubmit() {
         this.setState({ infoChanged: false });
 
-        const car = {
-            model: this.state.model,
-            registrationNumber: this.state.registrationNumber,
-            id: this.state.carId
-        }
+        if (this.state.model.trim() === '' || this.state.registrationNumber.trim() === '') {
+            toast.error('Field cannot be empty.');
+        } else {
+            const car = {
+                model: this.state.model,
+                registrationNumber: this.state.registrationNumber,
+                id: this.state.carId
+            }
 
-        updateCar(car);
+            updateCar(car);
+        }
     }
 
     handleInfoChange(event) {
