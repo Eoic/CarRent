@@ -3,7 +3,6 @@ import { Grid, Segment, Statistic, Table } from 'semantic-ui-react';
 import { ResponsiveLine } from '@nivo/line'
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
-import Rents from './Rents';
 
 const chartData = [
     {
@@ -218,8 +217,6 @@ class Overview extends Component {
                         </Grid.Row>
                     </Grid.Column>
                 </Grid>
-
-                <Rents/>
             </div >
         );
     }

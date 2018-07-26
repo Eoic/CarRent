@@ -3,18 +3,26 @@ const router = express.Router();
 
 // Rent model.
 const Rent = require('../../models/Rent');
+const Car = require('../../models/Car');
 
+const LIMIT = 10;
 
 // @route   GET api/rents
 // @desc    Get rents.
 // @access  Public.
 
 router.get('/', (req, res) => {
-    Rent.find().sort({
-        date: -1
-    }).then(rents => {
-        res.json(rents);
-    }).catch(err => res.json(err));
+    Promise.all([
+        Rent.count(),
+        Rent.find().sort('-addedAt').skip((req.query.page - 1) * LIMIT).limit(LIMIT)
+    ]).then(([size, rents]) => {
+        res.json({
+            rents,
+            size
+        }).catch(err => {
+            console.log(err);
+        });
+    });
 });
 
 // @route   POST api/rents
@@ -22,14 +30,20 @@ router.get('/', (req, res) => {
 // @access  Public.
 
 router.post('/', (req, res) => {
-    const newRent = new Rent({
-        carId: req.body.carId,
-        value: req.body.value,
-        startDate: req.body.startDate,
-        endDate: req.body.endDate
-    }); 
 
-    newRent.save().then(rent => res.json(rent));
+    Car.findById(req.body.carId).then(response => {
+
+        const newRent = new Rent({
+            carId: req.body.carId,
+            regNumber: response.registrationNumber,
+            value: req.body.value,
+            startDate: req.body.startDate,
+            endDate: req.body.endDate,
+            addedAt: Date.now()
+        });
+
+        newRent.save().then(rent => res.json({}));
+    });
 });
 
 module.exports = router;

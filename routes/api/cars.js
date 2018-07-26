@@ -34,7 +34,7 @@ router.post('/', (req, res) => {
     const newCar = new Car({
         model: req.body.model,
         registrationNumber: req.body.registrationNumber,
-        status: req.body.status
+        isRented: req.body.isRented
     });
 
     newCar.save().then(car => res.json(car));

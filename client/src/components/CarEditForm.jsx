@@ -144,7 +144,7 @@ class CarEditForm extends Component {
                     RENT
                 </Segment>
                 <Segment>
-                    <RentFrom />
+                    <RentFrom carId={this.state.carId} />
                 </Segment>
 
             </Segment.Group>

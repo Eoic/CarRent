@@ -10,7 +10,6 @@ class CarModal extends Component {
         this.state = {
             carModel: '',
             carRegistrationNumber: '',
-            status: 'Available',
             open: false
         }
 
@@ -31,8 +30,7 @@ class CarModal extends Component {
 
         addCar({
             model: this.state.carModel,
-            registrationNumber: this.state.carRegistrationNumber,
-            status: this.state.status
+            registrationNumber: this.state.carRegistrationNumber
         });
     }
 

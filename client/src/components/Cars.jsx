@@ -107,7 +107,7 @@ class Cars extends Component {
                                 <Link to={'/car/' + car._id} > {car.registrationNumber} </Link>
                             </Table.Cell>
                             <Table.Cell> {car.model} </Table.Cell>
-                            <Table.Cell> {car.status} </Table.Cell>
+                            <Table.Cell> { (car.isRented) ? <p> Rented </p> : <p> Available </p> } </Table.Cell>
                             <Table.Cell>
                                 <Dropdown icon='ellipsis horizontal'>
                                     <Dropdown.Menu>

@@ -6,8 +6,13 @@ class Countdown extends Component {
         super(props);
         this.state = {
             duration: 0,
-            time: {},
-            expired: true
+            time: {
+                d: 0,
+                h: 0,
+                m: 0
+            },
+            expired: true,
+            intervalId: ''
         };
         this.startTimer = this.startTimer.bind(this);
         this.countdown = this.countdown.bind(this);
@@ -17,6 +22,10 @@ class Countdown extends Component {
 
     componentDidMount() {
         this.getDuration();
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.intervalId);
     }
 
     // Get duration in seconds for countdown.
@@ -60,7 +69,7 @@ class Countdown extends Component {
 
     startTimer() {
         if (!this.state.expired)
-            setInterval(this.countdown, 1000);
+            this.intervalId = setInterval(this.countdown, 1000);
     }
 
     countdown() {
@@ -75,7 +84,8 @@ class Countdown extends Component {
 
         // Check if we're at zero.
         if (duration === 0) {
-            clearInterval(this.timer);
+            clearInterval(this.intervalId);
+
             this.setState({
                 expired: true
             });
@@ -87,7 +97,7 @@ class Countdown extends Component {
             return (
                 <p> {this.state.time.d} days {this.state.time.h} hours {this.state.time.m} minutes </p>
             );
-        } else return ( <p> - </p>); 
+        } else return (<p> {(moment(this.props.startDate).isAfter(moment())) ? 'Reserved' : 'Ended'} </p>);
     }
 }
 

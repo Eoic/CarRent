@@ -2,14 +2,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const CarSchema = new Schema({
-    model: {
-        type: String
-    },
-    registrationNumber: {
-        type: String
-    },
-    status: {
-        type: String
+    model: String,
+    registrationNumber: String,
+    isRented: {
+        type: Boolean,
+        default: false
     }
 });
 

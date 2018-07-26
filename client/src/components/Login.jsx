@@ -61,8 +61,7 @@ class Login extends Component {
                 Auth.authenticateUser(xhr.response.token);
 
                 // Update authenticated state.
-                console.log(this.props);
-                //this.props.toggleAuthenticateStatus();
+                // Toggle authenticate.
 
                 // Redirect.
                 this.props.history.push('/overview');

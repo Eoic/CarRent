@@ -79,6 +79,7 @@ class RentForm extends Component {
         } else {
 
             const newRent = {
+                carId: this.props.carId,
                 startDate: this.state.startDate.toLocaleString(),
                 endDate: this.state.endDate.toLocaleString()
             }
@@ -131,6 +132,7 @@ class RentForm extends Component {
                         locale='lt'
                         selected={this.state.startDate}
                         onChange={this.handleStartDateChange}
+                        disabled={this.state.isRented}
                     />
                 </Grid>
                 <Grid padded style={styles.innerGrid}>
@@ -145,12 +147,13 @@ class RentForm extends Component {
                         timeCaption="time"
                         selected={this.state.endDate}
                         onChange={this.handleEndDateChange}
+                        disabled={this.state.isRented}
                     />
                 </Grid>
 
                 <Grid.Row>
                     <Grid.Column style={styles.formColumn}>
-                        <Form onSubmit={this.handleSubmit}>
+                        <Form onSubmit={this.handleSubmit} autoComplete='off'>
                             <Form.Group widths='equal'>
                                 <Form.Input name='firstName' label='First Name' onChange={this.handleChange} />
                                 <Form.Input name='lastName' label='Last Name' onChange={this.handleChange} />
@@ -164,6 +167,7 @@ class RentForm extends Component {
                             </Form.Group>
 
                             <Divider />
+                            
                             <Header>
                                 <Icon name='time' size='huge' />
                                 {Math.floor((this.state.duration / 60) / 24)} days {Math.floor((this.state.duration / 60) % 24)} h. {this.state.duration % 60} min.

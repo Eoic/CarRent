@@ -81,7 +81,7 @@ class App extends Component {
 								<PrivateRoute path='/overview' component={Overview}/>
 								<PrivateRoute path='/cars' component={Cars}/>
 								<PrivateRoute path='/car/:id' component={CarEditForm}/>
-								<PrivateRoute path='/reports' component={Reports}/>
+								<PrivateRoute path='/reports/:id' component={Reports}/>
 								<PrivateRoute path='/settings' component={Settings}/>
 							</Sidebar>
 						</Switch>

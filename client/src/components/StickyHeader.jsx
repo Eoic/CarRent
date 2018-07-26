@@ -5,7 +5,7 @@ const StickyHeader = () => (
     <Menu fixed='top'>
         <Menu.Item as={Header}>
             <Icon name='truck'/>
-            TITLE
+            RAJESAS
         </Menu.Item>
     </Menu>
 );

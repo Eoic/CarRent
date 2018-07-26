@@ -97,8 +97,10 @@ export function deleteCost(id) {
 
 // RENTS.
 
-export function getRents(){
-    axios.get(ROUTE.RENTS).then(response => {
+export function getRents(pageNumber){
+    axios.get(ROUTE.RENTS, {
+        params: { page: pageNumber }
+    }).then(response => {
         dispatcher.dispatch({
             type: CAR_ACTIONS.GET_RENTS,
             value: response.data
