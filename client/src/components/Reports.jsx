@@ -67,7 +67,7 @@ class Reports extends Component {
                     {this.state.rents.map((rent, index) =>
                         <Table.Row key={index}>
                             <Table.Cell> <Link to={'/car/' + rent.carId}> {rent.regNumber} </Link> </Table.Cell>
-                            <Table.Cell> {} </Table.Cell>
+                            <Table.Cell> { } </Table.Cell>
                             <Table.Cell> {moment(rent.startDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
                             <Table.Cell> {moment(rent.endDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
                             <Table.Cell textAlign='right'>

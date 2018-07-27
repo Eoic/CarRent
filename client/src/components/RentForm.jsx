@@ -162,6 +162,9 @@ class RentForm extends Component {
                                 <Form.Input onChange={this.handleChange} name='phone' label='Phone Number' />
                                 <Form.Dropdown selection options={paymentOptions} defaultValue={paymentOptions[0].value} onChange={this.handlePaymentChange} label='Payment Type' />
                             </Form.Group>
+                            <Form.Group widths= 'equal'>
+                                <Form.Input onChange={this.handleChange} name='address' label='Address' />
+                            </Form.Group>
                             <Form.Group widths='equal'>
                                 <Form.Checkbox onChange={(e, data) => this.setState({ deposit: data.checked })} toggle label='Deposit' />
                             </Form.Group>

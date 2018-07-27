@@ -13,16 +13,14 @@ const LIMIT = 10;
 
 router.get('/', (req, res) => {
     Promise.all([
-        Rent.count(),
+        Rent.countDocuments(),
         Rent.find().sort('-addedAt').skip((req.query.page - 1) * LIMIT).limit(LIMIT)
     ]).then(([size, rents]) => {
         res.json({
             rents,
             size
-        }).catch(err => {
-            console.log(err);
         });
-    });
+    }).catch(err => { res.json(err); });
 });
 
 // @route   POST api/rents
