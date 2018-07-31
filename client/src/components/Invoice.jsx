@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, GridRow } from 'semantic-ui-react';
+//import { Grid, GridRow } from 'semantic-ui-react';
 import moment from 'moment';
 import 'moment/locale/lt';
 
@@ -24,7 +24,7 @@ const pageStyle = {
     },
     columns: {
         WebkitColumnCount: '2', /* Chrome, Safari, Opera */
-        MozColumnCount: '2', /* Firefox */
+        MozColumnCount: '2',    /* Firefox */
         columnCount: '2'
     }
 }

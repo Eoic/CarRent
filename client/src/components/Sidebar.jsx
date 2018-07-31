@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Menu, Icon } from 'semantic-ui-react';
+import { Menu, Icon, Button } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import MenuTop from './MenuTop';
 
@@ -20,7 +20,7 @@ const sidebarStyles = {
         height: 42.85,
     },
     pushedContent: {
-        marginLeft: 205, 
+        marginLeft: 205,
         marginRight: 15,
         marginBottom: 15
     }
@@ -36,6 +36,9 @@ function ItemText(props) {
 };
 
 class SidebarMenu extends Component {
+
+    show = size => () => this.setState({ size, open: true });
+    close = () => this.setState({ open: false });
 
     render() {
         return (
@@ -55,8 +58,18 @@ class SidebarMenu extends Component {
                         <ItemText content='History' icon='history' />
                     } />
                     <Menu.Item as={NavLink} to='/settings' content={
-                        <ItemText content='Setings' icon='cogs' />
+                        <ItemText content='Settings' icon='cogs' />
                     } />
+
+                    <Menu.Item style={sidebarStyles.menuHeader} content={
+                        <ItemText content='ACTIONS' />
+                    } />
+                    <Menu.Item>
+                        <Button style={{ borderRadius: 0 }} color='green'>
+                            <Icon name='add' />
+                            RENT NEW
+                        </Button>
+                    </Menu.Item>
                 </Menu>
 
                 <div style={sidebarStyles.pushedContent}>

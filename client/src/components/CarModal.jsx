@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, Button, Form, Icon } from 'semantic-ui-react';
 import { addCar } from '../actions/carActions'
+import { toast } from 'react-toastify';
 
 class CarModal extends Component {
 
@@ -20,31 +21,33 @@ class CarModal extends Component {
 
     handleChange = event => {
         this.setState({ [event.target.name]: event.target.value });
-    }   
+    }
 
     handleSubmit(event, data) {
         event.preventDefault();
 
-        // Close after validating fields.
-        this.setState({ open: false });
-
-        addCar({
-            model: this.state.carModel,
-            registrationNumber: this.state.carRegistrationNumber
-        });
+        if (this.state.carModel.trim() === '' || this.state.carRegistrationNumber.trim() === '')
+            toast.error("Fields cannot be empty!");
+        else {
+            addCar({
+                model: this.state.carModel,
+                registrationNumber: this.state.carRegistrationNumber
+            });
+            this.setState({ open: false });
+        }
     }
 
-    handleOpen(){
+    handleOpen() {
         this.setState({ open: true });
     }
 
-    handleClose(){
+    handleClose() {
         this.setState({ open: false });
     }
 
     render() {
         return (
-            <Modal size='tiny' trigger={<Button color='blue' onClick={this.handleOpen}> <Icon name='plus square'/> ADD NEW </Button>} closeOnDimmerClick={false} open={this.state.open}>
+            <Modal size='tiny' trigger={<Button color='blue' onClick={this.handleOpen}> <Icon name='plus square' /> ADD NEW </Button>} closeOnDimmerClick={false} open={this.state.open}>
                 <Modal.Header>
                     ADD NEW CAR
                 </Modal.Header>
@@ -55,8 +58,8 @@ class CarModal extends Component {
                     </Form>
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button positive icon='save' labelPosition='right' type='submit' form='car-add-form' color='blue' content='Save'/>
-                    <Button negative icon='times' labelPosition='right' content='Close' onClick={() => { this.setState({ open: false })}}/>
+                    <Button positive icon='save' labelPosition='right' type='submit' form='car-add-form' color='blue' content='Save' />
+                    <Button negative icon='times' labelPosition='right' content='Close' onClick={() => { this.setState({ open: false }) }} />
                 </Modal.Actions>
             </Modal>
         );

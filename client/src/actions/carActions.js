@@ -5,7 +5,8 @@ import { CAR_ACTIONS, GLOBAL_ACTIONS } from './types';
 const ROUTE = {
     CARS: '/api/cars/',
     EXPENSES: '/api/expenses/',
-    RENTS: '/api/rents'
+    RENTS: '/api/rents/',
+    TURNOVER: '/api/turnover/'
 }
 
 function dispatchError(error){
@@ -97,6 +98,15 @@ export function deleteCost(id) {
 
 // RENTS.
 
+export function getRentById(id){
+    axios.get(ROUTE.RENTS + id).then(response => {
+        dispatcher.dispatch({
+            type: CAR_ACTIONS.GET_RENT_BY_ID,
+            value: response.data
+        });
+    });
+}
+
 export function getRents(pageNumber){
     axios.get(ROUTE.RENTS, {
         params: { page: pageNumber }
@@ -112,6 +122,15 @@ export function addRent(data){
     axios.post(ROUTE.RENTS, data).then(response => {
         dispatcher.dispatch({
             type: CAR_ACTIONS.ADD_RENT,
+            value: response.data
+        });
+    });
+}
+
+export function getTurnover(){
+    axios.get(ROUTE.TURNOVER).then(response => {
+        dispatcher.dispatch({
+            type: CAR_ACTIONS.CASH_TURNOVER,
             value: response.data
         });
     });

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Grid, Segment, Statistic, Table } from 'semantic-ui-react';
+import { Grid, Segment, Statistic, Header } from 'semantic-ui-react';
 import { ResponsiveLine } from '@nivo/line'
-import DatePicker from 'react-datepicker';
+import store from '../stores/CarStore';
+import { getTurnover } from '../actions/carActions';
 import moment from 'moment';
 
 const chartData = [
@@ -118,9 +119,25 @@ class Overview extends Component {
     constructor() {
         super();
         this.state = {
-            startDate: moment()
+            startDate: moment(),
+            turnover: {},
+            fetching: true
         }
         this.handleChange = this.handleChange.bind(this);
+        this.updateSummary = this.updateSummary.bind(this);
+    }
+
+    updateSummary() {
+        this.setState({ turnover: store.getCashTurnover(), fetching: false });
+    }
+
+    componentDidMount() {
+        store.addListener('turnoverReceived', this.updateSummary);
+        getTurnover();
+    }
+
+    componentWillUnmount() {
+        store.removeListener('turnoverReceived', this.updateSummary);
     }
 
     onChange = date => this.setState({ date })
@@ -134,7 +151,7 @@ class Overview extends Component {
     render() {
         return (
             <div>
-                <Grid columns={2} stackable style={{ marginTop: '15px', marginLeft: '0px' }}>
+                <Grid columns={2} style={{ marginTop: '15px', marginLeft: '0px' }}>
                     <Grid.Column width={12} style={{ height: '450px', minWidth: '780px' }} elevated='true' as={Segment}>
                         <ResponsiveLine
                             data={chartData}
@@ -190,31 +207,39 @@ class Overview extends Component {
                         />
                     </Grid.Column>
                     <Grid.Column width={4} style={{ paddingTop: '0px' }}>
-                        <Grid.Row>
-                            <Segment textAlign='center'>
-                                <Statistic color='green'>
-                                    <Statistic.Value> + 45 &euro; </Statistic.Value>
-                                    <Statistic.Label>Income this month</Statistic.Label>
-                                </Statistic>
-                            </Segment>
-                        </Grid.Row>
+                        <Segment.Group>
+                            <Segment as={Header}> INCOME </Segment>
+                            <Segment>
+                                <Statistic.Group horizontal>
+                                    <Statistic horizontal color='green'>
+                                        <Statistic.Value> &euro; {(this.state.fetching) ? 0 : this.state.turnover.rentsMonthly} </Statistic.Value>
+                                        <Statistic.Label> This month </Statistic.Label>
+                                    </Statistic>
 
-                        <Grid.Row>
-                            <Segment textAlign='center' style={{ marginTop: '15px' }}>
-                                <Statistic color='red'>
-                                    <Statistic.Value> + 50 &euro; </Statistic.Value>
-                                    <Statistic.Label> Expenses this month</Statistic.Label>
-                                </Statistic>
+                                    <Statistic horizontal color='green'>
+                                        <Statistic.Value> &euro; {(this.state.fetching) ? 0 : this.state.turnover.rentsTotal} </Statistic.Value>
+                                        <Statistic.Label> Total </Statistic.Label>
+                                    </Statistic>
+                                </Statistic.Group>
                             </Segment>
-                        </Grid.Row>
+                        </Segment.Group>
 
-                        <Grid.Row textAlign='left' style={{ marginTop: '12px' }}>
-                            <DatePicker
-                                inline
-                                selected={this.state.startDate}
-                                onChange={this.handleChange}
-                            />
-                        </Grid.Row>
+                        <Segment.Group>
+                            <Segment as={Header}> EXPENSES </Segment>
+                            <Segment>
+                                <Statistic.Group horizontal>
+                                    <Statistic horizontal color='red'>
+                                        <Statistic.Value> &euro; {(this.state.fetching) ? 0 : this.state.turnover.expensesMonthly} </Statistic.Value>
+                                        <Statistic.Label> This month </Statistic.Label>
+                                    </Statistic>
+
+                                    <Statistic horizontal color='red'>
+                                        <Statistic.Value> &euro; {(this.state.fetching) ? 0 : this.state.turnover.expensesTotal} </Statistic.Value>
+                                        <Statistic.Label> Total </Statistic.Label>
+                                    </Statistic>
+                                </Statistic.Group>
+                            </Segment>
+                        </Segment.Group>
                     </Grid.Column>
                 </Grid>
             </div >

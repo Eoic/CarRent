@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Grid, Divider, Button, Icon, Header } from 'semantic-ui-react';
+import { Form, Grid, Divider, Button, Icon, Header, Segment } from 'semantic-ui-react';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import '../App.css';
@@ -45,6 +45,7 @@ class RentForm extends Component {
             lastName: '',
             deposit: false,
             phone: '',
+            price: '',
             payment: {
                 value: paymentOptions[0].value,
                 text: paymentOptions[0].text
@@ -57,6 +58,7 @@ class RentForm extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.getDuration = this.getDuration.bind(this);
         this.handlePaymentChange = this.handlePaymentChange.bind(this);
+        this.validateFields = this.validateFields.bind(this);
     }
 
     handleStartDateChange(date) {
@@ -74,18 +76,43 @@ class RentForm extends Component {
     handleSubmit(event) {
         event.preventDefault();
 
-        if (!this.state.startDate.isSameOrBefore(this.state.endDate)) {
-            toast.error('Selected start date if after ending date!');
-        } else {
+        if (this.validateFields()) {
 
             const newRent = {
                 carId: this.props.carId,
                 startDate: this.state.startDate.toLocaleString(),
-                endDate: this.state.endDate.toLocaleString()
+                endDate: this.state.endDate.toLocaleString(),
+                price: this.state.price,
+                name: this.state.firstName,
+                surname: this.state.lastName,
+                phone: this.state.phone,
+                deposit: this.state.deposit
             }
 
             addRent(newRent);
         }
+    }
+
+    validateFields(){
+
+        let errors = [];
+
+        if(this.state.firstName.trim() === '' || this.state.lastName.trim() === '')
+            errors.push("Client name is empty.");
+
+        if(this.state.startDate.isSameOrAfter(this.state.endDate) || this.state.duration === 0)
+            errors.push("Selected rent date is incorrect.");
+
+        if(this.state.price.trim() === '')
+            errors.push("Price field is empty");
+
+        if(errors.length > 0){
+            errors.map(err => toast.error(err));
+            return false;
+        }
+
+        toast.success("Successfully rented");
+        return true;
     }
 
     handlePaymentChange(event, data) {
@@ -165,15 +192,18 @@ class RentForm extends Component {
                             <Form.Group widths= 'equal'>
                                 <Form.Input onChange={this.handleChange} name='address' label='Address' />
                             </Form.Group>
-                            <Form.Group widths='equal'>
-                                <Form.Checkbox onChange={(e, data) => this.setState({ deposit: data.checked })} toggle label='Deposit' />
+                            <Form.Group widths='4'>
+                                <Form.Input label='Price' icon='euro' name='price' onChange={this.handleChange} />
+                                <Segment>
+                                    <Form.Checkbox onChange={(e, data) => this.setState({ deposit: data.checked })} toggle label='Deposit'/>
+                                </Segment>
                             </Form.Group>
 
                             <Divider />
                             
                             <Header>
                                 <Icon name='time' size='huge' />
-                                {Math.floor((this.state.duration / 60) / 24)} days {Math.floor((this.state.duration / 60) % 24)} h. {this.state.duration % 60} min.
+                                    {Math.floor((this.state.duration / 60) / 24)} days {Math.floor((this.state.duration / 60) % 24)} h. {this.state.duration % 60} min.
                                 </Header>
                             <Divider />
 
@@ -184,8 +214,8 @@ class RentForm extends Component {
 
                             <ReactToPrint
                                 trigger={() => <Button as='a' color='violet'>
-                                    <Icon name='print' />
-                                    Print
+                                                    <Icon name='print' />
+                                                    Print
                                                 </Button>}
                                 content={() => this.componentRef}
                             />

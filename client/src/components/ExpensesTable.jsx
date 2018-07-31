@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Table, Icon, Button } from 'semantic-ui-react';
 import { getCosts, deleteCost } from '../actions/carActions';
 import store from '../stores/CarStore';
+import moment from 'moment';
 
 class ExpensesTable extends Component {
 
@@ -55,7 +56,7 @@ class ExpensesTable extends Component {
                                 {cost.value} 
                             </Table.Cell>
                             <Table.Cell> {cost.details} </Table.Cell>
-                            <Table.Cell> {cost.added} </Table.Cell>
+                            <Table.Cell> {moment(cost.addedAt).format('YYYY/MM/DD HH:mm')} </Table.Cell>
                             <Table.Cell>
                                 <Button icon color='google plus' onClick={this.handleDelete.bind(this, cost._id)}>
                                     <Icon name='trash' />

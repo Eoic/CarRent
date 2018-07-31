@@ -8,7 +8,9 @@ export const CAR_ACTIONS = {
     ADD_COST: 'carActions.AddCost',
     DELETE_COST: 'carActions.DeleteCost',
     GET_RENTS: 'carActions.GetRents',
-    ADD_RENT: 'carActions.AddRent'
+    GET_RENT_BY_ID: 'carActions.GetRentById',
+    ADD_RENT: 'carActions.AddRent',
+    CASH_TURNOVER: 'carActions.CashTurnover'
 };
 
 export const GLOBAL_ACTIONS = {

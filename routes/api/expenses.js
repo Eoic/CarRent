@@ -53,7 +53,8 @@ router.post('/', (req, res) => {
         carId: req.body.carId,
         value: req.body.value,
         details: req.body.details,
-        added: moment(Date.now()).locale('lt').format('YYYY/MM/DD HH:mm:ss')
+        added: moment(Date.now()).locale('lt').format('YYYY/MM/DD HH:mm:ss'),
+        addedAt: new Date()
     });
 
     newCost.save().then(cost => res.json(cost)).catch(err => {

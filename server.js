@@ -7,6 +7,7 @@ const expenses = require('./routes/api/expenses');
 const users = require('./routes/api/users');
 const logs = require('./routes/api/logs');
 const rents = require('./routes/api/rents');
+const turnover = require('./routes/api/turnover');
 // ----
 
 const path = require('path');
@@ -48,6 +49,7 @@ app.use('/api/expenses', expenses);
 app.use('/api/logs', logs);
 app.use('/api/users', users);
 app.use('/api/rents', rents);
+app.use('/api/turnover', turnover);
 
 // Serve static assets if in production.
 if(process.env.NODE_ENV === 'production'){
