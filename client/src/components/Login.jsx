@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Grid, Segment, Header, Button, Form, Message, Icon } from 'semantic-ui-react';
+import { Grid, Segment, Header, Button, Form, Message } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
-import { Link } from 'react-router-dom';
 import StickyHeader from './StickyHeader';
 import PropTypes from 'prop-types';
 import Auth from '../modules/Auth';
@@ -98,11 +97,14 @@ class Login extends Component {
                         <Segment>
                             <Button form='login-form' type='submit' color='blue' fluid> Login </Button>
                         </Segment>
+
+                        {/*
                         <Message warning attached='bottom'>
                             <Icon name='help' />
                             Don't have an account?
                             <Link to='/register'> Register here </Link>
                         </Message>
+                        */}
                     </Segment.Group>
                 </Grid.Column>
             </Grid>

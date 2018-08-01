@@ -5,8 +5,6 @@ const router = express.Router();
 const Rent = require('../../models/Rent');
 const Car = require('../../models/Car');
 
-const ObjectId = require('mongoose').Types.ObjectId;
-
 const LIMIT = 10;
 
 // @route   GET api/rents
@@ -25,6 +23,21 @@ router.get('/', (req, res) => {
     }).catch(err => {
         res.json(err);
     });
+});
+
+router.put('/', (req, res) => {
+    Rent.findByIdAndUpdate(req.body._id, {
+        name: req.body.name,
+        surname: req.body.surname,
+        value: req.body.value,
+        phone: req.body.phone,
+        deposit: req.body.deposit,
+        odometer: req.body.odometer
+    }).then(response => {
+        res.json(response);
+    }).catch(err => 
+        res.json(err)
+    );
 });
 
 router.put('/cancel/:id', (req, res) => {

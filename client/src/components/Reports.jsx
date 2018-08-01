@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { Table, Menu, Icon, Button, Modal, Grid, Form, Divider } from 'semantic-ui-react';
-import { getRents, getRentById, endRent } from '../actions/carActions';
+import { getRents, getRentById, endRent, updateRent } from '../actions/carActions';
 import store from '../stores/CarStore';
 import Countdown from './Countdown';
 import moment from 'moment';
 import { Link, NavLink, withRouter } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const style = {
     infoLabel: { width: 70 }
@@ -25,7 +26,14 @@ class Reports extends Component {
             size: 0,
             updateRequired: false,
             modalOpen: false,
-            rent: {},
+            rent: {
+                name: '',
+                surname: '',
+                odometer: '',
+                value: '',
+                deposit: '',
+                phone: '',
+            },
             editing: false
         }
 
@@ -33,6 +41,7 @@ class Reports extends Component {
         this.showRentInfo = this.showRentInfo.bind(this);
         this.fetchData = this.fetchData.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     openInfoModal(id) {
@@ -75,8 +84,22 @@ class Reports extends Component {
         }
     }
 
-    handleChange(e) {
-        console.log(e.target.value);
+    handleChange(event, data) {
+
+        const value = event.target.value;
+        const name = event.target.name;
+
+        this.setState(prevState => ({
+            rent: {
+                ...prevState.rent,
+                [name]: value
+            }
+        }));
+    }
+
+    handleSubmit(){
+        updateRent(this.state.rent);
+        toast.success("Info updated");
     }
 
     createPages() {
@@ -97,7 +120,7 @@ class Reports extends Component {
 
                 <Modal size='small' open={this.state.modalOpen} onClose={() => this.setState({ modalOpen: false })} closeOnDimmerClick>
                     <Modal.Header>
-                        Rent info
+                        RENT INFO
                         <span style={{ float: 'right' }}>
                             <Icon link name='pencil square' size='large' color={(this.state.editing) ? 'green' : 'grey'} onClick={() => this.setState({
                                 editing: !this.state.editing
@@ -114,24 +137,24 @@ class Reports extends Component {
                         <Grid columns='2'>
                             <Grid.Column>
                                 <Form widths='equal'>
-                                    <Form.Input inline name='name' label={<InfoLabel content='First name'/>} readOnly={!this.state.editing} value={this.state.rent.name} onChange={this.handleChange} />
-                                    <Form.Input inline name='surname' label={<InfoLabel content='Last name'/>} readOnly={!this.state.editing} value={this.state.rent.surname} />
-                                    <Form.Input inline name='odometer' label={<InfoLabel content='Kilometers'/>} readOnly={!this.state.editing} value={this.state.rent.odometer} />
+                                    <Form.Input inline name='name' label={<InfoLabel content='First name' />} readOnly={!this.state.editing} value={this.state.rent.name} onChange={this.handleChange} />
+                                    <Form.Input inline name='surname' label={<InfoLabel content='Last name' />} readOnly={!this.state.editing} value={this.state.rent.surname} onChange={this.handleChange} />
+                                    <Form.Input inline name='odometer' label={<InfoLabel content='Kilometers' />} readOnly={!this.state.editing} value={this.state.rent.odometer} onChange={this.handleChange} />
                                 </Form>
                             </Grid.Column>
 
                             <Grid.Column>
                                 <Form>
-                                    <Form.Input inline name='value' label={<InfoLabel content='Income'/>} readOnly={!this.state.editing} value={this.state.rent.value} />
-                                    <Form.Input inline name='deposit' label={<InfoLabel content='Deposit'/>} readOnly={!this.state.editing} value={(this.state.rent.deposit) ? "Yes" : "No"} />
-                                    <Form.Input inline label={<InfoLabel content='Phone'/>} readOnly={!this.state.editing} value={this.state.rent.phone} />
+                                    <Form.Input inline name='value' label={<InfoLabel content='Income' />} readOnly={!this.state.editing} value={this.state.rent.value} onChange={this.handleChange}/>
+                                    <Form.Input inline name='deposit' label={<InfoLabel content='Deposit' />} readOnly={!this.state.editing} value={(this.state.rent.deposit) ? "Yes" : "No"} />
+                                    <Form.Input inline name='phone' label={<InfoLabel content='Phone' />} readOnly={!this.state.editing} value={this.state.rent.phone} onChange={this.handleChange} />
                                 </Form>
                             </Grid.Column>
                         </Grid>
 
                         <Divider />
 
-                        <Button color='green' content='Save changes' />
+                        <Button color='green' content='Save changes' onClick={this.handleSubmit} />
                     </Modal.Content>
                 </Modal>
 

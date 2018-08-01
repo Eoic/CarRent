@@ -60,6 +60,15 @@ export function updateCar(data) {
     }).catch(err => console.log(err));
 }
 
+export function updateRent(data){
+    axios.put(ROUTE.RENTS, data).then(response => {
+        dispatcher.dispatch({
+            type: CAR_ACTIONS.UPDATE_RENT,
+            value: response.data
+        });
+    });
+}
+
 export function deleteCar(id) {
     axios.delete(ROUTE.CARS + id).then(response => {
         dispatcher.dispatch({
