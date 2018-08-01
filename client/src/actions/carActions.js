@@ -1,6 +1,9 @@
 import dispatcher from '../Dispatcher';
 import axios from 'axios';
-import { CAR_ACTIONS, GLOBAL_ACTIONS } from './types';
+import {
+    CAR_ACTIONS,
+    GLOBAL_ACTIONS
+} from './types';
 
 const ROUTE = {
     CARS: '/api/cars/',
@@ -9,7 +12,7 @@ const ROUTE = {
     TURNOVER: '/api/turnover/'
 }
 
-function dispatchError(error){
+function dispatchError(error) {
     dispatcher.dispatch({
         type: GLOBAL_ACTIONS.REQUEST_FAILED,
         value: {
@@ -98,7 +101,7 @@ export function deleteCost(id) {
 
 // RENTS.
 
-export function getRentById(id){
+export function getRentById(id) {
     axios.get(ROUTE.RENTS + id).then(response => {
         dispatcher.dispatch({
             type: CAR_ACTIONS.GET_RENT_BY_ID,
@@ -107,9 +110,14 @@ export function getRentById(id){
     });
 }
 
-export function getRents(pageNumber){
+export function getRents(pageNumber) {
+
+    console.log('Fetching data.');
+
     axios.get(ROUTE.RENTS, {
-        params: { page: pageNumber }
+        params: {
+            page: pageNumber
+        }
     }).then(response => {
         dispatcher.dispatch({
             type: CAR_ACTIONS.GET_RENTS,
@@ -118,7 +126,7 @@ export function getRents(pageNumber){
     });
 }
 
-export function addRent(data){
+export function addRent(data) {
     axios.post(ROUTE.RENTS, data).then(response => {
         dispatcher.dispatch({
             type: CAR_ACTIONS.ADD_RENT,
@@ -127,7 +135,7 @@ export function addRent(data){
     });
 }
 
-export function getTurnover(){
+export function getTurnover() {
     axios.get(ROUTE.TURNOVER).then(response => {
         dispatcher.dispatch({
             type: CAR_ACTIONS.CASH_TURNOVER,
@@ -136,11 +144,20 @@ export function getTurnover(){
     });
 }
 
-export function carRentIncome(carId){
+export function carRentIncome(carId) {
     axios.get(ROUTE.RENTS + 'income/' + carId).then(response => {
         dispatcher.dispatch({
             type: CAR_ACTIONS.CAR_RENT_INCOME,
             value: response.data.sum
         });
     });
+}
+
+export function endRent(id) {
+    axios.put(ROUTE.RENTS + 'cancel/' + id).then(response => {
+        dispatcher.dispatch({
+            type: CAR_ACTIONS.END_RENT,
+            value: response.data
+        });
+    }).catch(err => console.log(err));
 }

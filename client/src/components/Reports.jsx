@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Table, Menu, Icon, Button, Modal, Grid } from 'semantic-ui-react';
-import { getRents, getRentById } from '../actions/carActions';
+import { getRents, getRentById, endRent } from '../actions/carActions';
 import store from '../stores/CarStore';
 import Countdown from './Countdown';
 import moment from 'moment';
@@ -20,25 +20,36 @@ class Reports extends Component {
 
         this.updateRentsList = this.updateRentsList.bind(this);
         this.showRentInfo = this.showRentInfo.bind(this);
+        this.fetchData = this.fetchData.bind(this);
     }
 
     openInfoModal(id) {
         getRentById(id);
     }
 
+    cancelRent = id => {
+        endRent(id);
+    }
+
     showRentInfo() {
         this.setState({ rent: store.getRentById(), modalOpen: true });
+    }
+
+    fetchData(){
+        getRents(this.props.match.params.id);
     }
 
     componentDidMount() {
         store.addListener('storeUpdated', this.updateRentsList);
         store.addListener('rentInfoReceived', this.showRentInfo);
+        store.addListener('updateRequired', this.fetchData);
         getRents(this.props.match.params.id);
     }
 
     componentWillUnmount() {
         store.removeListener('storeUpdated', this.updateRentsList);
         store.removeListener('rentInfoReceived', this.showRentInfo);
+        store.removeListener('updateRequired', this.fetchData);
     }
 
     updateRentsList() {
@@ -100,6 +111,7 @@ class Reports extends Component {
                         <Table.HeaderCell> End Date </Table.HeaderCell>
                         <Table.HeaderCell textAlign='right'>Time left</Table.HeaderCell>
                         <Table.HeaderCell textAlign='right'> </Table.HeaderCell>
+                        <Table.HeaderCell textAlign='right'> </Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
 
@@ -113,6 +125,11 @@ class Reports extends Component {
                             <Table.Cell textAlign='right'>
                                 <Countdown startDate={rent.startDate} endDate={rent.endDate} />
                             </Table.Cell>
+
+                            <Table.Cell textAlign='right'>
+                                <Icon link name='cancel' size='large' onClick={this.cancelRent.bind(this, rent._id)}/>
+                            </Table.Cell>
+                            
                             <Table.Cell textAlign='right'>
                                 <Button animated='vertical' color='green' onClick={this.openInfoModal.bind(this, rent._id)}>
                                     <Button.Content hidden> INFO </Button.Content>
@@ -127,7 +144,7 @@ class Reports extends Component {
 
                 <Table.Footer>
                     <Table.Row>
-                        <Table.HeaderCell colSpan='6'>
+                        <Table.HeaderCell colSpan='7'>
                             <Menu floated pagination>
                                 <Menu.Item as='a' icon>
                                     <Icon name='chevron left' />

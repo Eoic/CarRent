@@ -11,7 +11,8 @@ export const CAR_ACTIONS = {
     GET_RENT_BY_ID: 'carActions.GetRentById',
     ADD_RENT: 'carActions.AddRent',
     CAR_RENT_INCOME: 'carActions.CarRentIncome',
-    CASH_TURNOVER: 'carActions.CashTurnover'
+    CASH_TURNOVER: 'carActions.CashTurnover',
+    END_RENT: 'carActions.EndRent'
 };
 
 export const GLOBAL_ACTIONS = {

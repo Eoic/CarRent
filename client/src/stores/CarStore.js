@@ -79,6 +79,10 @@ class CarStore extends EventEmitter {
                 this.emit('incomeReceived');
                 break;
             }
+            case CAR_ACTIONS.END_RENT: {
+                this.emit('updateRequired');
+                break;
+            }
             default: {}
         }
     }

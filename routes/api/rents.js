@@ -27,6 +27,16 @@ router.get('/', (req, res) => {
     });
 });
 
+router.put('/cancel/:id', (req, res) => {
+    Rent.findByIdAndUpdate(req.params.id, {
+        endDate: new Date()
+    }).then(response => {
+        res.json(response);
+    }).catch(err => {
+        res.json(err);
+    });
+});
+
 router.get('/income/:id', (req, res) => {
     Rent.aggregate([{
         $match: {
