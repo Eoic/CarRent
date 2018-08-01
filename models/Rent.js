@@ -19,7 +19,8 @@ const RentSchema = new Schema({
     phone: String,
 
     // Misc.
-    deposit: Boolean
+    deposit: Boolean,
+    odometer: Number
 });
 
 module.exports = Rent = mongoose.model('rent', RentSchema);

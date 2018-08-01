@@ -78,13 +78,15 @@ class Reports extends Component {
                                 <p> Rent start: {moment(this.state.rent.startDate).format('YYYY/MM/DD HH:mm')} </p>
                                 <p> First name: {this.state.rent.name} </p>
                                 <p> Last name: {this.state.rent.surname} </p>
-                                <p> Deposit: {(this.state.rent.deposit) ? "Yes" : "No"} </p>
+                                <p> Phone: {this.state.rent.phone} </p>
+                                <p> Kilometers: {this.state.rent.odometer} </p>
                             </Grid.Column>
 
                             <Grid.Column>
                                 <p> Rent end: {moment(this.state.rent.endDate).format('YYYY/MM/DD HH:mm')} </p>
                                 <p> Added: {moment(this.state.rent.addedAt).format('YYYY/MM/DD HH:mm')} </p>
                                 <p> Income: {this.state.rent.value} &euro; </p>
+                                <p> Deposit: {(this.state.rent.deposit) ? "Yes" : "No"} </p>
                             </Grid.Column>
                         </Grid>
                     </Modal.Content>

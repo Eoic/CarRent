@@ -14,6 +14,7 @@ class CarStore extends EventEmitter {
         this.rents = [];
         this.rent = {};
         this.turnover = {};
+        this.carIncome = {};
     }
 
     handleActions(action){
@@ -73,6 +74,11 @@ class CarStore extends EventEmitter {
                 this.emit('turnoverReceived');
                 break;
             }
+            case CAR_ACTIONS.CAR_RENT_INCOME: {
+                this.carIncome = action.value;
+                this.emit('incomeReceived');
+                break;
+            }
             default: {}
         }
     }
@@ -103,6 +109,10 @@ class CarStore extends EventEmitter {
 
     getCashTurnover(){
         return this.turnover;
+    }
+
+    getCarIncome(){
+        return this.carIncome;
     }
 }
 

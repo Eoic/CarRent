@@ -5,6 +5,8 @@ const router = express.Router();
 const Rent = require('../../models/Rent');
 const Car = require('../../models/Car');
 
+const ObjectId = require('mongoose').Types.ObjectId;
+
 const LIMIT = 10;
 
 // @route   GET api/rents
@@ -20,7 +22,28 @@ router.get('/', (req, res) => {
             rents,
             size
         });
-    }).catch(err => { res.json(err); });
+    }).catch(err => {
+        res.json(err);
+    });
+});
+
+router.get('/income/:id', (req, res) => {
+    Rent.aggregate([{
+        $match: {
+            carId: req.params.id
+        }
+    }, {
+        $group: {
+            _id: null,
+            total: {
+                $sum: "$value"
+            }
+        }
+    }], function (err, sum) {
+        res.json({
+            sum: (sum.length === 0) ? 0 : sum[0].total
+        });
+    });
 });
 
 // @route   GET api/rents
@@ -49,7 +72,8 @@ router.post('/', (req, res) => {
             name: req.body.name,
             surname: req.body.surname,
             phone: req.body.phone,
-            deposit: req.body.deposit
+            deposit: req.body.deposit,
+            odometer: req.body.odometer
         });
 
         newRent.save().then(rent => res.json({}));

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Menu, Icon, Button } from 'semantic-ui-react';
+import { Menu, Icon, Button, Modal, Dropdown } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import MenuTop from './MenuTop';
 
@@ -26,6 +26,19 @@ const sidebarStyles = {
     }
 }
 
+const carOptions = [
+    {
+        key: 0,
+        value: 0,
+        text: "EUB 123"
+    },
+    {
+        key: 1,     
+        value: 1,
+        text: "EUB 321"
+    }
+];
+
 function ItemText(props) {
     return (
         <p style={{ textAlign: 'left' }}>
@@ -37,13 +50,34 @@ function ItemText(props) {
 
 class SidebarMenu extends Component {
 
-    show = size => () => this.setState({ size, open: true });
-    close = () => this.setState({ open: false });
+    constructor() {
+        super();
+        this.state = {
+            modalOpen: false
+        };
+
+        this.open = this.open.bind(this);
+    }
+
+    open = () => this.setState({ modalOpen: true });
+    close = () => this.setState({ modalOpen: false });
 
     render() {
         return (
             <div>
                 <MenuTop />
+
+                <Modal closeOnDimmerClick={false} open={this.state.modalOpen}>
+                    <Modal.Header> RENT NEW CAR </Modal.Header>
+                    <Modal.Content>
+                        <Dropdown placeholder='Registration number' search selection options={carOptions} />
+                    </Modal.Content>
+                    <Modal.Actions>
+                        <Button color='green' content={'Rent'} />
+                        <Button color='red' content={'Close'} onClick={this.close} />
+                    </Modal.Actions>
+                </Modal>
+
                 <Menu icon='labeled' inverted vertical visible='true' style={sidebarStyles.menu}>
                     <Menu.Item style={sidebarStyles.menuHeader} content={
                         <ItemText content='NAVIGATION' />
@@ -64,8 +98,9 @@ class SidebarMenu extends Component {
                     <Menu.Item style={sidebarStyles.menuHeader} content={
                         <ItemText content='ACTIONS' />
                     } />
+
                     <Menu.Item>
-                        <Button style={{ borderRadius: 0 }} color='green'>
+                        <Button style={{ borderRadius: 0 }} color='green' onClick={this.open}>
                             <Icon name='add' />
                             RENT NEW
                         </Button>

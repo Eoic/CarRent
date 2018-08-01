@@ -64,4 +64,9 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/', (req, res) => {
+    
+    res.json({});
+});
+
 module.exports = router;

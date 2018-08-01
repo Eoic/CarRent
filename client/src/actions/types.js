@@ -10,6 +10,7 @@ export const CAR_ACTIONS = {
     GET_RENTS: 'carActions.GetRents',
     GET_RENT_BY_ID: 'carActions.GetRentById',
     ADD_RENT: 'carActions.AddRent',
+    CAR_RENT_INCOME: 'carActions.CarRentIncome',
     CASH_TURNOVER: 'carActions.CashTurnover'
 };
 

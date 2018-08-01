@@ -5,6 +5,8 @@ import store from '../stores/CarStore';
 import { getTurnover } from '../actions/carActions';
 import moment from 'moment';
 
+const months = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
 const chartData = [
     {
         "id": "Income",
@@ -121,10 +123,39 @@ class Overview extends Component {
         this.state = {
             startDate: moment(),
             turnover: {},
-            fetching: true
+            fetching: true,
+            chartState: []
         }
         this.handleChange = this.handleChange.bind(this);
         this.updateSummary = this.updateSummary.bind(this);
+        this.generateChartData = this.generateChartData.bind(this);
+    }
+
+    generateChartData() {
+
+        let incomeObj = {
+            "id": "Income",
+            "data": []
+        };
+
+        let expensesObj = {
+            "id": "Expenses",
+            "data": []
+        }
+
+        for(let i = 0; i < 12; i++){
+            incomeObj.data.push({
+                "x": months[i],
+                "y": 0
+            });
+
+            expensesObj.data.push({
+                "x": months[i],
+                "y": 0
+            });
+        }
+
+        this.setState({ chartState: [...this.state.chartState, [...incomeObj, expensesObj]] });
     }
 
     updateSummary() {

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Form, Segment, Header, Icon } from 'semantic-ui-react';
+import { Form, Segment, Header, Icon, Statistic } from 'semantic-ui-react';
 import 'react-datepicker/dist/react-datepicker.css';
 
 // Flux.
-import { getCarById, updateCar, addCost } from '../actions/carActions';
+import { getCarById, updateCar, addCost, carRentIncome } from '../actions/carActions';
 import store from '../stores/CarStore';
 
 // Components.
@@ -25,7 +25,8 @@ class CarEditForm extends Component {
             registrationNumber: '',
             infoChanged: false,
             carId: this.props.match.params.id,
-            costFieldError: false
+            costFieldError: false,
+            carIncome: 0
         }
         this.state = this.initialState;
         this.handleInfoSubmit = this.handleInfoSubmit.bind(this);
@@ -33,17 +34,25 @@ class CarEditForm extends Component {
         this.handleInfoChange = this.handleInfoChange.bind(this);
         this.fillForm = this.fillForm.bind(this);
         this.handleExpensesChange = this.handleExpensesChange.bind(this);
+        this.updateIncome = this.updateIncome.bind(this);
+    }
+
+    updateIncome() {
+        this.setState({ carIncome: store.getCarIncome() });
     }
 
     componentDidMount() {
         store.on('storeUpdated', this.fillForm);
+        store.on('incomeReceived', this.updateIncome);
         store.on('requestFailed', this.handleError);
         getCarById(this.state.carId);
+        carRentIncome(this.state.carId);
     }
 
     componentWillUnmount() {
         store.removeListener('storeUpdated', this.fillForm);
         store.removeListener('requestFailed', this.handleError);
+        store.removeListener('incomeReceived', this.updateIncome);
     }
 
     handleError() {
@@ -123,6 +132,13 @@ class CarEditForm extends Component {
                     </Form>
                 </Segment>
 
+                <Segment as={Header} inverted color='blue'>
+                    RENT
+                </Segment>
+                <Segment>
+                    <RentFrom carId={this.state.carId} />
+                </Segment>
+
                 <Segment as={Header} color='blue' inverted>
                     EXPENSES
                 </Segment>
@@ -141,10 +157,12 @@ class CarEditForm extends Component {
                 </Segment>
 
                 <Segment as={Header} inverted color='blue'>
-                    RENT
+                    INCOME
                 </Segment>
                 <Segment>
-                    <RentFrom carId={this.state.carId} />
+                    <Statistic horizontal color='green'>
+                        <Statistic.Value> &euro; { this.state.carIncome } </Statistic.Value>
+                    </Statistic>
                 </Segment>
 
             </Segment.Group>

@@ -135,3 +135,12 @@ export function getTurnover(){
         });
     });
 }
+
+export function carRentIncome(carId){
+    axios.get(ROUTE.RENTS + 'income/' + carId).then(response => {
+        dispatcher.dispatch({
+            type: CAR_ACTIONS.CAR_RENT_INCOME,
+            value: response.data.sum
+        });
+    });
+}
