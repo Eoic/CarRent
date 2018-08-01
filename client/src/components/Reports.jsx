@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Menu, Icon, Button, Modal, Grid } from 'semantic-ui-react';
+import { Table, Menu, Icon, Button, Modal, Grid, Form } from 'semantic-ui-react';
 import { getRents, getRentById, endRent } from '../actions/carActions';
 import store from '../stores/CarStore';
 import Countdown from './Countdown';
@@ -15,12 +15,14 @@ class Reports extends Component {
             size: 0,
             updateRequired: false,
             modalOpen: false,
-            rent: {}
+            rent: {},
+            editing: false
         }
 
         this.updateRentsList = this.updateRentsList.bind(this);
         this.showRentInfo = this.showRentInfo.bind(this);
         this.fetchData = this.fetchData.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     openInfoModal(id) {
@@ -35,7 +37,7 @@ class Reports extends Component {
         this.setState({ rent: store.getRentById(), modalOpen: true });
     }
 
-    fetchData(){
+    fetchData() {
         getRents(this.props.match.params.id);
     }
 
@@ -63,6 +65,10 @@ class Reports extends Component {
         }
     }
 
+    handleChange(){
+
+    }
+
     createPages() {
         const pageCount = Math.ceil(this.state.size / 10);
         let menuItems = [];
@@ -82,22 +88,33 @@ class Reports extends Component {
                 <Modal size='small' open={this.state.modalOpen} onClose={() => this.setState({ modalOpen: false })} closeOnDimmerClick>
                     <Modal.Header>
                         Rent info
+                        <span style={{ float: 'right' }}>
+                            <Icon link name='pencil square' size='large' color={(this.state.editing) ? 'green' : 'grey'} onClick={() => this.setState({
+                                editing: !this.state.editing
+                            })} />
+                        </span>
                     </Modal.Header>
                     <Modal.Content>
                         <Grid columns='2'>
                             <Grid.Column>
                                 <p> Rent start: {moment(this.state.rent.startDate).format('YYYY/MM/DD HH:mm')} </p>
-                                <p> First name: {this.state.rent.name} </p>
-                                <p> Last name: {this.state.rent.surname} </p>
-                                <p> Phone: {this.state.rent.phone} </p>
-                                <p> Kilometers: {this.state.rent.odometer} </p>
+
+                                <Form widths='equal'>
+                                    <Form.Input inline label='First name' readOnly={!this.state.editing} value={this.state.rent.name} />
+                                    <Form.Input inline label='Last name' readOnly={!this.state.editing} value={this.state.rent.surname} />
+                                    <Form.Input inline label='Phone' readOnly={!this.state.editing} value={this.state.rent.phone} />
+                                    <Form.Input inline label='Kilometers' readOnly={!this.state.editing} value={this.state.rent.odometer} />
+                                </Form>
                             </Grid.Column>
 
                             <Grid.Column>
                                 <p> Rent end: {moment(this.state.rent.endDate).format('YYYY/MM/DD HH:mm')} </p>
                                 <p> Added: {moment(this.state.rent.addedAt).format('YYYY/MM/DD HH:mm')} </p>
-                                <p> Income: {this.state.rent.value} &euro; </p>
-                                <p> Deposit: {(this.state.rent.deposit) ? "Yes" : "No"} </p>
+
+                                <Form>
+                                    <Form.Input inline label='Income' readOnly={!this.state.editing} value={this.state.rent.value} />
+                                    <Form.Input inline label='Deposit' readOnly={!this.state.editing} value= {(this.state.rent.deposit) ? "Yes" : "No"} />
+                                </Form>
                             </Grid.Column>
                         </Grid>
                     </Modal.Content>
@@ -127,9 +144,9 @@ class Reports extends Component {
                             </Table.Cell>
 
                             <Table.Cell textAlign='right'>
-                                <Icon link name='cancel' size='large' onClick={this.cancelRent.bind(this, rent._id)}/>
+                                <Icon link name='cancel' size='large' onClick={this.cancelRent.bind(this, rent._id)} />
                             </Table.Cell>
-                            
+
                             <Table.Cell textAlign='right'>
                                 <Button animated='vertical' color='green' onClick={this.openInfoModal.bind(this, rent._id)}>
                                     <Button.Content hidden> INFO </Button.Content>
