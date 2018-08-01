@@ -45,7 +45,7 @@ class Invoice extends Component {
 
                 <b> {this.state.timestamp} </b>
 
-                <table>
+                <div>
                     <div style={{width: '100px' }}>
                         <b style={pageStyle.subheader}> Pardavėjas </b> <br />
                         <h3 style={pageStyle.noSpacing}> UAB Rajesas </h3>
@@ -55,7 +55,7 @@ class Invoice extends Component {
                         <b style={pageStyle.subheader}> Pirkėjas </b> <br />
                         <b> {this.props.invoiceData.firstName} {this.props.invoiceData.lastName} </b>
                     </div>
-                </table>
+                </div>
 
                 <p> Phone: {this.props.invoiceData.phone} </p>
                 <p> Deposit: {this.props.invoiceData.deposit + ''} </p>

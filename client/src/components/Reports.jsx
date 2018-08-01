@@ -1,10 +1,20 @@
 import React, { Component } from 'react'
-import { Table, Menu, Icon, Button, Modal, Grid, Form } from 'semantic-ui-react';
+import { Table, Menu, Icon, Button, Modal, Grid, Form, Divider } from 'semantic-ui-react';
 import { getRents, getRentById, endRent } from '../actions/carActions';
 import store from '../stores/CarStore';
 import Countdown from './Countdown';
 import moment from 'moment';
 import { Link, NavLink, withRouter } from 'react-router-dom';
+
+const style = {
+    infoLabel: { width: 70 }
+}
+
+const InfoLabel = (props) => (
+    <label style={style.infoLabel}>
+        {props.content}
+    </label>
+);
 
 class Reports extends Component {
 
@@ -65,8 +75,8 @@ class Reports extends Component {
         }
     }
 
-    handleChange(){
-
+    handleChange(e) {
+        console.log(e.target.value);
     }
 
     createPages() {
@@ -95,28 +105,33 @@ class Reports extends Component {
                         </span>
                     </Modal.Header>
                     <Modal.Content>
+                        <Grid columns='3'>
+                            <Grid.Column> <p> Rent start {moment(this.state.rent.startDate).format('YYYY/MM/DD HH:mm')}    </p> </Grid.Column>
+                            <Grid.Column> <p> Rent end {moment(this.state.rent.endDate).format('YYYY/MM/DD HH:mm')}        </p> </Grid.Column>
+                            <Grid.Column> <p> Added {moment(this.state.rent.addedAt).format('YYYY/MM/DD HH:mm')}           </p> </Grid.Column>
+                        </Grid>
+
                         <Grid columns='2'>
                             <Grid.Column>
-                                <p> Rent start: {moment(this.state.rent.startDate).format('YYYY/MM/DD HH:mm')} </p>
-
                                 <Form widths='equal'>
-                                    <Form.Input inline label='First name' readOnly={!this.state.editing} value={this.state.rent.name} />
-                                    <Form.Input inline label='Last name' readOnly={!this.state.editing} value={this.state.rent.surname} />
-                                    <Form.Input inline label='Phone' readOnly={!this.state.editing} value={this.state.rent.phone} />
-                                    <Form.Input inline label='Kilometers' readOnly={!this.state.editing} value={this.state.rent.odometer} />
+                                    <Form.Input inline name='name' label={<InfoLabel content='First name'/>} readOnly={!this.state.editing} value={this.state.rent.name} onChange={this.handleChange} />
+                                    <Form.Input inline name='surname' label={<InfoLabel content='Last name'/>} readOnly={!this.state.editing} value={this.state.rent.surname} />
+                                    <Form.Input inline name='odometer' label={<InfoLabel content='Kilometers'/>} readOnly={!this.state.editing} value={this.state.rent.odometer} />
                                 </Form>
                             </Grid.Column>
 
                             <Grid.Column>
-                                <p> Rent end: {moment(this.state.rent.endDate).format('YYYY/MM/DD HH:mm')} </p>
-                                <p> Added: {moment(this.state.rent.addedAt).format('YYYY/MM/DD HH:mm')} </p>
-
                                 <Form>
-                                    <Form.Input inline label='Income' readOnly={!this.state.editing} value={this.state.rent.value} />
-                                    <Form.Input inline label='Deposit' readOnly={!this.state.editing} value= {(this.state.rent.deposit) ? "Yes" : "No"} />
+                                    <Form.Input inline name='value' label={<InfoLabel content='Income'/>} readOnly={!this.state.editing} value={this.state.rent.value} />
+                                    <Form.Input inline name='deposit' label={<InfoLabel content='Deposit'/>} readOnly={!this.state.editing} value={(this.state.rent.deposit) ? "Yes" : "No"} />
+                                    <Form.Input inline label={<InfoLabel content='Phone'/>} readOnly={!this.state.editing} value={this.state.rent.phone} />
                                 </Form>
                             </Grid.Column>
                         </Grid>
+
+                        <Divider />
+
+                        <Button color='green' content='Save changes' />
                     </Modal.Content>
                 </Modal>
 

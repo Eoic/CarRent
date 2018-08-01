@@ -95,20 +95,20 @@ class RentForm extends Component {
         }
     }
 
-    validateFields(){
+    validateFields() {
 
         let errors = [];
 
-        if(this.state.firstName.trim() === '' || this.state.lastName.trim() === '')
+        if (this.state.firstName.trim() === '' || this.state.lastName.trim() === '')
             errors.push("Client name is empty.");
 
-        if(this.state.startDate.isSameOrAfter(this.state.endDate) || this.state.duration === 0)
+        if (this.state.startDate.isSameOrAfter(this.state.endDate) || this.state.duration === 0)
             errors.push("Selected rent date is incorrect.");
 
-        if(this.state.price.trim() === '')
+        if (this.state.price.trim() === '')
             errors.push("Price field is empty");
 
-        if(errors.length > 0){
+        if (errors.length > 0) {
             errors.map(err => toast.error(err));
             return false;
         }
@@ -191,22 +191,22 @@ class RentForm extends Component {
                                 <Form.Input onChange={this.handleChange} name='phone' label='Phone Number' />
                                 <Form.Dropdown selection options={paymentOptions} defaultValue={paymentOptions[0].value} onChange={this.handlePaymentChange} label='Payment Type' />
                             </Form.Group>
-                            <Form.Group widths= 'equal'>
+                            <Form.Group widths='equal'>
                                 <Form.Input onChange={this.handleChange} name='address' label='Address' />
                             </Form.Group>
                             <Form.Group widths='4'>
                                 <Form.Input label='Price' icon='euro' name='price' onChange={this.handleChange} />
                                 <Form.Input label='Kilometers' name='odometer' onChange={this.handleChange} />
                                 <Segment>
-                                    <Form.Checkbox onChange={(e, data) => this.setState({ deposit: data.checked })} toggle label='Deposit'/>
+                                    <Form.Checkbox onChange={(e, data) => this.setState({ deposit: data.checked })} toggle label='Deposit' />
                                 </Segment>
                             </Form.Group>
 
                             <Divider />
-                            
+
                             <Header>
                                 <Icon name='time' size='huge' />
-                                    {Math.floor((this.state.duration / 60) / 24)} days {Math.floor((this.state.duration / 60) % 24)} h. {this.state.duration % 60} min.
+                                {Math.floor((this.state.duration / 60) / 24)} days {Math.floor((this.state.duration / 60) % 24)} h. {this.state.duration % 60} min.
                                 </Header>
                             <Divider />
 
@@ -217,8 +217,8 @@ class RentForm extends Component {
 
                             <ReactToPrint
                                 trigger={() => <Button as='a' color='violet'>
-                                                    <Icon name='print' />
-                                                    Print
+                                    <Icon name='print' />
+                                    Print
                                                 </Button>}
                                 content={() => this.componentRef}
                             />

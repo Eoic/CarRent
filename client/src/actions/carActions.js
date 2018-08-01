@@ -111,9 +111,6 @@ export function getRentById(id) {
 }
 
 export function getRents(pageNumber) {
-
-    console.log('Fetching data.');
-
     axios.get(ROUTE.RENTS, {
         params: {
             page: pageNumber
