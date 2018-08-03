@@ -167,3 +167,14 @@ export function endRent(id) {
         });
     }).catch(err => console.log(err));
 }
+
+export function deleteRent(id){
+    axios.delete(ROUTE.RENTS, {
+        params: { id }
+    }).then(response => {
+        dispatcher.dispatch({
+            type: CAR_ACTIONS.DELETE_RENT,
+            value: response.data
+        });
+    });
+}

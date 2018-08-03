@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Table, Menu, Icon, Button, Modal, Grid, Form, Divider } from 'semantic-ui-react';
-import { getRents, getRentById, endRent, updateRent } from '../actions/carActions';
+import { Table, Menu, Icon, Button, Modal, Grid, Form, Divider, Dropdown } from 'semantic-ui-react';
+import { getRents, getRentById, endRent, updateRent, deleteRent } from '../actions/carActions';
 import store from '../stores/CarStore';
 import Countdown from './Countdown';
 import moment from 'moment';
@@ -16,6 +16,17 @@ const InfoLabel = (props) => (
         {props.content}
     </label>
 );
+
+const depositOptions = [
+    {
+        text: 'Yes',
+        value: true
+    },
+    {
+        text: 'No',
+        value: false
+    }
+];
 
 class Reports extends Component {
 
@@ -42,6 +53,7 @@ class Reports extends Component {
         this.fetchData = this.fetchData.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleDepositChange = this.handleDepositChange.bind(this);
     }
 
     openInfoModal(id) {
@@ -50,6 +62,22 @@ class Reports extends Component {
 
     cancelRent = id => {
         endRent(id);
+    }
+
+    handleDepositChange(event, data){
+
+        const depositTaken = data.value;
+
+        this.setState(prevState => ({
+            rent: {
+                ...prevState.rent,
+                deposit: depositTaken
+            }
+        }));
+    }
+
+    deleteRent = id => {
+        deleteRent(id);
     }
 
     showRentInfo() {
@@ -97,7 +125,7 @@ class Reports extends Component {
         }));
     }
 
-    handleSubmit(){
+    handleSubmit() {
         updateRent(this.state.rent);
         toast.success("Info updated");
     }
@@ -145,9 +173,9 @@ class Reports extends Component {
 
                             <Grid.Column>
                                 <Form>
-                                    <Form.Input inline name='value' label={<InfoLabel content='Income' />} readOnly={!this.state.editing} value={this.state.rent.value} onChange={this.handleChange}/>
-                                    <Form.Input inline name='deposit' label={<InfoLabel content='Deposit' />} readOnly={!this.state.editing} value={(this.state.rent.deposit) ? "Yes" : "No"} />
                                     <Form.Input inline name='phone' label={<InfoLabel content='Phone' />} readOnly={!this.state.editing} value={this.state.rent.phone} onChange={this.handleChange} />
+                                    <Form.Input inline name='value' label={<InfoLabel content='Income' />} readOnly={!this.state.editing} value={this.state.rent.value} onChange={this.handleChange} />
+                                    <Form.Dropdown inline selection options={depositOptions} compact defaultValue={this.state.rent.deposit} onChange={this.handleDepositChange} label={<InfoLabel content='Deposit' />} />
                                 </Form>
                             </Grid.Column>
                         </Grid>
@@ -181,8 +209,13 @@ class Reports extends Component {
                                 <Countdown startDate={rent.startDate} endDate={rent.endDate} />
                             </Table.Cell>
 
-                            <Table.Cell textAlign='right'>
-                                <Icon link name='cancel' size='large' onClick={this.cancelRent.bind(this, rent._id)} />
+                            <Table.Cell>
+                                <Dropdown icon='ellipsis horizontal'>
+                                    <Dropdown.Menu>
+                                        <Dropdown.Item onClick={this.cancelRent.bind(this, rent._id)}> Cancel </Dropdown.Item>
+                                        <Dropdown.Item onClick={this.deleteRent.bind(this, rent._id)} style={{ color: 'red' }}> Delete </Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>
                             </Table.Cell>
 
                             <Table.Cell textAlign='right'>

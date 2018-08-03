@@ -40,6 +40,12 @@ router.put('/', (req, res) => {
     );
 });
 
+router.delete('/', (req, res) => {
+    Rent.findByIdAndRemove(req.query.id).then(response => {
+        res.json(response);
+    }).catch(err => res.json(err));
+});
+
 router.put('/cancel/:id', (req, res) => {
     Rent.findByIdAndUpdate(req.params.id, {
         endDate: new Date()

@@ -83,6 +83,10 @@ class CarStore extends EventEmitter {
                 this.emit('updateRequired');
                 break;
             }
+            case CAR_ACTIONS.DELETE_RENT: {
+                this.emit('updateRequired');
+                break;
+            }
             case CAR_ACTIONS.UPDATE_RENT: {
                 this.emit('updateRequired');
                 break;

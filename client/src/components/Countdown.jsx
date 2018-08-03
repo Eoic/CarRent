@@ -22,6 +22,7 @@ class Countdown extends Component {
 
     componentDidMount() {
         this.getDuration();
+        console.log("Countdown started.");
     }
 
     componentWillUnmount() {

@@ -4,6 +4,7 @@ import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 // Components.
 import Login from './components/Login';
 import Sidebar from './components/Sidebar';
+import Register from './components/Register';
 
 // Sidebar views.
 import Overview from './components/Overview';
@@ -65,6 +66,7 @@ class App extends Component {
 				<BrowserRouter>
 						<Switch>
 							<LoggedOutRoute exact path='/' component={Login} toggleAuthenticateStatus={() => this.toggleAuthenticateStatus()} />
+							{/*<LoggedOutRoute exact path='/register' component={Register} />*/}
 							<Route exact path='/logout' component={Logout} />
 							<Sidebar>
 								<PrivateRoute path='/overview' component={Overview}/>
