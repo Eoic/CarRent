@@ -4,7 +4,7 @@ import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 // Components.
 import Login from './components/Login';
 import Sidebar from './components/Sidebar';
-import Register from './components/Register';
+//import Register from './components/Register';
 
 // Sidebar views.
 import Overview from './components/Overview';

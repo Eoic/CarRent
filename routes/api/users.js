@@ -2,10 +2,6 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const validator = require('validator');
-const LocalStrategy = require('passport-local').Strategy;
-
-// User model.
-const User = require('../../models/User');
 
 function validateRegistration(payload) {
 

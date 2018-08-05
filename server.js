@@ -5,10 +5,8 @@ const bodyParser = require('body-parser');
 const cars = require('./routes/api/cars');
 const expenses = require('./routes/api/expenses');
 const users = require('./routes/api/users');
-const logs = require('./routes/api/logs');
 const rents = require('./routes/api/rents');
 const turnover = require('./routes/api/turnover');
-// ----
 
 const path = require('path');
 const session = require('express-session');
@@ -40,13 +38,9 @@ const localLoginStrategy = require('./passport/local-login')
 passport.use('local-register', localRegisterStrategy);
 passport.use('local-login', localLoginStrategy);
 
-// Auth check middleware.
-//const authCheckMiddleware = require('./middleware/auth-check');
-
 // Use routes.
 app.use('/api/cars', cars);
 app.use('/api/expenses', expenses);
-app.use('/api/logs', logs);
 app.use('/api/users', users);
 app.use('/api/rents', rents);
 app.use('/api/turnover', turnover);
