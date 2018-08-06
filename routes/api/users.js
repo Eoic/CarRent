@@ -1,143 +1,101 @@
 const express = require('express');
 const router = express.Router();
-const passport = require('passport');
-const validator = require('validator');
+const bcrypt = require('bcryptjs');
+const User = require('../../models/User');
+const jwt = require('jsonwebtoken');
+const { jwtSecret, expiresIn } = require('../../config/index');
 
-function validateRegistration(payload) {
+router.post('/login', (req, res) => {
 
-    const errors = {};
-    let isFormValid = true;
-    let message = '';
-
-    if (!payload || typeof payload.email !== 'string' || !validator.isEmail(payload.email)) {
-        isFormValid = false;
-        errors.email = 'Please provide a correct email address.';
-    }
-
-    if (!payload || typeof payload.passwordFirst !== 'string' || payload.passwordFirst.trim().length < 8) {
-        isFormValid = false;
-        errors.password = 'Password must have at least 8 characters.';
-    }
-
-    if (!payload || typeof payload.passwordSecond !== 'string' || payload.passwordSecond.trim().length < 8) {
-        isFormValid = false;
-        errors.password = 'Password must have at least 8 characters.';
-    }
-
-    if (!payload || typeof payload.username !== 'string' || payload.username.trim().length === 0) {
-        isFormValid = false;
-        errors.name = 'Username required';
-    }
-
-    if (!isFormValid) {
-        message = 'Check the form for errors.';
-    }
-
-    return {
-        success: isFormValid,
-        message,
-        errors
+    const user = {
+        username: req.body.username.trim(),
+        password: req.body.password.trim()
     };
-}
 
-function validateLoginForm(payload) {
-    const errors = {};
-    let isFormValid = true;
-    let message = '';
+    User.findOne({
+        username: user.username
+    }, (err, userObject) => {
+        if (err)
+            return res.status(500).send("Server error.");
 
-    if (!payload || typeof payload.username !== 'string' || payload.username.trim().length === 0) {
-        isFormValid = false;
-        errors.username = 'Please provide your username.';
-    }
+        if (!userObject)
+            return res.status(404).send("User not found.");
 
-    if (!payload || typeof payload.password !== 'string' || payload.password.trim().length === 0) {
-        isFormValid = false;
-        errors.password = 'Please provide your password.';
-    }
+        bcrypt.compare(user.password, userObject.password, (err, success) => {
+            if (err || !success)
+                res.status(401).send("Invalid password.");
+            else {
+                const token = jwt.sign({
+                    id: userObject._id
+                }, jwtSecret, {
+                    expiresIn: expiresIn
+                });
 
-    if (!isFormValid) {
-        message = 'Check the form for errors.';
-    }
-
-    return {
-        success: isFormValid,
-        message,
-        errors
-    };
-}
-
-router.post('/register', (req, res, next) => {
-
-    const validationResult = validateRegistration(req.body);
-
-    if (!validationResult.success) {
-        return res.status(400).json({
-            success: false,
-            message: validationResult.message,
-            errors: validationResult.errors
-        });
-    }
-
-    return passport.authenticate('local-register', (err) => {
-        if (err) {
-            if (err.name === 'MongoError' && err.code === 11000) {
-                // the 11000 Mongo code is for a duplication email error
-                // the 409 HTTP status code is for conflict error
-                return res.status(409).json({
-                    success: false,
-                    message: 'Check the form for errors.',
-                    errors: {
-                        email: 'This email is already taken.'
-                    }
+                res.status(200).send({
+                    auth: true,
+                    token
                 });
             }
-
-            return res.status(400).json({
-                success: false,
-                message: 'Could not process the form.'
-            });
-        }
-
-        return res.status(200).json({
-            success: true,
-            message: 'You have successfully signed up! Now you should be able to log in.'
         });
-    })(req, res, next);
+    }).catch(err => res.status(404).send("User not found."));
 });
 
-router.post('/login', (req, res, next) => {
-    const validationResult = validateLoginForm(req.body);
+router.post('/register', (req, res) => {
 
-    if (!validationResult.success) {
-        return res.status(400).json({
-            success: false,
-            message: validationResult.message,
-            errors: validationResult.errors
+    const user = {
+        username: req.body.username.trim(),
+        password: req.body.password.trim(),
+        email: req.body.email.trim()
+    }
+
+    User.create({
+        username: user.username,
+        password: user.password,
+        email: user.email
+    }).then((response) => {
+        const token = jwt.sign({
+            id: response._id
+        }, jwtSecret, {
+            expiresIn: expiresIn
+        });
+
+        res.json({
+            auth: true,
+            token
+        });
+    });
+});
+
+router.get('/profile', (req, res) => {
+    const token = req.headers['x-access-token'];
+
+    if (!token) {
+        return res.status(401).send({
+            auth: false,
+            message: 'No token provided.'
         });
     }
 
-    return passport.authenticate('local-login', (err, token, userData) => {
+    jwt.verify(token, jwtSecret, (err, decoded) => {
         if (err) {
-            if (err.name === 'IncorrectCredentialsError') {
-                return res.status(400).json({
-                    success: false,
-                    message: err.message
-                });
-            }
-
-            return res.status(400).json({
-                success: false,
-                message: 'Could not process the form.'
+            return res.status(500).send({
+                auth: false,
+                message: "Failed to authenticate user."
             });
         }
 
-        return res.json({
-            success: true,
-            message: 'You have successfully logged in.',
-            token,
-            user: userData
+        User.findById(decoded.id, {
+            password: 0
+        }, (err, user) => {
+            if (err)
+                return res.status(500).send("There was a problem finding the user.");
+
+            if (!user)
+                return res.status(404).send("User not found.");
+
+            res.status(200).send(user);
         });
-    })(req, res, next);
+    });
 });
 
 module.exports = router;
