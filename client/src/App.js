@@ -15,14 +15,13 @@ import CarEditForm from './components/CarEditForm';
 import { ToastContainer } from '../node_modules/react-toastify';
 
 // Authentication.
-import Auth from './modules/Auth';
+import Auth from './utils/authorize';
 import Logout from './components/Logout';
+import axios from 'axios';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
 	<Route {...rest} render={props => (
-	  Auth.isUserAuthenticated() ? (
-		<Component {...props} {...rest} />
-	  ) : (
+	  Auth.isUserAuthenticated() ? (<Component {...props} {...rest} />) : (
 		<Redirect to={{
 		  pathname: '/',
 		  state: { from: props.location }
@@ -31,7 +30,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 	)}/>
 );
 
-const LoggedOutRoute = ({ component: Component, ...rest }) => (
+const PublicRoute = ({ component: Component, ...rest }) => (
 	<Route {...rest} render={props => (
 	  Auth.isUserAuthenticated() ? (
 		<Redirect to={{
@@ -42,7 +41,12 @@ const LoggedOutRoute = ({ component: Component, ...rest }) => (
 		<Component {...props} {...rest} />
 	  )
 	)}/>
-  )
+	);
+	
+	
+const token = Auth.getToken();
+axios.defaults.headers.common['x-access-token'] = (token) ? token : null;
+
 class App extends Component {
 
 	constructor(props){
@@ -65,8 +69,8 @@ class App extends Component {
 			<div className="App" style={{ height: '100%'}}>
 				<BrowserRouter>
 						<Switch>
-							<LoggedOutRoute exact path='/' component={Login} toggleAuthenticateStatus={() => this.toggleAuthenticateStatus()} />
-							{/*<LoggedOutRoute exact path='/register' component={Register} />*/}
+							<PublicRoute exact path='/' component={Login} toggleAuthenticateStatus={() => this.toggleAuthenticateStatus()} />
+							<PublicRoute exact path='/register' component={Register} />
 							<Route exact path='/logout' component={Logout} />
 							<Sidebar>
 								<PrivateRoute path='/overview' component={Overview}/>

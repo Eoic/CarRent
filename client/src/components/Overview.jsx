@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { Grid, Segment, Statistic, Header } from 'semantic-ui-react';
-import { ResponsiveLine } from '@nivo/line'
 import store from '../stores/CarStore';
 import { getTurnover } from '../actions/carActions';
 import moment from 'moment';
-
-const months = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 class Overview extends Component {
 
@@ -32,18 +29,6 @@ class Overview extends Component {
         let expensesObj = {
             "id": "Expenses",
             "data": []
-        }
-
-        for(let i = 0; i < 12; i++){
-            incomeObj.data.push({
-                "x": months[i],
-                "y": 0
-            });
-
-            expensesObj.data.push({
-                "x": months[i],
-                "y": 0
-            });
         }
 
         this.setState({ chartState: [...this.state.chartState, [...incomeObj, expensesObj]] });

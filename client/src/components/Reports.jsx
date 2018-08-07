@@ -6,6 +6,7 @@ import Countdown from './Countdown';
 import moment from 'moment';
 import { Link, NavLink, withRouter } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import DatePicker from 'react-datepicker';
 
 const style = {
     infoLabel: { width: 70 }
@@ -64,7 +65,7 @@ class Reports extends Component {
         endRent(id);
     }
 
-    handleDepositChange(event, data){
+    handleDepositChange(event, data) {
 
         const depositTaken = data.value;
 
@@ -157,9 +158,17 @@ class Reports extends Component {
                     </Modal.Header>
                     <Modal.Content>
                         <Grid columns='3'>
-                            <Grid.Column> <p> Rent start {moment(this.state.rent.startDate).format('YYYY/MM/DD HH:mm')}    </p> </Grid.Column>
-                            <Grid.Column> <p> Rent end {moment(this.state.rent.endDate).format('YYYY/MM/DD HH:mm')}        </p> </Grid.Column>
-                            <Grid.Column> <p> Added {moment(this.state.rent.addedAt).format('YYYY/MM/DD HH:mm')}           </p> </Grid.Column>
+                            <Grid.Column>
+                                <p> Rent start {moment(this.state.rent.startDate).format('YYYY/MM/DD HH:mm')}    </p>
+                            </Grid.Column>
+
+                            <Grid.Column>
+                                <p> Rent end {moment(this.state.rent.endDate).format('YYYY/MM/DD HH:mm')}        </p>
+                            </Grid.Column>
+
+                            <Grid.Column>
+                                <p> Added {moment(this.state.rent.addedAt).format('YYYY/MM/DD HH:mm')}           </p>
+                            </Grid.Column>
                         </Grid>
 
                         <Grid columns='2'>

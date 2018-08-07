@@ -1,27 +1,20 @@
 import React, { Component } from 'react';
-import { Grid, Segment, Header, Button, Form, Message } from 'semantic-ui-react';
+import { Grid, Segment, Header, Button, Form, Message, Icon } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import StickyHeader from './StickyHeader';
 import PropTypes from 'prop-types';
-import Auth from '../modules/Auth';
+import Auth from '../utils/authorize';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 class Login extends Component {
 
     constructor(props, context) {
         super(props, context);
 
-        const storedMessage = localStorage.getItem('successMessage');
-        let successMessage = '';
-
-        if(storedMessage){
-            successMessage = storedMessage;
-            localStorage.removeItem('successMessage');
-        }
-
         this.state = {
             errors: {},
             showErrors: false,
-            successMessage,
             username: '',
             password: ''
         }
@@ -36,19 +29,19 @@ class Login extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        
+
         const username = encodeURIComponent(this.state.username);
         const password = encodeURIComponent(this.state.password);
         const formData = `username=${username}&password=${password}`;
 
         // AJAX request.
         const xhr = new XMLHttpRequest();
-        xhr.open('post', '/api/users/login');
+        xhr.open('post', '/login');
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         xhr.responseType = 'json';
 
         xhr.addEventListener('load', () => {
-            if(xhr.status === 200){
+            if (xhr.status === 200) {
 
                 // Success.
                 this.setState({
@@ -56,15 +49,16 @@ class Login extends Component {
                     showErrors: false
                 });
 
-                // Save token.
+                // Save JWT token.
                 Auth.authenticateUser(xhr.response.token);
 
-                // Update authenticated state.
-                // Toggle authenticate.
-
+                const token = Auth.getToken();
+                axios.defaults.headers.common['x-access-token'] = (token) ? token : null;
+                
                 // Redirect.
                 this.props.history.push('/overview');
-            } else {
+            }
+            else {
                 // Failed.
                 const errors = xhr.response.errors ? xhr.response.errors : {};
                 errors.summary = xhr.response.message;
@@ -86,25 +80,23 @@ class Login extends Component {
                             Authentication
                         </Header>
                         <Message as={Segment} hidden={!this.state.showErrors} error textAlign='left'>
-                                { (this.state.showErrors) ? Object.keys(this.state.errors).map((key, index) => <p key={index}> { this.state.errors[key] } </p>) : '' }
+                            {(this.state.showErrors) ? this.state.errors.map((key, index) => <p key={index}> {key} </p>) : ''}
                         </Message>
                         <Segment>
                             <Form id='login-form' onSubmit={this.handleSubmit}>
-                                <Form.Input name='username' icon='user' type='text' placeholder='Username' onChange={this.handleChange} />
-                                <Form.Input name='password' icon='lock' type='password' placeholder='Password' onChange={this.handleChange} autoComplete="off" />
+                                <Form.Input required name='username' icon='user' type='text' placeholder='Username' onChange={this.handleChange} />
+                                <Form.Input required name='password' icon='lock' type='password' placeholder='Password' onChange={this.handleChange} />
                             </Form>
                         </Segment>
                         <Segment>
                             <Button form='login-form' type='submit' color='blue' fluid> Login </Button>
                         </Segment>
 
-                        {/*
                         <Message warning attached='bottom'>
                             <Icon name='help' />
                             Don't have an account?
                             <Link to='/register'> Register here </Link>
                         </Message>
-                        */}
                     </Segment.Group>
                 </Grid.Column>
             </Grid>

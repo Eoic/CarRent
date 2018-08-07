@@ -12,7 +12,7 @@ class Register extends Component {
             email: '',
             passwordFirst: '',
             passwordSecond: '',
-            errors: {},
+            errors: [],
             showErrors: false
         }
         this.handleChange = this.handleChange.bind(this);
@@ -34,7 +34,7 @@ class Register extends Component {
 
         // AJAX.
         const xhr = new XMLHttpRequest();
-        xhr.open('post', '/api/users/register');
+        xhr.open('post', '/register');
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
         xhr.responseType = 'json';
 
@@ -45,11 +45,10 @@ class Register extends Component {
                     showErrors: false
                 });
 
-                localStorage.setItem('successMessage', xhr.response.message);
                 this.props.history.push('/');
             } else {
+                
                 const errors = xhr.response.errors ? xhr.response.errors : {};
-                errors.summary = xhr.response.message;
 
                 this.setState({
                     errors,
@@ -71,14 +70,14 @@ class Register extends Component {
                             Registration
                         </Header>
                         <Message as={Segment} hidden={!this.state.showErrors} error textAlign='left'>
-                                { (this.state.showErrors) ? Object.keys(this.state.errors).map((key, index) => <p key={index}> { this.state.errors[key] } </p>) : '' }
-                        </Message>
+                                { (this.state.showErrors) ? this.state.errors.map((key, index) => <p key={index}> { key.msg } </p>) : '' }
+                        </Message>  
                         <Segment>
-                            <Form id='register-form' onSubmit={this.handleSubmit}>
-                                <Form.Input name='username' icon='user' type='text' placeholder='Username' onChange={this.handleChange} />
-                                <Form.Input name='email' icon='mail' type='email' placeholder='Email' onChange={this.handleChange} />
-                                <Form.Input name='passwordFirst' icon='lock' type='password' placeholder='Password' onChange={this.handleChange} />
-                                <Form.Input name='passwordSecond' icon='lock' type='password' placeholder='Repeat password' onChange={this.handleChange} />
+                            <Form id='register-form' onSubmit={this.handleSubmit} autoComplete="off">
+                                <Form.Input name='username' required icon='user' type='text' placeholder='Username' onChange={this.handleChange} />
+                                <Form.Input name='email' required icon='mail' type='email' placeholder='Email' onChange={this.handleChange} />
+                                <Form.Input name='passwordFirst' required icon='lock' type='password' placeholder='Password' onChange={this.handleChange} />
+                                <Form.Input name='passwordSecond' required icon='lock' type='password' placeholder='Repeat password' onChange={this.handleChange} />
                             </Form>
                         </Segment>
                         <Segment>

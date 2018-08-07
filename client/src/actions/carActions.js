@@ -1,9 +1,6 @@
 import dispatcher from '../Dispatcher';
 import axios from 'axios';
-import {
-    CAR_ACTIONS,
-    GLOBAL_ACTIONS
-} from './types';
+import { CAR_ACTIONS, GLOBAL_ACTIONS } from './types';
 
 const ROUTE = {
     CARS: '/api/cars/',
@@ -23,7 +20,6 @@ function dispatchError(error) {
 }
 
 // CARS
-
 export function getCars() {
     axios.get(ROUTE.CARS).then(response => {
         dispatcher.dispatch({
@@ -60,7 +56,7 @@ export function updateCar(data) {
     }).catch(err => console.log(err));
 }
 
-export function updateRent(data){
+export function updateRent(data) {
     axios.put(ROUTE.RENTS, data).then(response => {
         dispatcher.dispatch({
             type: CAR_ACTIONS.UPDATE_RENT,
@@ -168,9 +164,11 @@ export function endRent(id) {
     }).catch(err => console.log(err));
 }
 
-export function deleteRent(id){
+export function deleteRent(id) {
     axios.delete(ROUTE.RENTS, {
-        params: { id }
+        params: {
+            id
+        }
     }).then(response => {
         dispatcher.dispatch({
             type: CAR_ACTIONS.DELETE_RENT,

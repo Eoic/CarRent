@@ -35,7 +35,6 @@ class Auth {
     static getToken() {
         return localStorage.getItem('token');
     }
-
 }
 
 export default Auth;
