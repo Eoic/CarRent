@@ -13,6 +13,10 @@ const users = require('./routes/api/users');
 const rents = require('./routes/api/rents');
 const turnover = require('./routes/api/turnover');
 
+// Authorize user.
+const verifyToken = require('./routes/verifyToken');
+
+// Connect to MongoDB.
 require('./models/Index').connect(config.dbUri);
 
 // Middleware
@@ -20,11 +24,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
-// Passport init
-app.use(passport.initialize());
-app.use(passport.session());
-
 // Use routes.
+app.use('/api', verifyToken);
 app.use('/api/cars', cars);
 app.use('/api/expenses', expenses);
 app.use('/api/users', users);

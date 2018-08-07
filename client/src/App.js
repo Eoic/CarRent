@@ -15,7 +15,7 @@ import CarEditForm from './components/CarEditForm';
 import { ToastContainer } from '../node_modules/react-toastify';
 
 // Authentication.
-import Auth from './modules/Auth';
+import { setToken } from './utils/authorize';
 import Logout from './components/Logout';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
