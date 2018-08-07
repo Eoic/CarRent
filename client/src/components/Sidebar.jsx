@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Menu, Icon, Button, Modal, Dropdown } from 'semantic-ui-react';
+import { Menu, Icon } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import MenuTop from './MenuTop';
 
@@ -25,19 +25,6 @@ const sidebarStyles = {
         marginBottom: 15
     }
 }
-
-const carOptions = [
-    {
-        key: 0,
-        value: 0,
-        text: "EUB 123"
-    },
-    {
-        key: 1,     
-        value: 1,
-        text: "EUB 321"
-    }
-];
 
 function ItemText(props) {
     return (
@@ -67,17 +54,6 @@ class SidebarMenu extends Component {
             <div>
                 <MenuTop />
 
-                <Modal closeOnDimmerClick={false} open={this.state.modalOpen}>
-                    <Modal.Header> RENT NEW CAR </Modal.Header>
-                    <Modal.Content>
-                        <Dropdown placeholder='Registration number' search selection options={carOptions} />
-                    </Modal.Content>
-                    <Modal.Actions>
-                        <Button color='green' content={'Rent'} />
-                        <Button color='red' content={'Close'} onClick={this.close} />
-                    </Modal.Actions>
-                </Modal>
-
                 <Menu icon='labeled' inverted vertical visible='true' style={sidebarStyles.menu}>
                     <Menu.Item style={sidebarStyles.menuHeader} content={
                         <ItemText content='NAVIGATION' />
@@ -94,17 +70,6 @@ class SidebarMenu extends Component {
                     <Menu.Item as={NavLink} to='/settings' content={
                         <ItemText content='Settings' icon='cogs' />
                     } />
-
-                    <Menu.Item style={sidebarStyles.menuHeader} content={
-                        <ItemText content='ACTIONS' />
-                    } />
-
-                    <Menu.Item>
-                        <Button style={{ borderRadius: 0 }} color='green' onClick={this.open}>
-                            <Icon name='add' />
-                            RENT NEW
-                        </Button>
-                    </Menu.Item>
                 </Menu>
 
                 <div style={sidebarStyles.pushedContent}>

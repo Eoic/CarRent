@@ -12,22 +12,6 @@ class AppStore extends EventEmitter {
 
     handleActions(action){
         switch(action.type){
-            case GLOBAL_ACTIONS.LOGIN: {
-                if(action.errors.length > 0){
-                    this.errors = action.errors;
-                    this.emit('loginError');
-                } else
-                    this.emit('loginSuccess');
-                break; 
-            }
-            case GLOBAL_ACTIONS.REGISTER: {
-                if(action.errors.length > 0){
-                    this.errors = action.errors;
-                    this.emit('registrationError');
-                } else
-                    this.emit('registrationSuccess'); 
-                break;
-            }
             case GLOBAL_ACTIONS.COLOR_SCHEME_CHANGE: {
                 this.colorTheme = action.value;
                 this.emit('colorSchemeChanged');

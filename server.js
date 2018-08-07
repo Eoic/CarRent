@@ -9,7 +9,7 @@ const app = express();
 // API routes.
 const cars = require('./routes/api/cars');
 const expenses = require('./routes/api/expenses');
-const users = require('./routes/api/users');
+const users = require('./routes/users');
 const rents = require('./routes/api/rents');
 const turnover = require('./routes/api/turnover');
 
@@ -26,9 +26,10 @@ app.use(cors());
 
 // Use routes.
 app.use('/api', verifyToken);
+
+app.use('/', users);
 app.use('/api/cars', cars);
 app.use('/api/expenses', expenses);
-app.use('/api/users', users);
 app.use('/api/rents', rents);
 app.use('/api/turnover', turnover);
 

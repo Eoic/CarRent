@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const User = require('../../models/User');
+const User = require('../models/User');
 const jwt = require('jsonwebtoken');
-const { jwtSecret, expiresIn } = require('../../config/index');
+const { check, body, validationResult} = require('express-validator/check');
+const { jwtSecret, expiresIn } = require('../config/index');
 
-router.post('/login', (req, res) => {
-
+router.post('/login',(req, res) => {
     const user = {
         username: req.body.username.trim(),
         password: req.body.password.trim()
@@ -18,8 +18,11 @@ router.post('/login', (req, res) => {
         if (err)
             return res.status(500).send("Server error.");
 
-        if (!userObject)
-            return res.status(404).send("User not found.");
+        if (!userObject){
+            return res.status(404).json({
+                errors: ["Invalid username or password"]
+            });
+        }
 
         bcrypt.compare(user.password, userObject.password, (err, success) => {
             if (err || !success)
@@ -40,11 +43,45 @@ router.post('/login', (req, res) => {
     }).catch(err => res.status(404).send("User not found."));
 });
 
-router.post('/register', (req, res) => {
+router.post('/register', [
+    check('username')
+        .isLength({ min: 3, max: 20 }).withMessage("Username too short.")
+        .not().isEmpty().trim(),
+    check('email')
+        .isEmail().not().withMessage("Invalid email.")
+        .isEmpty(),
+    body('email')
+        .custom(value => {
+            return User.findOne({
+                email: value
+            }).then(user => {
+                if(user)
+                    return Promise.reject("Email is already in use.")
+            });
+        }),
+    body('username')
+        .custom(value => {
+            return User.findOne({
+                username: value
+            }).then(user => {
+                if(user)
+                    return Promise.reject('Username already taken.');
+            });
+        }),
+    check('passwordFirst')
+        .isLength({ min: 6 }).withMessage("Password must be at least 6 characters long."),
+    check('passwordSecond', 'Passwords does not match.')
+        .custom((value, { req }) => value === req.body.passwordFirst)
+], (req, res) => {
+
+    const errors = validationResult(req);
+
+    if(!errors.isEmpty())
+        return res.status(422).json({ errors: errors.array() });
 
     const user = {
         username: req.body.username.trim(),
-        password: req.body.password.trim(),
+        password: req.body.passwordFirst.trim(),
         email: req.body.email.trim()
     }
 
