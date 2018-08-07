@@ -3,6 +3,7 @@ import { Grid, Segment, Statistic, Header } from 'semantic-ui-react';
 import store from '../stores/CarStore';
 import { getTurnover } from '../actions/carActions';
 import moment from 'moment';
+import TurnoverChart from './TurnoverChart';
 
 class Overview extends Component {
 
@@ -60,7 +61,7 @@ class Overview extends Component {
             <div>
                 <Grid columns={2} style={{ marginTop: '15px', marginLeft: '0px' }} >
                     <Grid.Column width={10} style={{ height: '450px' }} elevated='true' as={Segment}>
-                        
+                        <TurnoverChart/>
                     </Grid.Column>
                     <Grid.Column width={6} style={{ paddingTop: '0px' }}>
                         <Segment.Group>

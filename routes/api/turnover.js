@@ -64,4 +64,8 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/months', (req, res) => {
+    res.json({ });
+});
+
 module.exports = router;

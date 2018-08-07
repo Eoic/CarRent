@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { Grid, Segment, Header, Button, Form, Message, Icon } from 'semantic-ui-react';
+import { Grid, Segment, Header, Button, Form, Message /*, Icon */ } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import StickyHeader from './StickyHeader';
 import PropTypes from 'prop-types';
 import Auth from '../utils/authorize';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 class Login extends Component {
@@ -92,11 +92,12 @@ class Login extends Component {
                             <Button form='login-form' type='submit' color='blue' fluid> Login </Button>
                         </Segment>
 
+                        {/*
                         <Message warning attached='bottom'>
                             <Icon name='help' />
                             Don't have an account?
                             <Link to='/register'> Register here </Link>
-                        </Message>
+                        </Message> */}
                     </Segment.Group>
                 </Grid.Column>
             </Grid>
