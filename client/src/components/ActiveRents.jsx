@@ -107,7 +107,10 @@ class ActiveRents extends Component {
     }
 
     updateRentsList() {
-        this.setState({ rents: store.getRents().rents, size: store.getRents().size });
+        this.setState({ 
+            rents: store.getRents().rents, 
+            size: store.getRents().size 
+        });
     }
 
     componentDidUpdate() {

@@ -7,7 +7,9 @@ const Car = require('../../models/Car');
 
 const moment = require('moment');
 
-const LIMIT = 20;
+const ACTIVE_LIMIT = 20;
+const RESERVED_LIMIT = 20;
+const ENDED_LIMIT = 10;
 
 // @route   GET api/rents
 // @desc    Get rents.
@@ -15,9 +17,6 @@ const LIMIT = 20;
 
 router.get('/', (req, res) => {
     Promise.all([
-        Rent.countDocuments(),
-
-        // Active
         Rent.find({
             'endDate': {
                 '$gt': new Date()
@@ -25,7 +24,15 @@ router.get('/', (req, res) => {
             'startDate': {
                 '$lte': new Date()
             }
-        }).sort('endDate').skip((req.query.page - 1) * LIMIT).limit(LIMIT),
+        }).countDocuments(),
+        Rent.find({
+            'endDate': {
+                '$gt': new Date()
+            },
+            'startDate': {
+                '$lte': new Date()
+            }
+        }).skip((req.query.page - 1) * ACTIVE_LIMIT).limit(ACTIVE_LIMIT).sort('endDate'),
 
     ]).then(([size, activeRents]) => {
         res.json({
@@ -38,24 +45,44 @@ router.get('/', (req, res) => {
 });
 
 router.get('/reserved', (req, res) => {
-    Rent.find({
-        'startDate': {
-            '$gt': new Date()
-        }
-    }).sort('startDate').skip((req.query.page - 1) * LIMIT).limit(LIMIT).then(reservedRents => {
-        res.json(reservedRents);
+    Promise.all([
+        Rent.find({
+            'startDate': {
+                '$gt': new Date()
+            }
+        }).countDocuments(),
+        Rent.find({
+            'startDate': {
+                '$gt': new Date()
+            }
+        }).skip((req.query.page - 1) * RESERVED_LIMIT).limit(RESERVED_LIMIT).sort('startDate')
+    ]).then(([size, reservedRents]) => {
+        res.json({
+            reservedRents,
+            size
+        });
     }).catch(err => {
-        res.json(err)
+        res.json(err);
     });
 });
 
 router.get('/ended', (req, res) => {
-    Rent.find({
-        'endDate': {
-            '$lt': new Date()
-        }
-    }).sort('-addedAt').skip((req.query.page - 1) * LIMIT).limit(LIMIT).then(endedRents => {
-        res.json(endedRents);
+    Promise.all([
+        Rent.find({
+            'endDate': {
+                '$lt': new Date()
+            }
+        }).countDocuments(),
+        Rent.find({
+            'endDate': {
+                '$lt': new Date()
+            }
+        }).skip((req.query.page - 1) * ENDED_LIMIT).limit(ENDED_LIMIT).sort('-endDate')
+    ]).then(([size, endedRents]) => {
+        res.json({
+            endedRents,
+            size
+        });
     }).catch(err => {
         res.json(err);
     });

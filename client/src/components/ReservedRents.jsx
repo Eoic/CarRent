@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Table } from 'semantic-ui-react';
+import { Table, Menu, Icon, Button } from 'semantic-ui-react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import moment from 'moment';
 
 const style = {
@@ -17,14 +17,41 @@ class ReservedRents extends Component {
     constructor() {
         super();
         this.state = {
-            reservedRents: []
+            reservedRents: [],
+            size: 0
         }
+        this.fetchData = this.fetchData.bind(this);
+    }
+
+    fetchData(pageNumber) {
+        axios.get('/api/rents/reserved', {
+            params: { page: pageNumber }
+        }).then(response => {
+
+            console.log(response.data);
+
+            this.setState({
+                reservedRents: response.data.reservedRents,
+                size: response.data.size
+            });
+        });
+    }
+
+    createPages() {
+        const pageCount = Math.ceil(this.state.size / 20);
+        let menuItems = [];
+
+        for (let i = 0; i < pageCount; i++) {
+            menuItems.push(<Menu.Item as={NavLink} to={`/reports/${this.props.page.active}/${(i + 1)}/${this.props.page.ended}`} key={i}
+                onClick={() => this.fetchData(i + 1)}> {i + 1}
+            </Menu.Item>);
+        }
+
+        return menuItems;
     }
 
     componentDidMount() {
-        axios.get('/api/rents/reserved').then(response => {
-            this.setState({ reservedRents: response.data });
-        });
+        this.fetchData(this.props.page.ended);
     }
 
     render() {
@@ -43,6 +70,7 @@ class ReservedRents extends Component {
                         <Table.HeaderCell> Income, &euro; </Table.HeaderCell>
                         <Table.HeaderCell> Start Date </Table.HeaderCell>
                         <Table.HeaderCell> End Date </Table.HeaderCell>
+                        <Table.HeaderCell/> 
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -55,6 +83,21 @@ class ReservedRents extends Component {
                         </Table.Row>
                     )}
                 </Table.Body>
+                <Table.Footer>
+                    <Table.Row>
+                        <Table.HeaderCell colSpan='7'>
+                            <Menu floated pagination>
+                                <Menu.Item as='a' icon>
+                                    <Icon name='chevron left' />
+                                </Menu.Item>
+                                {this.createPages()}
+                                <Menu.Item as='a' icon>
+                                    <Icon name='chevron right' />
+                                </Menu.Item>
+                            </Menu>
+                        </Table.HeaderCell>
+                    </Table.Row>
+                </Table.Footer>
             </Table>
         );
     }

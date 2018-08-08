@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Table } from 'semantic-ui-react';
+import { Table, Menu, Icon } from 'semantic-ui-react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import moment from 'moment';
 
 const style = {
@@ -17,14 +17,36 @@ class EndedRents extends Component {
     constructor() {
         super();
         this.state = {
-            endedRents: []
+            endedRents: [],
+            size: 0
         }
+        this.fetchData = this.fetchData.bind(this);
+    }
+
+    createPages() {
+        const pageCount = Math.ceil(this.state.size / 10);
+        let menuItems = [];
+
+        for (let i = 0; i < pageCount; i++) {
+            menuItems.push(<Menu.Item as={NavLink} to={`/reports/${this.props.page.active}/${this.props.page.reserved}/${(i + 1)}`} key={i}
+                onClick={() => this.fetchData(i + 1)}> {i + 1}
+            </Menu.Item>);
+        }
+
+        return menuItems;
     }
 
     componentDidMount() {
-        axios.get('/api/rents/ended').then(response => {
+        this.fetchData(this.props.page.ended);
+    }
+
+    fetchData(pageNumber) {
+        axios.get('/api/rents/ended', {
+            params: { page: pageNumber }
+        }).then(response => {
             this.setState({
-                endedRents: response.data
+                endedRents: response.data.endedRents,
+                size: response.data.size
             });
         });
     }
@@ -57,6 +79,21 @@ class EndedRents extends Component {
                         </Table.Row>
                     )}
                 </Table.Body>
+                <Table.Footer>
+                    <Table.Row>
+                        <Table.HeaderCell colSpan='7'>
+                            <Menu floated pagination>
+                                <Menu.Item as='a' icon>
+                                    <Icon name='chevron left' />
+                                </Menu.Item>
+                                {this.createPages()}
+                                <Menu.Item as='a' icon>
+                                    <Icon name='chevron right' />
+                                </Menu.Item>
+                            </Menu>
+                        </Table.HeaderCell>
+                    </Table.Row>
+                </Table.Footer>
             </Table>
         );
     }
