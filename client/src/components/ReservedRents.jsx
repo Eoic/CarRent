@@ -51,7 +51,7 @@ class ReservedRents extends Component {
     }
 
     componentDidMount() {
-        this.fetchData(this.props.page.ended);
+        this.fetchData(this.props.page.reserved);
     }
 
     render() {
