@@ -215,6 +215,7 @@ class RentForm extends Component {
                                 Rent
                             </Button>
 
+
                             <ReactToPrint
                                 trigger={() => <Button as='a' color='violet'>
                                     <Icon name='print' />
@@ -222,7 +223,7 @@ class RentForm extends Component {
                                                 </Button>}
                                 content={() => this.componentRef}
                             />
-                            <Invoice invoiceData={this.state} ref={el => (this.componentRef = el)} />
+                            {/*<Invoice invoiceData={this.state} ref={el => (this.componentRef = el)} />*/}
                         </Form>
                     </Grid.Column>
                 </Grid.Row>

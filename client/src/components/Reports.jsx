@@ -208,8 +208,11 @@ class Reports extends Component {
                 </Table.Header>
 
                 <Table.Body>
-                    {this.state.rents.map((rent, index) =>
+                    {this.state.rents.filter((rent) => {
+                        return (moment(rent.endDate).isBefore(moment())) ? false : true
+                    }).map((rent, index) =>
                         <Table.Row key={index}>
+
                             <Table.Cell> <Link to={'/car/' + rent.carId}> {rent.regNumber} </Link> </Table.Cell>
                             <Table.Cell> {rent.value} </Table.Cell>
                             <Table.Cell> {moment(rent.startDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
