@@ -3,7 +3,7 @@ import { Form, Grid, Divider, Button, Icon, Header, Segment } from 'semantic-ui-
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import '../App.css';
-import Invoice from './Invoice';
+//import Invoice from './Invoice';
 import ReactToPrint from 'react-to-print';
 import { addRent } from '../actions/carActions';
 import { toast } from 'react-toastify';
@@ -46,7 +46,7 @@ class RentForm extends Component {
             deposit: false,
             phone: '',
             price: '',
-            odometer: '',
+            odometer: 0,
             payment: {
                 value: paymentOptions[0].value,
                 text: paymentOptions[0].text
@@ -81,8 +81,8 @@ class RentForm extends Component {
 
             const newRent = {
                 carId: this.props.carId,
-                startDate: this.state.startDate.toLocaleString(),
-                endDate: this.state.endDate.toLocaleString(),
+                startDate: moment(this.state.startDate, 'YYYY-MM-DDTHH:MM:SSZ').toDate(),
+                endDate: moment(this.state.endDate, 'YYYY-MM-DDTHH:MM:SSZ').toDate(),
                 price: this.state.price,
                 name: this.state.firstName,
                 surname: this.state.lastName,
