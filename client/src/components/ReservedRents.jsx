@@ -6,26 +6,24 @@ import moment from 'moment';
 
 const style = {
     typeHeader: {
-        backgroundColor: '#880e4f',
+        backgroundColor: '#493ab5', //#bf360c
         color: '#FFFFFF',
         fontSize: '120%'
     }
 }
 
-class EndedRents extends Component {
+class ReservedRents extends Component {
 
     constructor() {
         super();
         this.state = {
-            endedRents: []
+            reservedRents: []
         }
     }
 
     componentDidMount() {
-        axios.get('/api/rents/ended').then(response => {
-            this.setState({
-                endedRents: response.data
-            });
+        axios.get('/api/rents/reserved').then(response => {
+            this.setState({ reservedRents: response.data });
         });
     }
 
@@ -35,8 +33,8 @@ class EndedRents extends Component {
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell colSpan='7' style={style.typeHeader}>
-                            Ended
-                    </Table.HeaderCell>
+                            Reserved
+                        </Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Header>
@@ -48,7 +46,7 @@ class EndedRents extends Component {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {this.state.endedRents.map((rent, index) =>
+                    {this.state.reservedRents.map((rent, index) =>
                         <Table.Row key={index}>
                             <Table.Cell> <Link to={'/car/' + rent.carId}> {rent.regNumber} </Link> </Table.Cell>
                             <Table.Cell> {rent.value} </Table.Cell>
@@ -62,4 +60,4 @@ class EndedRents extends Component {
     }
 }
 
-export default EndedRents;
+export default ReservedRents;

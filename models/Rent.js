@@ -9,8 +9,8 @@ const RentSchema = new Schema({
 
     // Rent info.
     value: Number,
-    startDate: String,
-    endDate: String,
+    startDate: Date,
+    endDate: Date,
     addedAt: Date,
 
     // Customer.
@@ -20,7 +20,11 @@ const RentSchema = new Schema({
 
     // Misc.
     deposit: Boolean,
-    odometer: Number
+
+    odometer: {
+        type: Number,
+        default: 0
+    }
 });
 
 module.exports = Rent = mongoose.model('rent', RentSchema);

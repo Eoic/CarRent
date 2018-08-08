@@ -25,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
 // Use routes.
-//app.use('/api', verifyToken);
+app.use('/api', verifyToken);
 
 app.use('/', users);
 app.use('/api/cars', cars);

@@ -16,17 +16,46 @@ const LIMIT = 20;
 router.get('/', (req, res) => {
     Promise.all([
         Rent.countDocuments(),
-        Rent.find().sort('-addedAt').skip((req.query.page - 1) * LIMIT).limit(LIMIT)
-    ]).then(([size, rents]) => {
 
-        const activeRents = rents.filter(rent => {
-            return (moment(rent.endDate).isBefore(moment())) ? false : true
-        });
+        // Active
+        Rent.find({
+            'endDate': {
+                '$gt': new Date()
+            },
+            'startDate': {
+                '$lte': new Date()
+            }
+        }).sort('endDate').skip((req.query.page - 1) * LIMIT).limit(LIMIT),
 
+    ]).then(([size, activeRents]) => {
         res.json({
             rents: activeRents,
             size
         });
+    }).catch(err => {
+        res.json(err);
+    });
+});
+
+router.get('/reserved', (req, res) => {
+    Rent.find({
+        'startDate': {
+            '$gt': new Date()
+        }
+    }).sort('startDate').skip((req.query.page - 1) * LIMIT).limit(LIMIT).then(reservedRents => {
+        res.json(reservedRents);
+    }).catch(err => {
+        res.json(err)
+    });
+});
+
+router.get('/ended', (req, res) => {
+    Rent.find({
+        'endDate': {
+            '$lt': new Date()
+        }
+    }).sort('-addedAt').skip((req.query.page - 1) * LIMIT).limit(LIMIT).then(endedRents => {
+        res.json(endedRents);
     }).catch(err => {
         res.json(err);
     });
@@ -42,7 +71,7 @@ router.put('/', (req, res) => {
         odometer: req.body.odometer
     }).then(response => {
         res.json(response);
-    }).catch(err => 
+    }).catch(err =>
         res.json(err)
     );
 });
