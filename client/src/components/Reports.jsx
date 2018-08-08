@@ -132,7 +132,7 @@ class Reports extends Component {
     }
 
     createPages() {
-        const pageCount = Math.ceil(this.state.size / 10);
+        const pageCount = Math.ceil(this.state.size / 20);
         let menuItems = [];
 
         for (let i = 0; i < pageCount; i++)

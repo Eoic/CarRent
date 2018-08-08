@@ -7,7 +7,7 @@ const Car = require('../../models/Car');
 
 const moment = require('moment');
 
-const LIMIT = 10;
+const LIMIT = 20;
 
 // @route   GET api/rents
 // @desc    Get rents.
@@ -18,8 +18,13 @@ router.get('/', (req, res) => {
         Rent.countDocuments(),
         Rent.find().sort('-addedAt').skip((req.query.page - 1) * LIMIT).limit(LIMIT)
     ]).then(([size, rents]) => {
+
+        const activeRents = rents.filter(rent => {
+            return (moment(rent.endDate).isBefore(moment())) ? false : true
+        });
+
         res.json({
-            rents,
+            rents: activeRents,
             size
         });
     }).catch(err => {
