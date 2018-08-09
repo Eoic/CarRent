@@ -15,6 +15,10 @@ class CarStore extends EventEmitter {
         this.rent = {};
         this.turnover = {};
         this.carIncome = {};
+        this.rentModalInfo = {
+            open: false,
+            data: {}
+        };
     }
 
     handleActions(action){
@@ -91,6 +95,22 @@ class CarStore extends EventEmitter {
                 this.emit('updateRequired');
                 break;
             }
+            case CAR_ACTIONS.OPEN_INFO_MODAL: {
+                this.rentModalInfo = {
+                    open: true,
+                    data: action.data
+                }
+                this.emit('stateChanged');
+                break;
+            }
+            case CAR_ACTIONS.CLOSE_INFO_MODAL: {
+                this.rentModalInfo = {
+                    open: false,
+                    data: {}
+                }
+                this.emit('stateChanged');
+                break;
+            }
             default: {}
         }
     }
@@ -125,6 +145,10 @@ class CarStore extends EventEmitter {
 
     getCarIncome(){
         return this.carIncome;
+    }
+
+    getInfoModalState(){
+        return this.rentModalInfo;
     }
 }
 

@@ -14,7 +14,8 @@ export const CAR_ACTIONS = {
     CASH_TURNOVER: 'carActions.CashTurnover',
     END_RENT: 'carActions.EndRent',
     UPDATE_RENT: 'carActions.UpdateRent',
-    DELETE_RENT: 'carActions.DeleteRent'
+    DELETE_RENT: 'carActions.DeleteRent',
+    OPEN_INFO_MODAL: 'carActions.OpenInfoModal'
 };
 
 export const GLOBAL_ACTIONS = {
