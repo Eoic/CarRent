@@ -14,6 +14,8 @@ import RentFrom from './RentForm';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import axios from 'axios';
+
 class CarEditForm extends Component {
 
     constructor(props) {
@@ -47,6 +49,16 @@ class CarEditForm extends Component {
         store.on('requestFailed', this.handleError);
         getCarById(this.state.carId);
         carRentIncome(this.state.carId);
+
+        /*
+        axios.get('/api/rents/times-rented', {
+            params: {
+                carId: this.state.carId
+            }
+        }).then(response => {
+            console.log(response.data);
+        });
+        */
     }
 
     componentWillUnmount() {
@@ -162,6 +174,11 @@ class CarEditForm extends Component {
                 <Segment>
                     <Statistic horizontal color='green'>
                         <Statistic.Value> &euro; { this.state.carIncome } </Statistic.Value>
+                    </Statistic>
+                    <Statistic horizontal>
+                        <Statistic.Value> 
+                            0 
+                        </Statistic.Value>
                     </Statistic>
                 </Segment>
 

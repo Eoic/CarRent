@@ -21,10 +21,8 @@ class ActiveRents extends Component {
         super(props);
         this.state = {
             rents: [],
-            size: 0,
-            updateRequired: false
+            size: 0
         }
-
         this.updateRentsList = this.updateRentsList.bind(this);
         this.fetchData = this.fetchData.bind(this);
     }
@@ -57,13 +55,6 @@ class ActiveRents extends Component {
             rents: store.getRents().rents, 
             size: store.getRents().size 
         });
-    }
-
-    componentDidUpdate() {
-        if (this.state.updateRequired) {
-            getRents(this.props.page.active);
-            this.setState({ updateRequired: false });
-        }
     }
 
     createPages() {
