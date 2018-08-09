@@ -176,3 +176,18 @@ export function deleteRent(id) {
         });
     });
 }
+
+export function openInfoModal(id){
+    axios.get(ROUTE.RENTS + id).then(response => {
+        dispatcher.dispatch({
+            type: CAR_ACTIONS.OPEN_INFO_MODAL,
+            data: response.data
+        });
+    });
+}
+
+export function closeInfoModal(){
+    dispatcher.dispatch({
+        type: CAR_ACTIONS.CLOSE_INFO_MODAL
+    });
+}

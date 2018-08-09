@@ -3,6 +3,7 @@ import { Table, Menu, Icon, Button } from 'semantic-ui-react';
 import axios from 'axios';
 import { Link, NavLink } from 'react-router-dom';
 import moment from 'moment';
+import { openInfoModal } from '../actions/carActions';
 
 const style = {
     typeHeader: {
@@ -27,9 +28,6 @@ class ReservedRents extends Component {
         axios.get('/api/rents/reserved', {
             params: { page: pageNumber }
         }).then(response => {
-
-            console.log(response.data);
-
             this.setState({
                 reservedRents: response.data.reservedRents,
                 size: response.data.size
@@ -70,6 +68,7 @@ class ReservedRents extends Component {
                         <Table.HeaderCell> Income, &euro; </Table.HeaderCell>
                         <Table.HeaderCell> Start Date </Table.HeaderCell>
                         <Table.HeaderCell> End Date </Table.HeaderCell>
+                        <Table.HeaderCell/>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -79,6 +78,14 @@ class ReservedRents extends Component {
                             <Table.Cell> {rent.value} </Table.Cell>
                             <Table.Cell> {moment(rent.startDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
                             <Table.Cell> {moment(rent.endDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
+                            <Table.Cell textAlign='right'>
+                                <Button animated='vertical' color='green' onClick={() => openInfoModal(rent._id)} >
+                                    <Button.Content hidden> INFO </Button.Content>
+                                    <Button.Content visible>
+                                        <Icon name='question circle' />
+                                    </Button.Content>
+                                </Button>
+                            </Table.Cell>
                         </Table.Row>
                     )}
                 </Table.Body>

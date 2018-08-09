@@ -1,37 +1,19 @@
 import React, { Component } from 'react';
-import { Table, Menu, Icon, Button, Modal, Grid, Form, Divider, Dropdown } from 'semantic-ui-react';
-import { getRents, getRentById, endRent, updateRent, deleteRent } from '../actions/carActions';
+import { Table, Menu, Icon, Button, Dropdown } from 'semantic-ui-react';
+import { getRents, endRent, deleteRent } from '../actions/carActions';
 import store from '../stores/CarStore';
 import Countdown from './Countdown';
 import moment from 'moment';
 import { Link, NavLink } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { openInfoModal } from '../actions/carActions';
 
 const style = {
-    infoLabel: { width: 70 },
     typeHeader: {
         backgroundColor: '#3ab522',
         color: '#FFFFFF',
         fontSize: '120%'
     }
 }
-
-const InfoLabel = (props) => (
-    <label style={style.infoLabel}>
-        {props.content}
-    </label>
-);
-
-const depositOptions = [
-    {
-        text: 'Yes',
-        value: true
-    },
-    {
-        text: 'No',
-        value: false
-    }
-];
 
 class ActiveRents extends Component {
 
@@ -40,53 +22,19 @@ class ActiveRents extends Component {
         this.state = {
             rents: [],
             size: 0,
-            updateRequired: false,
-            modalOpen: false,
-            rent: {
-                name: '',
-                surname: '',
-                odometer: '',
-                value: '',
-                deposit: '',
-                phone: '',
-            },
-            editing: false
+            updateRequired: false
         }
 
         this.updateRentsList = this.updateRentsList.bind(this);
-        this.showRentInfo = this.showRentInfo.bind(this);
         this.fetchData = this.fetchData.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleDepositChange = this.handleDepositChange.bind(this);
-    }
-
-    openInfoModal(id) {
-        getRentById(id);
     }
 
     cancelRent = id => {
         endRent(id);
     }
 
-    handleDepositChange(event, data) {
-
-        const depositTaken = data.value;
-
-        this.setState(prevState => ({
-            rent: {
-                ...prevState.rent,
-                deposit: depositTaken
-            }
-        }));
-    }
-
     deleteRent = id => {
         deleteRent(id);
-    }
-
-    showRentInfo() {
-        this.setState({ rent: store.getRentById(), modalOpen: true });
     }
 
     fetchData() {
@@ -95,14 +43,12 @@ class ActiveRents extends Component {
 
     componentDidMount() {
         store.addListener('storeUpdated', this.updateRentsList);
-        store.addListener('rentInfoReceived', this.showRentInfo);
         store.addListener('updateRequired', this.fetchData);
         getRents(this.props.page.active);
     }
 
     componentWillUnmount() {
         store.removeListener('storeUpdated', this.updateRentsList);
-        store.removeListener('rentInfoReceived', this.showRentInfo);
         store.removeListener('updateRequired', this.fetchData);
     }
 
@@ -118,24 +64,6 @@ class ActiveRents extends Component {
             getRents(this.props.page.active);
             this.setState({ updateRequired: false });
         }
-    }
-
-    handleChange(event, data) {
-
-        const value = event.target.value;
-        const name = event.target.name;
-
-        this.setState(prevState => ({
-            rent: {
-                ...prevState.rent,
-                [name]: value
-            }
-        }));
-    }
-
-    handleSubmit() {
-        updateRent(this.state.rent);
-        toast.success("Info updated");
     }
 
     createPages() {
@@ -160,54 +88,6 @@ class ActiveRents extends Component {
                     </Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
-
-                <Modal size='small' open={this.state.modalOpen} onClose={() => this.setState({ modalOpen: false })} closeOnDimmerClick>
-                    <Modal.Header>
-                        RENT INFO
-                    <span style={{ float: 'right' }}>
-                            <Icon link name='pencil square' size='large' color={(this.state.editing) ? 'green' : 'grey'} onClick={() => this.setState({
-                                editing: !this.state.editing
-                            })} />
-                        </span>
-                    </Modal.Header>
-                    <Modal.Content>
-                        <Grid columns='3'>
-                            <Grid.Column>
-                                <p> Rent start {moment(this.state.rent.startDate).format('YYYY/MM/DD HH:mm')}    </p>
-                            </Grid.Column>
-
-                            <Grid.Column>
-                                <p> Rent end {moment(this.state.rent.endDate).format('YYYY/MM/DD HH:mm')}        </p>
-                            </Grid.Column>
-
-                            <Grid.Column>
-                                <p> Added {moment(this.state.rent.addedAt).format('YYYY/MM/DD HH:mm')}           </p>
-                            </Grid.Column>
-                        </Grid>
-
-                        <Grid columns='2'>
-                            <Grid.Column>
-                                <Form widths='equal'>
-                                    <Form.Input inline name='name' label={<InfoLabel content='First name' />} readOnly={!this.state.editing} value={this.state.rent.name} onChange={this.handleChange} />
-                                    <Form.Input inline name='surname' label={<InfoLabel content='Last name' />} readOnly={!this.state.editing} value={this.state.rent.surname} onChange={this.handleChange} />
-                                    <Form.Input inline name='odometer' label={<InfoLabel content='Kilometers' />} readOnly={!this.state.editing} value={this.state.rent.odometer} onChange={this.handleChange} />
-                                </Form>
-                            </Grid.Column>
-
-                            <Grid.Column>
-                                <Form>
-                                    <Form.Input inline name='phone' label={<InfoLabel content='Phone' />} readOnly={!this.state.editing} value={this.state.rent.phone} onChange={this.handleChange} />
-                                    <Form.Input inline name='value' label={<InfoLabel content='Income' />} readOnly={!this.state.editing} value={this.state.rent.value} onChange={this.handleChange} />
-                                    <Form.Dropdown inline selection options={depositOptions} compact defaultValue={this.state.rent.deposit} onChange={this.handleDepositChange} label={<InfoLabel content='Deposit' />} />
-                                </Form>
-                            </Grid.Column>
-                        </Grid>
-
-                        <Divider />
-
-                        <Button color='green' content='Save changes' onClick={this.handleSubmit} />
-                    </Modal.Content>
-                </Modal>
 
                 <Table.Header>
                     <Table.Row>
@@ -243,7 +123,7 @@ class ActiveRents extends Component {
                             </Table.Cell>
 
                             <Table.Cell textAlign='right'>
-                                <Button animated='vertical' color='green' onClick={this.openInfoModal.bind(this, rent._id)}>
+                                <Button animated='vertical' color='green' onClick={() => openInfoModal(rent._id)}>
                                     <Button.Content hidden> INFO </Button.Content>
                                     <Button.Content visible>
                                         <Icon name='question circle' />
