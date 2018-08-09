@@ -70,7 +70,6 @@ class ReservedRents extends Component {
                         <Table.HeaderCell> Income, &euro; </Table.HeaderCell>
                         <Table.HeaderCell> Start Date </Table.HeaderCell>
                         <Table.HeaderCell> End Date </Table.HeaderCell>
-                        <Table.HeaderCell/> 
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>

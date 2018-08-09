@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Icon, Button } from 'semantic-ui-react';
+import { Table, Icon, Button, Statistic } from 'semantic-ui-react';
 import { getCosts, deleteCost } from '../actions/carActions';
 import store from '../stores/CarStore';
 import moment from 'moment';
@@ -68,7 +68,12 @@ class ExpensesTable extends Component {
                 <Table.Footer>
                     <Table.Row>
                         <Table.HeaderCell colSpan='4'>
-                            {this.state.costs.sum} <Icon name='euro' /> TOTAL
+                            <Statistic color='red' horizontal>
+                                <Statistic.Value>
+                                    &euro; {this.state.costs.sum}
+                                </Statistic.Value>
+                                <Statistic.Label content={"TOTAL"} />
+                            </Statistic>
                         </Table.HeaderCell>
                     </Table.Row>
                 </Table.Footer>
