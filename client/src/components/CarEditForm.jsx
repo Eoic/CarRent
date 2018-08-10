@@ -14,6 +14,8 @@ import RentFrom from './RentForm';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import axios from 'axios';
+
 class CarEditForm extends Component {
 
     constructor(props) {
@@ -26,7 +28,8 @@ class CarEditForm extends Component {
             infoChanged: false,
             carId: this.props.match.params.id,
             costFieldError: false,
-            carIncome: 0
+            carIncome: 0,
+            timesRented: 0
         }
         this.state = this.initialState;
         this.handleInfoSubmit = this.handleInfoSubmit.bind(this);
@@ -48,15 +51,13 @@ class CarEditForm extends Component {
         getCarById(this.state.carId);
         carRentIncome(this.state.carId);
 
-        /*
         axios.get('/api/rents/times-rented', {
             params: {
                 carId: this.state.carId
             }
         }).then(response => {
-            console.log(response.data);
+            this.setState({ timesRented: response.data.count });
         });
-        */
     }
 
     componentWillUnmount() {
@@ -167,16 +168,16 @@ class CarEditForm extends Component {
                 </Segment>
 
                 <Segment as={Header} inverted color='blue'>
-                    INCOME
+                    Statistics
                 </Segment>
                 <Segment>
-                    <Statistic horizontal color='green'>
+                    <Statistic color='green'>
+                        <Statistic.Label> Income &nbsp; </Statistic.Label>
                         <Statistic.Value> &euro; { this.state.carIncome } </Statistic.Value>
                     </Statistic>
-                    <Statistic horizontal>
-                        <Statistic.Value> 
-                            0 
-                        </Statistic.Value>
+                    <Statistic>
+                        <Statistic.Label> Times rented &nbsp; </Statistic.Label>
+                        <Statistic.Value> { this.state.timesRented } </Statistic.Value>
                     </Statistic>
                 </Segment>
 

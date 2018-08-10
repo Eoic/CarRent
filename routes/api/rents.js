@@ -42,25 +42,19 @@ router.get('/', (req, res) => {
     });
 });
 
-/*
 
 router.get('/times-rented', (req, res) => {
 
     const currentYear = new Date().getFullYear();
 
-    console.log("Year: " + currentYear);
-    console.log("Car id: %j", req.query.carId);
-
-    Rent.findById(req.query.carId).where({
-        'startDate':    { '$lt': new Date(currentYear, 0, 1)  },
-        'endDate':      { '$gt': new Date(currentYear, 12, 0) }
-    }).then(result => {
-        console.log(result);
-        res.json(result);
-    });
+    Rent.find().where({
+        'carId': req.query.carId,
+        'startDate':    { '$gte': new Date(currentYear, 0, 1)  },
+        'endDate':      { '$lte': new Date(currentYear, 8, 0) }
+    }).countDocuments().then(result => {
+        res.json({ count: result });
+    }).catch(err => res.jon(err));
 });
-
-*/
 
 router.get('/reserved', (req, res) => {
     Promise.all([
