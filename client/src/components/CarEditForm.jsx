@@ -14,8 +14,6 @@ import RentFrom from './RentForm';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import axios from 'axios';
-
 class CarEditForm extends Component {
 
     constructor(props) {

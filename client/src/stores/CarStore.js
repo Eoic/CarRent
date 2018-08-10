@@ -61,7 +61,6 @@ class CarStore extends EventEmitter {
                 break;
             }
             case CAR_ACTIONS.GET_RENTS: {
-                console.log("Fetching...")
                 this.rents = action.value;
                 this.emit('storeUpdated');
                 break;
@@ -82,16 +81,15 @@ class CarStore extends EventEmitter {
                 break;
             }
             case CAR_ACTIONS.END_RENT: {
-                this.emit('updateRequired');
+                this.emit('updateEvent');
                 break;
             }
             case CAR_ACTIONS.DELETE_RENT: {
-                console.log("Deleting...");
-                this.emit('updateRequired');
+                this.emit('updateEvent');
                 break;
             }
             case CAR_ACTIONS.UPDATE_RENT: {
-                this.emit('updateRequired');
+                this.emit('updateEvent');
                 break;
             }
             case CAR_ACTIONS.OPEN_INFO_MODAL: {

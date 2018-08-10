@@ -14,3 +14,15 @@ export function changeFontSize(fontValue){
         value: fontValue
     });
 }
+
+export function dispatchEventOne(){
+    dispatcher.dispatch({
+        type: GLOBAL_ACTIONS.GENERIC_EVENT_ONE
+    });
+}
+
+export function dispatchEventTwo(){
+    dispatcher.dispatch({
+        type: GLOBAL_ACTIONS.GENERIC_EVENT_TWO
+    });
+}

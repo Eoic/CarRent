@@ -36,18 +36,18 @@ class ActiveRents extends Component {
     }
 
     fetchData() {
-        getRents(this.props.match.params.active);
+        getRents(this.props.page.active);
     }
 
     componentDidMount() {
         store.addListener('storeUpdated', this.updateRentsList);
-        store.addListener('updateRequired', this.fetchData);
+        store.addListener('updateEvent', this.fetchData);
         getRents(this.props.page.active);
     }
 
     componentWillUnmount() {
         store.removeListener('storeUpdated', this.updateRentsList);
-        store.removeListener('updateRequired', this.fetchData);
+        store.removeListener('updateEvent', this.fetchData);
     }
 
     updateRentsList() {
@@ -75,11 +75,10 @@ class ActiveRents extends Component {
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell colSpan='7' style={style.typeHeader}>
-                            Active
+                            Active 
                     </Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
-
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell> Car </Table.HeaderCell>

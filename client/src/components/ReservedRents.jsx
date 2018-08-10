@@ -3,11 +3,12 @@ import { Table, Menu, Icon, Button } from 'semantic-ui-react';
 import axios from 'axios';
 import { Link, NavLink } from 'react-router-dom';
 import moment from 'moment';
-import { openInfoModal } from '../actions/carActions';
+import { openInfoModal, deleteRent } from '../actions/carActions';
+import store from '../stores/CarStore';
 
 const style = {
     typeHeader: {
-        backgroundColor: '#493ab5', //#bf360c
+        backgroundColor: '#493ab5',
         color: '#FFFFFF',
         fontSize: '120%'
     }
@@ -50,6 +51,11 @@ class ReservedRents extends Component {
 
     componentDidMount() {
         this.fetchData(this.props.page.reserved);
+        store.addListener('updateEvent', this.fetchData);
+    }
+
+    componentWillUnmount(){
+        store.removeListener('updateEvent', this.fetchData);
     }
 
     render() {
@@ -68,6 +74,7 @@ class ReservedRents extends Component {
                         <Table.HeaderCell> Income, &euro; </Table.HeaderCell>
                         <Table.HeaderCell> Start Date </Table.HeaderCell>
                         <Table.HeaderCell> End Date </Table.HeaderCell>
+                        <Table.HeaderCell textAlign='right'/>
                         <Table.HeaderCell/>
                     </Table.Row>
                 </Table.Header>
@@ -78,6 +85,9 @@ class ReservedRents extends Component {
                             <Table.Cell> {rent.value} </Table.Cell>
                             <Table.Cell> {moment(rent.startDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
                             <Table.Cell> {moment(rent.endDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
+                            <Table.Cell textAlign='right'> 
+                                <Button icon='trash' color='red' onClick={() => deleteRent(rent._id)}/>
+                            </Table.Cell>
                             <Table.Cell textAlign='right'>
                                 <Button animated='vertical' color='green' onClick={() => openInfoModal(rent._id)} >
                                     <Button.Content hidden> INFO </Button.Content>
