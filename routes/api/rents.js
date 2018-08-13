@@ -50,7 +50,7 @@ router.get('/times-rented', (req, res) => {
     Rent.find().where({
         'carId': req.query.carId,
         'startDate':    { '$gte': new Date(currentYear, 0, 1)  },
-        'endDate':      { '$lte': new Date(currentYear, 8, 0) }
+        'endDate':      { '$lte': new Date(currentYear, 12, 0) }
     }).countDocuments().then(result => {
         res.json({ count: result });
     }).catch(err => res.jon(err));
