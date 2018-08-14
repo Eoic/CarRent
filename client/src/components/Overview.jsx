@@ -17,22 +17,6 @@ class Overview extends Component {
         }
         this.handleChange = this.handleChange.bind(this);
         this.updateSummary = this.updateSummary.bind(this);
-        this.generateChartData = this.generateChartData.bind(this);
-    }
-
-    generateChartData() {
-
-        let incomeObj = {
-            "id": "Income",
-            "data": []
-        };
-
-        let expensesObj = {
-            "id": "Expenses",
-            "data": []
-        }
-
-        this.setState({ chartState: [...this.state.chartState, [...incomeObj, expensesObj]] });
     }
 
     updateSummary() {

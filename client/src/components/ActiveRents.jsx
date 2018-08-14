@@ -9,7 +9,7 @@ import { openInfoModal } from '../actions/carActions';
 
 const style = {
     typeHeader: {
-        backgroundColor: '#3ab522',
+        backgroundColor: '#a2d729',
         color: '#FFFFFF',
         fontSize: '120%'
     }
