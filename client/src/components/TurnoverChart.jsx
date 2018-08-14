@@ -1,33 +1,59 @@
 import React, { Component } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-
-const data = [
-    { name: 'Page A', uv: 4000, pv: 2400, amt: 2400 },
-    { name: 'Page B', uv: 3000, pv: 1398, amt: 2210 },
-    { name: 'Page C', uv: 2000, pv: 9800, amt: 2290 },
-    { name: 'Page D', uv: 2780, pv: 3908, amt: 2000 },
-    { name: 'Page E', uv: 1890, pv: 4800, amt: 2181 },
-    { name: 'Page F', uv: 2390, pv: 3800, amt: 2500 },
-    { name: 'Page G', uv: 3490, pv: 4300, amt: 2100 },
-    { name: 'Page C', uv: 2000, pv: 9800, amt: 2290 },
-    { name: 'Page D', uv: 2780, pv: 3908, amt: 2000 },
-    { name: 'Page E', uv: 1890, pv: 4800, amt: 2181 },
-    { name: 'Page F', uv: 2390, pv: 3800, amt: 2500 },
-    { name: 'Page G', uv: 3490, pv: 4300, amt: 2100 },
-];
+import axios from 'axios';
 
 class TurnoverChart extends Component {
+
+    constructor() {
+        super();
+        this.state = {
+            chartData: [
+                { name: "Jan", uv: 0, pv: 0 },
+                { name: "Feb", uv: 0, pv: 0 },
+                { name: "Mar", uv: 0, pv: 0 },
+                { name: "Apr", uv: 0, pv: 0 },
+                { name: "May", uv: 0, pv: 0 },
+                { name: "Jun", uv: 0, pv: 0 },
+                { name: "Jul", uv: 0, pv: 0 },
+                { name: "Aug", uv: 0, pv: 0 },
+                { name: "Sep", uv: 0, pv: 0 },
+                { name: "Oct", uv: 0, pv: 0 },
+                { name: "Nov", uv: 0, pv: 0 },
+                { name: "Dec", uv: 0, pv: 0 }
+            ]
+        }
+    }
+
+    componentDidMount() {
+        axios.get('/api/turnover/months').then(response => {
+            const incomeData = response.data.incomeMonthly;
+            const expensesData = response.data.expensesMonthly;
+
+            // Get state ref for update.
+            let data = this.state.chartData;
+
+            for (let i = 0; i < incomeData.length; i++)
+                data[incomeData[i]._id.month - 1].uv = incomeData[i].total;
+
+            for(let i = 0; i < expensesData.length; i++)
+                data[expensesData[i]._id.month - 1].pv = expensesData[i].total;
+
+            // Pass updated data as new array.
+            this.setState({ chartData: data.slice() });
+        });
+    }
+
     render() {
         return (
             <ResponsiveContainer>
-                <BarChart width={900} height={450} data={data} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                <BarChart width={900} height={450} data={this.state.chartData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />
                     <YAxis />
                     <Tooltip />
-                    <Legend  />
-                    <Bar dataKey="pv" name="Expenses" fill="#e53935" />
-                    <Bar dataKey="uv" name="Income" fill="#7cb342" />
+                    <Legend />
+                    <Bar dataKey="uv" name="Income" fill="#379634" />
+                    <Bar dataKey="pv" name="Expenses" fill="#db3a34" />
                 </BarChart>
             </ResponsiveContainer>
         );

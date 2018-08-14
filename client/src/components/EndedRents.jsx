@@ -7,7 +7,7 @@ import moment from 'moment';
 
 const style = {
     typeHeader: {
-        backgroundColor: '#880e4f',
+        backgroundColor: '#533b4d',
         color: '#FFFFFF',
         fontSize: '120%'
     }

@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const moment = require('moment');
+
 const Rent = require('../../models/Rent');
 const Expense = require('../../models/Expense');
 
@@ -65,7 +67,70 @@ router.get('/', (req, res) => {
 });
 
 router.get('/months', (req, res) => {
-    res.json({ });
+
+    const currentYear = moment().utc().utcOffset(180).get("Y");
+
+    Promise.all([
+        Expense.aggregate([{
+            $project: {
+                month: {
+                    $month: "$addedAt"
+                },
+                year: {
+                    $year: "$addedAt"
+                },
+                value: 1
+            }
+        }, {
+            $match: {
+                year: currentYear
+            }
+        }, {
+            $group: {
+                _id: {
+                    month: "$month"
+                },
+                total: {
+                    $sum: "$value"
+                }
+            }
+        }]),
+        Rent.aggregate([{
+                $project: {
+                    month: {
+                        $month: "$endDate"
+                    },
+                    year: {
+                        $year: "$endDate"
+                    },
+                    value: 1
+                }
+            },
+            {
+                $match: {
+                    year: currentYear
+                }
+            },
+            {
+                $group: {
+                    _id: {
+                        month: "$month"
+                    },
+                    total: {
+                        $sum: "$value"
+                    }
+                }
+            }
+        ])
+    ]).then(([expensesMonthly, incomeMonthly], err) => {
+        if (err)
+            return res.json(err);
+
+        res.json({
+            expensesMonthly,
+            incomeMonthly
+        });
+    });
 });
 
 module.exports = router;
