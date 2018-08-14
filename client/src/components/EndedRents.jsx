@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Table, Menu, Icon } from 'semantic-ui-react';
+import { Table, Menu, Icon, Button } from 'semantic-ui-react';
 import axios from 'axios';
 import { Link, NavLink } from 'react-router-dom';
+import { openInfoModal } from '../actions/carActions';
 import moment from 'moment';
 
 const style = {
@@ -67,6 +68,7 @@ class EndedRents extends Component {
                         <Table.HeaderCell> Income, &euro; </Table.HeaderCell>
                         <Table.HeaderCell> Start Date </Table.HeaderCell>
                         <Table.HeaderCell> End Date </Table.HeaderCell>
+                        <Table.HeaderCell/>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -76,6 +78,14 @@ class EndedRents extends Component {
                             <Table.Cell> {rent.value} </Table.Cell>
                             <Table.Cell> {moment(rent.startDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
                             <Table.Cell> {moment(rent.endDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
+                            <Table.Cell textAlign='right'>
+                                <Button animated='vertical' color='green' onClick={() => openInfoModal(rent._id)} >
+                                    <Button.Content hidden> INFO </Button.Content>
+                                    <Button.Content visible>
+                                        <Icon name='question circle' />
+                                    </Button.Content>
+                                </Button>
+                            </Table.Cell>
                         </Table.Row>
                     )}
                 </Table.Body>
