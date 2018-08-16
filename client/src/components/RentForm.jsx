@@ -5,7 +5,7 @@ import DatePicker from 'react-datepicker';
 import '../App.css';
 //import Invoice from './Invoice';
 import ReactToPrint from 'react-to-print';
-import { addRent } from '../actions/carActions';
+import { addRent } from '../actions/rentActions';
 import { toast } from 'react-toastify';
 
 const paymentOptions = [

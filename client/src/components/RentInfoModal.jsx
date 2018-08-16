@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Modal, Button, Divider, Grid, Form } from 'semantic-ui-react';
-import store from '../stores/CarStore';
-import { closeInfoModal, updateRent } from '../actions/carActions';
 import moment from 'moment';
 import { toast } from 'react-toastify';
+
+// Flux.
+import store from '../stores/RentStore';
+import { updateRent, closeInfoModal } from '../actions/rentActions';
 
 const InfoLabel = (props) => (
     <label style={{ width: 70 }}>
@@ -36,7 +38,8 @@ class RentInfoModal extends Component {
                 value: '',
                 phone: '',
                 deposit: ''
-            }
+            },
+            rentType: ''
         }
         this.toggleModal = this.toggleModal.bind(this);
         this.handleDepositChange = this.handleDepositChange.bind(this);
@@ -47,7 +50,8 @@ class RentInfoModal extends Component {
     toggleModal() {
         this.setState({
             open: store.getInfoModalState().open,
-            rent: store.getInfoModalState().data
+            rent: store.getInfoModalState().data,
+            rentType: store.getInfoModalState().rentType
         });
     }
 
@@ -85,7 +89,7 @@ class RentInfoModal extends Component {
     }
 
     handleSubmit() {
-        updateRent(this.state.rent);
+        updateRent(this.state.rentType, this.state.rent);
         toast.success("Info updated");
     }
 

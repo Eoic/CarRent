@@ -1,17 +1,14 @@
 import dispatcher from '../Dispatcher';
 import { EventEmitter } from 'events';
-import { CAR_ACTIONS, GLOBAL_ACTIONS } from '../actions/types';
+import { CAR_ACTIONS } from '../actions/types';
 
 class CarStore extends EventEmitter {
 
     constructor(){
         super();
-        this.fetching = false;
-        this.errorMsg = '';
         this.cars = [];
         this.costs = [];
         this.car = {};
-        this.rents = [];
         this.rent = {};
         this.turnover = {};
         this.carIncome = {};
@@ -19,6 +16,18 @@ class CarStore extends EventEmitter {
             open: false,
             data: {}
         };
+        this.rents = {
+            rents: [],
+            size: 0
+        };
+        this.reservedRents = {
+            rents: [],
+            size: 0
+        };
+        this.endedRents = {
+            rents: [],
+            size: 0
+        }
     }
 
     handleActions(action){
@@ -28,21 +37,9 @@ class CarStore extends EventEmitter {
                 this.emit('storeUpdated');
                 break;
             }
-            case CAR_ACTIONS.ADD_CAR: {
-                this.emit('updateRequired');
-                break;
-            }
-            case CAR_ACTIONS.DELETE_CAR: {
-                this.emit('updateRequired');
-                break;
-            }
             case CAR_ACTIONS.GET_CAR_BY_ID: {
                 this.car = action.value;
                 this.emit('storeUpdated');
-                break;
-            }
-            case CAR_ACTIONS.ADD_COST: {
-                this.emit('updateRequired');
                 break;
             }
             case CAR_ACTIONS.GET_COSTS: {
@@ -51,17 +48,18 @@ class CarStore extends EventEmitter {
                 this.emit('storeUpdated');
                 break;
             }
-            case CAR_ACTIONS.DELETE_COST: {
-                this.emit('updateRequired');
-                break;
-            }
-            case GLOBAL_ACTIONS.REQUEST_FAILED: {
-                this.errorMsg = action.value.statusText;
-                this.emit('requestFailed');
-                break;
-            }
             case CAR_ACTIONS.GET_RENTS: {
                 this.rents = action.value;
+                this.emit('storeUpdatedActive');
+                break;
+            }
+            case CAR_ACTIONS.GET_RESERVED_RENTS: {
+                this.reservedRents = action.value;
+                this.emit('storeUpdated');
+                break;
+            }
+            case CAR_ACTIONS.GET_ENDED_RENTS: {
+                this.endedRents = action.value;
                 this.emit('storeUpdated');
                 break;
             }
@@ -80,18 +78,6 @@ class CarStore extends EventEmitter {
                 this.emit('incomeReceived');
                 break;
             }
-            case CAR_ACTIONS.END_RENT: {
-                this.emit('updateEvent');
-                break;
-            }
-            case CAR_ACTIONS.DELETE_RENT: {
-                this.emit('updateEvent');
-                break;
-            }
-            case CAR_ACTIONS.UPDATE_RENT: {
-                this.emit('updateEvent');
-                break;
-            }
             case CAR_ACTIONS.OPEN_INFO_MODAL: {
                 this.rentModalInfo = {
                     open: true,
@@ -106,6 +92,16 @@ class CarStore extends EventEmitter {
                     data: {}
                 }
                 this.emit('stateChanged');
+                break; 
+            }
+            case CAR_ACTIONS.END_RENT:
+            case CAR_ACTIONS.DELETE_RENT:
+            case CAR_ACTIONS.UPDATE_RENT:
+            case CAR_ACTIONS.ADD_COST:      
+            case CAR_ACTIONS.DELETE_COST:
+            case CAR_ACTIONS.ADD_CAR:
+            case CAR_ACTIONS.DELETE_CAR: {
+                this.emit('updateRequired');
                 break;
             }
             default: {}
@@ -124,16 +120,8 @@ class CarStore extends EventEmitter {
         return this.costs;
     }
 
-    getRents(){
-        return this.rents;
-    }
-
     getRentById(){
         return this.rent;
-    }
-
-    getErrorMsg(){
-        return this.errorMsg;
     }
 
     getCashTurnover(){
@@ -146,6 +134,18 @@ class CarStore extends EventEmitter {
 
     getInfoModalState(){
         return this.rentModalInfo;
+    }
+
+    getRents(){
+        return this.rents;
+    }
+
+    getReservedRents(){
+        return this.reservedRents;
+    }
+
+    getEndedRents(){
+        return this.endedRents;
     }
 }
 

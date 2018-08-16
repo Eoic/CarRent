@@ -3,10 +3,10 @@ import axios from 'axios';
 import { CAR_ACTIONS, GLOBAL_ACTIONS } from './types';
 
 const ROUTE = {
-    CARS: '/api/cars/',
-    EXPENSES: '/api/expenses/',
-    RENTS: '/api/rents/',
-    TURNOVER: '/api/turnover/'
+    CARS:       '/api/cars/',
+    EXPENSES:   '/api/expenses/',
+    RENTS:      '/api/rents/',
+    TURNOVER:   '/api/turnover/'
 }
 
 function dispatchError(error) {
@@ -105,7 +105,6 @@ export function deleteCost(id) {
 }
 
 // RENTS.
-
 export function getRentById(id) {
     axios.get(ROUTE.RENTS + id).then(response => {
         dispatcher.dispatch({
@@ -123,15 +122,6 @@ export function getRents(pageNumber) {
     }).then(response => {
         dispatcher.dispatch({
             type: CAR_ACTIONS.GET_RENTS,
-            value: response.data
-        });
-    });
-}
-
-export function addRent(data) {
-    axios.post(ROUTE.RENTS, data).then(response => {
-        dispatcher.dispatch({
-            type: CAR_ACTIONS.ADD_RENT,
             value: response.data
         });
     });
@@ -161,7 +151,7 @@ export function endRent(id) {
             type: CAR_ACTIONS.END_RENT,
             value: response.data
         });
-    }).catch(err => console.log(err));
+    });
 }
 
 export function deleteRent(id) {
@@ -177,11 +167,12 @@ export function deleteRent(id) {
     });
 }
 
-export function openInfoModal(id){
+export function openInfoModal(RENT_TYPE, id){
     axios.get(ROUTE.RENTS + id).then(response => {
         dispatcher.dispatch({
             type: CAR_ACTIONS.OPEN_INFO_MODAL,
-            data: response.data
+            data: response.data,
+            rentType: RENT_TYPE
         });
     });
 }

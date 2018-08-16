@@ -7,7 +7,6 @@ class AppStore extends EventEmitter {
         super();
         this.colorTheme = '';
         this.fontSize = '';
-        this.errors = [];
     }
 
     handleActions(action){
@@ -32,10 +31,6 @@ class AppStore extends EventEmitter {
 
     getFontSize(){
         return this.fontSize;
-    }
-
-    getErrors() {
-        return this.errors;
     }
 }
 

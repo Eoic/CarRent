@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { Table, Menu, Icon, Button, Dropdown } from 'semantic-ui-react';
-import { getRents, endRent, deleteRent } from '../actions/carActions';
-import store from '../stores/CarStore';
 import Countdown from './Countdown';
 import moment from 'moment';
-import { Link, NavLink } from 'react-router-dom';
-import { openInfoModal } from '../actions/carActions';
+import { Link, NavLink } from 'react-router-dom'
+
+// Flux.
+import store from '../stores/RentStore';
+import { getRents, endRent, deleteRent, openInfoModal } from '../actions/rentActions';
+import { RENT_ACTIONS } from '../actions/types';
 
 const style = {
     typeHeader: {
-        backgroundColor: '#a2d729',
+        backgroundColor: '#4caf50',
         color: '#FFFFFF',
         fontSize: '120%'
     }
@@ -20,40 +22,30 @@ class ActiveRents extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            rents: [],
-            size: 0
+            rents: store.getActiveRents().activeRents, 
+            size: store.getActiveRents().size
         }
         this.updateRentsList = this.updateRentsList.bind(this);
         this.fetchData = this.fetchData.bind(this);
     }
 
-    cancelRent = id => {
-        endRent(id);
-    }
-
-    deleteRent = id => {
-        deleteRent(id);
-    }
-
-    fetchData() {
-        getRents(this.props.page.active);
-    }
+    fetchData = () => getRents(RENT_ACTIONS.GET_ACTIVE_RENTS, '', this.props.page.active);
 
     componentDidMount() {
-        store.addListener('storeUpdated', this.updateRentsList);
-        store.addListener('updateEvent', this.fetchData);
-        getRents(this.props.page.active);
+        store.addListener('storeUpdate_Active', this.updateRentsList);
+        store.addListener('update_Active', this.fetchData);
+        getRents(RENT_ACTIONS.GET_ACTIVE_RENTS, '', this.props.page.active);
     }
 
     componentWillUnmount() {
-        store.removeListener('storeUpdated', this.updateRentsList);
-        store.removeListener('updateEvent', this.fetchData);
+        store.removeListener('storeUpdate_Active', this.updateRentsList);
+        store.removeListener('update_Active', this.fetchData);
     }
 
     updateRentsList() {
         this.setState({ 
-            rents: store.getRents().rents, 
-            size: store.getRents().size 
+            rents: store.getActiveRents().activeRents, 
+            size: store.getActiveRents().size
         });
     }
 
@@ -63,7 +55,7 @@ class ActiveRents extends Component {
 
         for (let i = 0; i < pageCount; i++)
             menuItems.push(<Menu.Item as={NavLink} to={'/reports/' + (i + 1) + `/${this.props.page.reserved}/${this.props.page.ended}`} key={i}
-                onClick={() => this.setState({ updateRequired: true })}> {i + 1}
+                onClick={() => getRents(RENT_ACTIONS.GET_ACTIVE_RENTS, '', i + 1)}> {i + 1}
             </Menu.Item>);
 
         return menuItems;
@@ -94,7 +86,6 @@ class ActiveRents extends Component {
                 <Table.Body>
                     {this.state.rents.map((rent, index) =>
                         <Table.Row key={index}>
-
                             <Table.Cell> <Link to={'/car/' + rent.carId}> {rent.regNumber} </Link> </Table.Cell>
                             <Table.Cell> {rent.value} </Table.Cell>
                             <Table.Cell> {moment(rent.startDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
@@ -106,14 +97,14 @@ class ActiveRents extends Component {
                             <Table.Cell>
                                 <Dropdown icon='ellipsis horizontal'>
                                     <Dropdown.Menu>
-                                        <Dropdown.Item onClick={this.cancelRent.bind(this, rent._id)}> Cancel </Dropdown.Item>
-                                        <Dropdown.Item onClick={this.deleteRent.bind(this, rent._id)} style={{ color: 'red' }}> Delete </Dropdown.Item>
+                                        <Dropdown.Item onClick={() => endRent(rent._id)}> Cancel </Dropdown.Item>
+                                        <Dropdown.Item onClick={() => deleteRent(RENT_ACTIONS.DELETE_ACTIVE_RENT, rent._id)} style={{ color: 'red' }}> Delete </Dropdown.Item>
                                     </Dropdown.Menu>
                                 </Dropdown>
                             </Table.Cell>
 
                             <Table.Cell textAlign='right'>
-                                <Button animated='vertical' color='green' onClick={() => openInfoModal(rent._id)}>
+                                <Button animated='vertical' color='green' onClick={() => openInfoModal(RENT_ACTIONS.UPDATE_ACTIVE_RENT, rent._id)}>
                                     <Button.Content hidden> INFO </Button.Content>
                                     <Button.Content visible>
                                         <Icon name='question circle' />

@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { Table, Menu, Icon, Button } from 'semantic-ui-react';
-import axios from 'axios';
 import { Link, NavLink } from 'react-router-dom';
-import { openInfoModal } from '../actions/carActions';
 import moment from 'moment';
+
+// Flux.
+import store from '../stores/RentStore';
+import { getRents, openInfoModal } from '../actions/rentActions';
+import { RENT_ACTIONS } from '../actions/types';
 
 const style = {
     typeHeader: {
@@ -18,10 +21,31 @@ class EndedRents extends Component {
     constructor() {
         super();
         this.state = {
-            endedRents: [],
-            size: 0
-        }
+            endedRents: store.getEndedRents().endedRents,
+            size: store.getEndedRents().size
+        };
+        this.updateRentsList = this.updateRentsList.bind(this);
         this.fetchData = this.fetchData.bind(this);
+    }
+
+    componentDidMount() {
+        store.addListener('storeUpdate_Ended', this.updateRentsList);
+        store.addListener('update_Ended', this.fetchData);
+        getRents(RENT_ACTIONS.GET_ENDED_RENTS, 'ended', this.props.page.ended);
+    }
+
+    componentWillUnmount() {
+        store.removeListener('storeUpdate_Ended', this.updateRentsList);
+        store.removeListener('update_Ended', this.fetchData);
+    }
+
+    fetchData = () => getRents(RENT_ACTIONS.GET_ENDED_RENTS, 'ended', this.props.page.ended);
+
+    updateRentsList() {
+        this.setState({
+            endedRents: store.getEndedRents().endedRents,
+            size: store.getEndedRents().size
+        });
     }
 
     createPages() {
@@ -30,26 +54,11 @@ class EndedRents extends Component {
 
         for (let i = 0; i < pageCount; i++) {
             menuItems.push(<Menu.Item as={NavLink} to={`/reports/${this.props.page.active}/${this.props.page.reserved}/${(i + 1)}`} key={i}
-                onClick={() => this.fetchData(i + 1)}> {i + 1}
+                onClick={() => getRents(RENT_ACTIONS.GET_ENDED_RENTS, 'ended', i + 1)}> {i + 1}
             </Menu.Item>);
         }
 
         return menuItems;
-    }
-
-    componentDidMount() {
-        this.fetchData(this.props.page.ended);
-    }
-
-    fetchData(pageNumber) {
-        axios.get('/api/rents/ended', {
-            params: { page: pageNumber }
-        }).then(response => {
-            this.setState({
-                endedRents: response.data.endedRents,
-                size: response.data.size
-            });
-        });
     }
 
     render() {
@@ -68,7 +77,7 @@ class EndedRents extends Component {
                         <Table.HeaderCell> Income, &euro; </Table.HeaderCell>
                         <Table.HeaderCell> Start Date </Table.HeaderCell>
                         <Table.HeaderCell> End Date </Table.HeaderCell>
-                        <Table.HeaderCell/>
+                        <Table.HeaderCell />
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -79,7 +88,7 @@ class EndedRents extends Component {
                             <Table.Cell> {moment(rent.startDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
                             <Table.Cell> {moment(rent.endDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
                             <Table.Cell textAlign='right'>
-                                <Button animated='vertical' color='green' onClick={() => openInfoModal(rent._id)} >
+                                <Button animated='vertical' color='green' onClick={() => openInfoModal(RENT_ACTIONS.UPDATE_ENDED_RENT, rent._id)} >
                                     <Button.Content hidden> INFO </Button.Content>
                                     <Button.Content visible>
                                         <Icon name='question circle' />

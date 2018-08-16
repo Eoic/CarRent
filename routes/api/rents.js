@@ -34,7 +34,7 @@ router.get('/', (req, res) => {
 
     ]).then(([size, activeRents]) => {
         res.json({
-            rents: activeRents,
+            activeRents: activeRents,
             size
         });
     }).catch(err => {

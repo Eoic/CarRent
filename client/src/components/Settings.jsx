@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { Segment, Header, Grid, Dropdown, Icon } from 'semantic-ui-react';
 
-// Flux.
-import { } from '../actions/appActions';
-
 const fontOptions = [
     { key: 1, text: 'Small', value: 1 },
     { key: 2, text: 'Medium', value: 2 },

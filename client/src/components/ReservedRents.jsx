@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Table, Menu, Icon, Button } from 'semantic-ui-react';
-import axios from 'axios';
 import { Link, NavLink } from 'react-router-dom';
 import moment from 'moment';
-import { openInfoModal, deleteRent } from '../actions/carActions';
-import store from '../stores/CarStore';
+
+// Flux.
+import store from '../stores/RentStore';
+import { getRents, deleteRent, openInfoModal } from '../actions/rentActions';
+import { RENT_ACTIONS } from '../actions/types';
 
 const style = {
     typeHeader: {
@@ -19,21 +21,31 @@ class ReservedRents extends Component {
     constructor() {
         super();
         this.state = {
-            reservedRents: [],
-            size: 0
+            reservedRents: store.getReservedRents().reservedRents,
+            size: store.getReservedRents().size
         }
+        this.updateRentsList = this.updateRentsList.bind(this);
         this.fetchData = this.fetchData.bind(this);
     }
 
-    fetchData(pageNumber) {
-        axios.get('/api/rents/reserved', {
-            params: { page: pageNumber }
-        }).then(response => {
-            this.setState({
-                reservedRents: response.data.reservedRents,
-                size: response.data.size
-            });
+    updateRentsList() {
+        this.setState({
+            reservedRents: store.getReservedRents().reservedRents,
+            size: store.getReservedRents().size
         });
+    }
+
+    fetchData = () => getRents(RENT_ACTIONS.GET_RESERVED_RENTS, 'reserved', this.props.page.reserved);
+
+    componentDidMount() {
+        store.addListener('storeUpdate_Reserved', this.updateRentsList);
+        store.addListener('update_Reserved', this.fetchData);
+        getRents(RENT_ACTIONS.GET_RESERVED_RENTS, 'reserved', this.props.page.reserved);
+    }
+
+    componentWillUnmount() {
+        store.removeListener('storeUpdate_Reserved', this.updateRentsList);
+        store.removeListener('updateReserved', this.fetchData);
     }
 
     createPages() {
@@ -41,21 +53,12 @@ class ReservedRents extends Component {
         let menuItems = [];
 
         for (let i = 0; i < pageCount; i++) {
-            menuItems.push(<Menu.Item as={NavLink} to={`/reports/${this.props.page.active}/${(i + 1)}/${this.props.page.ended}`} key={i}
-                onClick={() => this.fetchData(i + 1)}> {i + 1}
-            </Menu.Item>);
+            menuItems.push( <Menu.Item as={NavLink} to={`/reports/${this.props.page.active}/${(i + 1)}/${this.props.page.ended}`} key={i}
+                                onClick={() => getRents(RENT_ACTIONS.GET_RESERVED_RENTS, 'reserved', i + 1)}> {i + 1}
+                            </Menu.Item>);
         }
 
         return menuItems;
-    }
-
-    componentDidMount() {
-        this.fetchData(this.props.page.reserved);
-        store.addListener('updateEvent', this.fetchData);
-    }
-
-    componentWillUnmount(){
-        store.removeListener('updateEvent', this.fetchData);
     }
 
     render() {
@@ -74,8 +77,8 @@ class ReservedRents extends Component {
                         <Table.HeaderCell> Income, &euro; </Table.HeaderCell>
                         <Table.HeaderCell> Start Date </Table.HeaderCell>
                         <Table.HeaderCell> End Date </Table.HeaderCell>
-                        <Table.HeaderCell textAlign='right'/>
-                        <Table.HeaderCell/>
+                        <Table.HeaderCell textAlign='right' />
+                        <Table.HeaderCell />
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -85,11 +88,11 @@ class ReservedRents extends Component {
                             <Table.Cell> {rent.value} </Table.Cell>
                             <Table.Cell> {moment(rent.startDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
                             <Table.Cell> {moment(rent.endDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
-                            <Table.Cell textAlign='right'> 
-                                <Button icon='trash' color='red' onClick={() => deleteRent(rent._id)}/>
+                            <Table.Cell textAlign='right'>
+                                <Button icon='trash' color='red' onClick={() => deleteRent(RENT_ACTIONS.DELETE_RESERVED_RENT, rent._id)} />
                             </Table.Cell>
                             <Table.Cell textAlign='right'>
-                                <Button animated='vertical' color='green' onClick={() => openInfoModal(rent._id)} >
+                                <Button animated='vertical' color='green' onClick={() => openInfoModal(RENT_ACTIONS.UPDATE_RESERVED_RENT, rent._id)} >
                                     <Button.Content hidden> INFO </Button.Content>
                                     <Button.Content visible>
                                         <Icon name='question circle' />
