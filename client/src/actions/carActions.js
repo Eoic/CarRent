@@ -1,6 +1,6 @@
 import dispatcher from '../Dispatcher';
 import axios from 'axios';
-import { CAR_ACTIONS, GLOBAL_ACTIONS } from './types';
+import { CAR_ACTIONS } from './types';
 
 const ROUTE = {
     CARS:       '/api/cars/',
@@ -9,17 +9,9 @@ const ROUTE = {
     TURNOVER:   '/api/turnover/'
 }
 
-function dispatchError(error) {
-    dispatcher.dispatch({
-        type: GLOBAL_ACTIONS.REQUEST_FAILED,
-        value: {
-            status: error.status,
-            statusText: error.data
-        }
-    });
-}
-
-// CARS
+/**
+ * Get all cars in DB
+ */
 export function getCars() {
     axios.get(ROUTE.CARS).then(response => {
         dispatcher.dispatch({
@@ -29,6 +21,10 @@ export function getCars() {
     });
 }
 
+/**
+ * Get car document by given id
+ * @param { Object } id 
+ */
 export function getCarById(id) {
     axios.get(ROUTE.CARS + id).then(response => {
         dispatcher.dispatch({
@@ -38,15 +34,23 @@ export function getCarById(id) {
     });
 }
 
-export function addCar(carData) {
-    axios.post(ROUTE.CARS, carData).then(response => {
+/**
+ * Add new car document
+ * @param { Object } data 
+ */
+export function addCar(data) {
+    axios.post(ROUTE.CARS, data).then(response => {
         dispatcher.dispatch({
             type: CAR_ACTIONS.ADD_CAR,
             value: response.data
         });
-    }).catch(err => console.log(err));
+    });
 }
 
+/**
+ * Update car document
+ * @param { Object } data 
+ */
 export function updateCar(data) {
     axios.put(ROUTE.CARS, data).then(response => {
         dispatcher.dispatch({
@@ -56,15 +60,10 @@ export function updateCar(data) {
     }).catch(err => console.log(err));
 }
 
-export function updateRent(data) {
-    axios.put(ROUTE.RENTS, data).then(response => {
-        dispatcher.dispatch({
-            type: CAR_ACTIONS.UPDATE_RENT,
-            value: response.data
-        });
-    });
-}
-
+/**
+ * Delete car by given id
+ * @param { Object } id 
+ */
 export function deleteCar(id) {
     axios.delete(ROUTE.CARS + id).then(response => {
         dispatcher.dispatch({
@@ -74,8 +73,10 @@ export function deleteCar(id) {
     });
 }
 
-// COSTS.
-
+/**
+ * Get all cost of car with given id
+ * @param { Object } carId Car id 
+ */
 export function getCosts(carId) {
     axios.get(ROUTE.EXPENSES + carId).then(response => {
         dispatcher.dispatch({
@@ -85,6 +86,10 @@ export function getCosts(carId) {
     }).catch(err => console.log(err));
 }
 
+/**
+ * Add new cost object for car
+ * @param { Object } data Cost document info 
+ */
 export function addCost(data) {
     axios.post(ROUTE.EXPENSES, data).then(response => {
         dispatcher.dispatch({
@@ -92,9 +97,13 @@ export function addCost(data) {
             value: response.data,
             status: response.status
         });
-    }).catch(err => dispatchError(err.response));
+    });
 }
 
+/**
+ * Delete car cost of given id
+ * @param { Object } id Cost id
+ */
 export function deleteCost(id) {
     axios.delete(ROUTE.EXPENSES + id).then(response => {
         dispatcher.dispatch({
@@ -104,29 +113,9 @@ export function deleteCost(id) {
     }).catch(err => console.log(err));
 }
 
-// RENTS.
-export function getRentById(id) {
-    axios.get(ROUTE.RENTS + id).then(response => {
-        dispatcher.dispatch({
-            type: CAR_ACTIONS.GET_RENT_BY_ID,
-            value: response.data
-        });
-    });
-}
-
-export function getRents(pageNumber) {
-    axios.get(ROUTE.RENTS, {
-        params: {
-            page: pageNumber
-        }
-    }).then(response => {
-        dispatcher.dispatch({
-            type: CAR_ACTIONS.GET_RENTS,
-            value: response.data
-        });
-    });
-}
-
+/**
+ * Get all income / expenses of current year
+ */
 export function getTurnover() {
     axios.get(ROUTE.TURNOVER).then(response => {
         dispatcher.dispatch({
@@ -136,49 +125,15 @@ export function getTurnover() {
     });
 }
 
+/**
+ * Get all profit of car with id
+ * @param { Object } carId Car id
+ */
 export function carRentIncome(carId) {
-    axios.get(ROUTE.RENTS + 'income/' + carId).then(response => {
+    axios.get(`${ROUTE.RENTS}income/${carId}`).then(response => {
         dispatcher.dispatch({
             type: CAR_ACTIONS.CAR_RENT_INCOME,
             value: response.data.sum
         });
-    });
-}
-
-export function endRent(id) {
-    axios.put(ROUTE.RENTS + 'cancel/' + id).then(response => {
-        dispatcher.dispatch({
-            type: CAR_ACTIONS.END_RENT,
-            value: response.data
-        });
-    });
-}
-
-export function deleteRent(id) {
-    axios.delete(ROUTE.RENTS, {
-        params: {
-            id
-        }
-    }).then(response => {
-        dispatcher.dispatch({
-            type: CAR_ACTIONS.DELETE_RENT,
-            value: response.data
-        });
-    });
-}
-
-export function openInfoModal(RENT_TYPE, id){
-    axios.get(ROUTE.RENTS + id).then(response => {
-        dispatcher.dispatch({
-            type: CAR_ACTIONS.OPEN_INFO_MODAL,
-            data: response.data,
-            rentType: RENT_TYPE
-        });
-    });
-}
-
-export function closeInfoModal(){
-    dispatcher.dispatch({
-        type: CAR_ACTIONS.CLOSE_INFO_MODAL
     });
 }

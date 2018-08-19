@@ -19,20 +19,18 @@ class Settings extends Component {
 
     constructor() {
         super();
-        this.state = { fontValue: 2, colorValue: 3 };
+        this.state = { fontValue: 2, colorValue: 3, openWindow: false };
     }
 
     handleFontChange = (e, { value }) => {
         this.setState({ fontValue: value });
     }
 
-    handleColorChange = (e, { value }) => 
-    {
+    handleColorChange = (e, { value }) => {
         this.setState({ colorValue: value })
     }
 
     render() {
-
         return (
             <Segment.Group>
                 <Segment as={Header} color='blue' inverted>
@@ -48,7 +46,7 @@ class Settings extends Component {
                             <Grid.Column>
                                 <Dropdown
                                     onChange={this.handleFontChange}
-                                    options={ fontOptions }
+                                    options={fontOptions}
                                     placeholder='Choose an option'
                                     selection
                                     value={this.state.fontValue}
@@ -61,7 +59,7 @@ class Settings extends Component {
                             <Grid.Column>
                                 <Dropdown
                                     onChange={this.handleColorChange}
-                                    options={ colorOptions }
+                                    options={colorOptions}
                                     placeholder='Choose an option'
                                     selection
                                     value={this.state.colorValue}

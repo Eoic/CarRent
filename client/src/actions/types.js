@@ -52,5 +52,9 @@ export const RENT_ACTIONS = {
     DELETE_RESERVED_RENT:   'rentActions.DeleteReservedRent',
 
     // END
-    END_RENT_ACTIVE:        'rentActions.EndRentActive'
+    END_RENT_ACTIVE:        'rentActions.EndRentActive',
+
+    // PRINT
+    PRINT_INVOICE:          'rentActions.PrintInvoice',
+    PRINT_CONTRACT:         'rentActions.PrintContract'
 };

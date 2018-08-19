@@ -6,7 +6,7 @@ import { Link, NavLink } from 'react-router-dom'
 
 // Flux.
 import store from '../stores/RentStore';
-import { getRents, endRent, deleteRent, openInfoModal } from '../actions/rentActions';
+import { getRents, endRent, deleteRent, openInfoModal, printInvoice, printContract } from '../actions/rentActions';
 import { RENT_ACTIONS } from '../actions/types';
 
 const style = {
@@ -23,10 +23,14 @@ class ActiveRents extends Component {
         super(props);
         this.state = {
             rents: store.getActiveRents().activeRents, 
-            size: store.getActiveRents().size
+            size: store.getActiveRents().size,
+            showPrintWindow: false
         }
         this.updateRentsList = this.updateRentsList.bind(this);
         this.fetchData = this.fetchData.bind(this);
+
+        this.toggleWindowPortal = this.toggleWindowPortal.bind(this);
+        this.closeWindowPortal = this.closeWindowPortal.bind(this);
     }
 
     fetchData = () => getRents(RENT_ACTIONS.GET_ACTIVE_RENTS, '', this.props.page.active);
@@ -40,6 +44,14 @@ class ActiveRents extends Component {
     componentWillUnmount() {
         store.removeListener('storeUpdate_Active', this.updateRentsList);
         store.removeListener('update_Active', this.fetchData);
+    }
+
+    toggleWindowPortal() {
+        this.setState({ showPrintWindow: true });
+    }
+
+    closeWindowPortal() {
+        this.setState({ showPrintWindow: false })
     }
 
     updateRentsList() {
@@ -63,6 +75,7 @@ class ActiveRents extends Component {
 
     render() {
         return (
+            <div>
             <Table unstackable selectable singleLine>
                 <Table.Header>
                     <Table.Row>
@@ -97,8 +110,23 @@ class ActiveRents extends Component {
                             <Table.Cell>
                                 <Dropdown icon='ellipsis horizontal'>
                                     <Dropdown.Menu>
-                                        <Dropdown.Item onClick={() => endRent(rent._id)}> Cancel </Dropdown.Item>
-                                        <Dropdown.Item onClick={() => deleteRent(RENT_ACTIONS.DELETE_ACTIVE_RENT, rent._id)} style={{ color: 'red' }}> Delete </Dropdown.Item>
+                                        <Dropdown.Item onClick={() => printContract(rent._id)}> 
+                                            <Icon name='credit card' /> 
+                                            Print Contract  
+                                        </Dropdown.Item>
+                                        <Dropdown.Item onClick={() => printInvoice(rent._id)}> 
+                                            <Icon name='print'/>    
+                                            Print Invoice   
+                                        </Dropdown.Item>
+                                        <Dropdown.Divider/>
+                                        <Dropdown.Item onClick={() => endRent(rent._id)}> 
+                                            <Icon name='cancel'/>
+                                            End 
+                                        </Dropdown.Item>
+                                        <Dropdown.Item onClick={() => deleteRent(RENT_ACTIONS.DELETE_ACTIVE_RENT, rent._id)} style={{ color: 'red' }}> 
+                                            <Icon name='trash'/>
+                                            Delete 
+                                        </Dropdown.Item>
                                     </Dropdown.Menu>
                                 </Dropdown>
                             </Table.Cell>
@@ -131,6 +159,8 @@ class ActiveRents extends Component {
                     </Table.Row>
                 </Table.Footer>
             </Table>
+
+            </div>
         );
     }
 }

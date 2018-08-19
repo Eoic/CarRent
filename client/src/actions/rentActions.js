@@ -100,3 +100,29 @@ export function closeInfoModal(){
         type: RENT_ACTIONS.CLOSE_INFO_MODAL
     });
 }
+
+/**
+ * Get single rent document for invoice printing
+ * @param { ObjectId } rentId Rent document id 
+ */
+export function printInvoice(rentId){
+    axios.get(`${ROUTE.RENTS}/${rentId}`).then(response => {
+        dispatcher.dispatch({
+            type: RENT_ACTIONS.PRINT_INVOICE,
+            data: response.data
+        });
+    });
+}
+
+/**
+ * Get single rent document for contract printing
+ * @param { ObjectId } rentId 
+ */
+export function printContract(rentId){
+    axios.get(`${ROUTE.RENTS}/${rentId}`).then(response => {
+        dispatcher.dispatch({
+            type: RENT_ACTIONS.PRINT_CONTRACT,
+            data: response.data
+        });
+    });
+}

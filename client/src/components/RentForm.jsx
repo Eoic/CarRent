@@ -3,8 +3,6 @@ import { Form, Grid, Divider, Button, Icon, Header, Segment } from 'semantic-ui-
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import '../App.css';
-//import Invoice from './Invoice';
-import ReactToPrint from 'react-to-print';
 import { addRent } from '../actions/rentActions';
 import { toast } from 'react-toastify';
 
@@ -214,19 +212,9 @@ class RentForm extends Component {
                                 <Icon name='payment' />
                                 Rent
                             </Button>
-
-
-                            <ReactToPrint
-                                trigger={() => <Button as='a' color='violet'>
-                                    <Icon name='print' />
-                                    Print
-                                                </Button>}
-                                content={() => this.componentRef}
-                            />
-                            {/*<Invoice invoiceData={this.state} ref={el => (this.componentRef = el)} />*/}
                         </Form>
                     </Grid.Column>
-                </Grid.Row>
+                </Grid.Row>                
             </Grid>
         );
     }

@@ -36,6 +36,8 @@ class RentStore extends EventEmitter {
             data: {},
             rentType: ''
         };
+
+        this.rent = {};
     }
 
     handleActions(action){
@@ -113,6 +115,20 @@ class RentStore extends EventEmitter {
                 this.emit(EVENT_EMIT_STRING.MODAL_STATE_CHANGE);
                 break; 
             }
+
+            // PRINT DOCUMENTS
+            case RENT_ACTIONS.PRINT_INVOICE: {
+                this.rent = action.data;
+                this.emit('printInvoice');
+                break;
+            }
+
+            case RENT_ACTIONS.PRINT_CONTRACT: {
+                this.rent = action.data;
+                this.emit('printContract');
+                break;
+            }
+
             default: {}
         }
     }
@@ -131,6 +147,10 @@ class RentStore extends EventEmitter {
 
     getInfoModalState(){
         return this.rentModalInfo;
+    }
+
+    getRent(){
+        return this.rent;
     }
 }
 
