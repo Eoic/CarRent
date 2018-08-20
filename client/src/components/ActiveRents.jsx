@@ -90,9 +90,9 @@ class ActiveRents extends Component {
                         <Table.HeaderCell> Income, &euro; </Table.HeaderCell>
                         <Table.HeaderCell> Start Date </Table.HeaderCell>
                         <Table.HeaderCell> End Date </Table.HeaderCell>
-                        <Table.HeaderCell textAlign='right'>Time left</Table.HeaderCell>
-                        <Table.HeaderCell textAlign='right'> </Table.HeaderCell>
-                        <Table.HeaderCell textAlign='right'> </Table.HeaderCell>
+                        <Table.HeaderCell textAlign='right'> Time left </Table.HeaderCell>
+                        <Table.HeaderCell textAlign='right'/>
+                        <Table.HeaderCell textAlign='right'/>
                     </Table.Row>
                 </Table.Header>
 
@@ -107,8 +107,8 @@ class ActiveRents extends Component {
                                 <Countdown startDate={rent.startDate} endDate={rent.endDate} />
                             </Table.Cell>
 
-                            <Table.Cell>
-                                <Dropdown icon='ellipsis horizontal'>
+                            <Table.Cell textAlign='right' width='1'>
+                                <Dropdown icon={<Icon style={{ margin: '2px'}} name='ellipsis horizontal'/>} button>
                                     <Dropdown.Menu>
                                         <Dropdown.Item onClick={() => printContract(rent._id)}> 
                                             <Icon name='credit card' /> 
@@ -131,7 +131,7 @@ class ActiveRents extends Component {
                                 </Dropdown>
                             </Table.Cell>
 
-                            <Table.Cell textAlign='right'>
+                            <Table.Cell textAlign='right' width='1'>
                                 <Button animated='vertical' color='green' onClick={() => openInfoModal(RENT_ACTIONS.UPDATE_ACTIVE_RENT, rent._id)}>
                                     <Button.Content hidden> INFO </Button.Content>
                                     <Button.Content visible>

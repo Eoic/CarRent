@@ -77,7 +77,7 @@ class ReservedRents extends Component {
                         <Table.HeaderCell> Income, &euro; </Table.HeaderCell>
                         <Table.HeaderCell> Start Date </Table.HeaderCell>
                         <Table.HeaderCell> End Date </Table.HeaderCell>
-                        <Table.HeaderCell textAlign='right' />
+                        <Table.HeaderCell />
                         <Table.HeaderCell />
                     </Table.Row>
                 </Table.Header>
@@ -88,10 +88,10 @@ class ReservedRents extends Component {
                             <Table.Cell> {rent.value} </Table.Cell>
                             <Table.Cell> {moment(rent.startDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
                             <Table.Cell> {moment(rent.endDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
-                            <Table.Cell textAlign='right'>
+                            <Table.Cell textAlign='right' width='1'>
                                 <Button icon='trash' color='red' onClick={() => deleteRent(RENT_ACTIONS.DELETE_RESERVED_RENT, rent._id)} />
                             </Table.Cell>
-                            <Table.Cell textAlign='right'>
+                            <Table.Cell textAlign='right' width='1'>
                                 <Button animated='vertical' color='green' onClick={() => openInfoModal(RENT_ACTIONS.UPDATE_RESERVED_RENT, rent._id)} >
                                     <Button.Content hidden> INFO </Button.Content>
                                     <Button.Content visible>

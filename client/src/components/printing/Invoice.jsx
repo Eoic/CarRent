@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import 'moment/locale/lt';
 import { Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer';
+import '../../Invoice.css';
 
 const styles = StyleSheet.create({
     page: {
@@ -41,7 +42,9 @@ class Invoice extends Component {
             <Document style={styles.document}>
                 <Page size="A4" style={styles.page}>
                     <View style={styles.section}>
-                        <Text style={{ fontFamily: 'Work-Sans', fontSize: 14 }}> ĄČĘĖĮŠŲŪŽ - ąčęėįšųūž </Text>
+                        <Text style={{ fontFamily: 'Work-Sans', fontSize: 14 }}> ĄČĘĖĮŠŲŪŽ - ąčęėįšųūž
+                            
+                        </Text>
                     </View>
                     <View style={styles.section}>
                         <Text> Section #2 </Text>
