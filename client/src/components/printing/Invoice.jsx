@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import 'moment/locale/lt';
 import { Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer';
-import '../../Invoice.css';
 
 const styles = StyleSheet.create({
     page: {
@@ -11,7 +10,7 @@ const styles = StyleSheet.create({
     },
     section: {
         margin: 10,
-        padding: 10
+        padding: "35px 10px 10px 10px"
     },
     document: {
         width: "100%",
@@ -19,22 +18,14 @@ const styles = StyleSheet.create({
     }
 });
 
-Font.register(
-    'http://fonts.gstatic.com/s/worksans/v3/QGYsz_wNahGAdqQ43RhPew.ttf',
-    { family: 'Work-Sans' },
-);
+Font.register('http://fonts.gstatic.com/s/opensans/v15/mem8YaGs126MiZpBA-U1Ug.ttf', { family: 'Open-Sans' });
+Font.register('http://fonts.gstatic.com/s/opensans/v15/mem5YaGs126MiZpBA-UN7rg-VQ.ttf', { family: 'Open-Sans-Bold' });
 
 class Invoice extends Component {
 
     constructor() {
         super();
-        this.state = {
-            timestamp: moment().format('LL').toLocaleString()
-        }
-    }
-
-    componentDidMount() {
-        
+        this.state = { timestamp: moment().format('LL').toLocaleString() }
     }
 
     render() {
@@ -42,12 +33,7 @@ class Invoice extends Component {
             <Document style={styles.document}>
                 <Page size="A4" style={styles.page}>
                     <View style={styles.section}>
-                        <Text style={{ fontFamily: 'Work-Sans', fontSize: 14 }}> ĄČĘĖĮŠŲŪŽ - ąčęėįšųūž
-                            
-                        </Text>
-                    </View>
-                    <View style={styles.section}>
-                        <Text> Section #2 </Text>
+                        <Text> Placeholder </Text>
                     </View>
                 </Page>
             </Document>
