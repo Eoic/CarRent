@@ -33,17 +33,20 @@ const styles = StyleSheet.create({
         textIndent: 50
     },
     text: {
-        margin: 12,
         fontSize: 10,
-        textAlign: 'justify',
-        fontFamily: 'Open-Sans'
+        fontFamily: 'Open-Sans',
+        width: "250px"
+    },
+    strong: {
+        fontSize: 10,
+        fontFamily: 'Open-Sans-Bold'
     },
     sectionHeader: {
         fontFamily: 'Open-Sans-Bold',
         fontSize: 11,
         marginLeft: 12,
         marginRight: 12,
-        paddingTop: 15,
+        paddingTop: 12,
         paddingBottom: 5,
         width: 700
     },
@@ -51,7 +54,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Open-Sans',
         fontSize: 10,
         marginLeft: 12
-    } 
+    }
 });
 
 Font.register('http://fonts.gstatic.com/s/opensans/v15/mem8YaGs126MiZpBA-U1Ug.ttf', { family: 'Open-Sans' });
@@ -63,6 +66,10 @@ class Contract extends Component {
         super();
         this.state = { timestamp: moment().format('LL').toLocaleString() }
         this.createList = this.createList.bind(this);
+    }
+
+    componentDidMount(){
+        console.log(this.props);
     }
 
     createList(pageData, sectionOffset) {
@@ -87,11 +94,14 @@ class Contract extends Component {
     }
 
     render() {
+
+        const data = this.props.rent;
+
         return (
             <Document style={styles.document}>
                 <Page size="A4" style={styles.page}>
                     <View style={styles.section}>
-                        <Text style={styles.title}> {agreements.pageOne.title} </Text>
+                        <Text style={[styles.text, { textAlign: 'center', width: 515 }]}> {`${agreements.pageOne.title}${shortid()}`}</Text>
                         <Text style={styles.title}> {this.state.timestamp} </Text>
                         <Text style={styles.openingText}> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {agreements.pageOne.description} </Text>
                         {this.createList(agreements.pageOne, 0)}
@@ -99,7 +109,7 @@ class Contract extends Component {
                 </Page>
                 <Page size="A4" style={styles.page}>
                     <View style={styles.section}>
-                        {agreements.pageOne.leftover.items.map((item, index) => 
+                        {agreements.pageOne.leftover.items.map((item, index) =>
                             <Text key={shortid()} style={styles.sectionItem}>{`${agreements.pageOne.leftover.continueFrom}.${index + 7}. ${item.content}`}</Text>
                         )}
                         {this.createList(agreements.pageTwo, 2)}
@@ -107,15 +117,95 @@ class Contract extends Component {
                 </Page>
                 <Page size="A4" style={styles.page}>
                     <View style={styles.section}>
-                        {agreements.pageTwo.leftover.inner.map((item, index) => 
-                            <Text style={styles.sectionItem}>{`${6}.${3}.${index + 3}. ${item}`}</Text>
+                        {agreements.pageTwo.leftover.inner.map((item, index) =>
+                            <Text key={shortid()} style={styles.sectionItem}>{`${6}.${3}.${index + 3}. ${item}`}</Text>
                         )}
                         {agreements.pageTwo.leftover.middle.map((item, index) =>
-                            <Text style={styles.sectionItem}>{`${6}.${index + 4}. ${item}`}</Text>
+                            <Text key={shortid()} style={styles.sectionItem}>{`${6}.${index + 4}. ${item}`}</Text>
                         )}
                         {this.createList(agreements.pageThree, 6)}
 
                         <Text style={styles.sectionHeader}>9. NUOMOJAMAS AUTOMOBILIS </Text>
+
+                        <View style={{ flexDirection: 'row', marginLeft: 12, marginRight: 12 }}>
+                            <View style={{ width: 120 }}>
+                                <Text style={styles.text}> Odometro parodymai: </Text>
+                                <Text style={styles.text}> Nuomos pradžia: </Text>
+                                <Text style={styles.text}> Nuomos pabaiga: </Text>
+                                <Text style={styles.text}> Viso parų: </Text>
+                                <Text style={styles.text}> Užstatas: </Text>
+                                <Text style={styles.strong}> Viso suma: </Text>
+                            </View>
+
+                            <View style={{ width: 110 }}>
+                                <Text style={styles.text}> {data.odometer} </Text>
+                                <Text style={styles.text}> {moment(data.startDate).format('YYYY/MM/DD HH:mm')} </Text>
+                                <Text style={styles.text}> {moment(data.endDate).format('YYYY/MM/DD HH:mm')} </Text>
+                                <Text style={styles.text}> 0 </Text>
+                                <Text style={styles.text}> {(data.deposit) ? 150 : 0 } EUR </Text>
+                                <Text style={styles.strong}> {data.value} EUR </Text>
+                            </View>
+
+                            <View style={{ width: 150 }}>
+                                <Text style={styles.text}> Pagaminimo metai: </Text>
+                                <Text style={styles.text}> Kėbulo numeris: </Text>
+                                <Text style={styles.text}> Valstybinis numeris: </Text>
+                                <Text style={styles.text}> Automobilio vertė: </Text>
+                                <Text style={styles.text}> Registracijos liudijimo nr.: </Text>
+                            </View>
+
+                            <View>
+                                <Text style={styles.text}> - </Text>
+                                <Text style={styles.text}> - </Text>
+                                <Text style={styles.text}> {data.regNumber} </Text>
+                                <Text style={styles.text}> 3000 EUR </Text>
+                                <Text style={styles.text}> - </Text>
+                            </View>
+                        </View>
+
+                        {/* Last section */}
+
+                        <Text style={[{ textAlign: 'center', fontSize: 10, fontFamily: 'Open-Sans-Bold', marginTop: 6 }]}>
+                            Šalių parašai
+                        </Text>
+
+                        <View style={{ flexDirection: 'row', marginLeft: 12, marginRight: 12, marginTop: 6 }}>
+                            <View style={{ width: 250 }}>
+                                <Text style={[styles.strong, { textAlign: 'center', marginBottom: 6 }]}> NUOMOTOJAS </Text>
+                                <Text style={styles.text}> UAB ,,RAJESAS“ </Text>
+                                <Text style={styles.text}> 135832118 / LT358321113 </Text>
+                                <Text style={[styles.text, { width: 500 }]}> ADRESAS: RADVILŲ DVARO 6, KAUNAS </Text>
+                                <Text style={styles.text}> TEL.: +37065505568 </Text>
+                            </View>
+
+                            <View style={{ width: 250 }}>
+                                <Text style={[styles.strong, { textAlign: 'center', marginBottom: 6 }]}> NUOMININKAS </Text>
+
+                                <View style={{ flexDirection: 'row' }}>
+                                    <View style={{ width: 100 }}>
+                                        <Text style={styles.text}> Pavadinimas: </Text>
+                                        <Text style={styles.text}> Vardas, pavardė: </Text>
+                                        <Text style={styles.text}> Įmonės kodas: </Text>
+                                        <Text style={styles.text}> PVM kodas: </Text>
+                                        <Text style={styles.text}> Adresas: </Text>
+                                    </View>
+                                    <View>
+                                        <Text style={styles.text}> ________________ </Text>
+                                        <Text style={styles.text}> {`${data.name} ${data.surname}`}</Text>
+                                        <Text style={styles.text}> ________________ </Text>
+                                        <Text style={styles.text}> ________________ </Text>
+                                        <Text style={styles.text}> ________________ </Text>
+                                    </View>
+                                </View>
+                            </View>
+                        </View>
+                        
+                        <View style={{ marginLeft: 12, paddingTop: 6 }}> 
+                            <Text style={[styles.text, { width: 700 }]}> KITI ASMENYS, KURIE VAIRUOS TRANSPORTO PRIEMONĘ </Text>
+                            <Text style={styles.text}> Vardas, pavardė: </Text>
+                            <Text style={styles.text}> Adresas: </Text>
+                            <Text style={styles.text}> Tel.: </Text>
+                        </View>
                     </View>
                 </Page>
             </Document>
