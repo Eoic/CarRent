@@ -17,10 +17,10 @@ const RentSchema = new Schema({
     name: String,
     surname: String,
     phone: String,
+    address: String,
 
     // Misc.
     deposit: Boolean,
-
     odometer: {
         type: Number,
         default: 0

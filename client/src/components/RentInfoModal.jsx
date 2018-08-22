@@ -30,15 +30,15 @@ class RentInfoModal extends Component {
         super(props);
         this.state = {
             open: false,
-            editing: true,
             rent: {
                 name: '',
                 surname: '',
                 odometer: '',
                 value: '',
                 phone: '',
-                deposit: ''
-            },
+                deposit: '',
+                address: ''
+            },  
             rentType: ''
         }
         this.toggleModal = this.toggleModal.bind(this);
@@ -100,41 +100,43 @@ class RentInfoModal extends Component {
                     RENT INFO
                 </Modal.Header>
                 <Modal.Content>
-                    <Grid columns='3'>
-                        <Grid.Column>
-                            <p> Rent start {moment(this.state.rent.startDate).format('YYYY/MM/DD HH:mm')}    </p>
-                        </Grid.Column>
+                    <Grid>
+                        <Grid.Row columns={3}>
+                            <Grid.Column>
+                                <p> Rent start {moment(this.state.rent.startDate).format('YYYY/MM/DD HH:mm')}</p>
+                            </Grid.Column>
 
-                        <Grid.Column>
-                            <p> Rent end {moment(this.state.rent.endDate).format('YYYY/MM/DD HH:mm')}        </p>
-                        </Grid.Column>
+                            <Grid.Column>
+                                <p> Rent end {moment(this.state.rent.endDate).format('YYYY/MM/DD HH:mm')}</p>
+                            </Grid.Column>
 
-                        <Grid.Column>
-                            <p> Added {moment(this.state.rent.addedAt).format('YYYY/MM/DD HH:mm')}           </p>
-                        </Grid.Column>
-                    </Grid>
+                            <Grid.Column>
+                                <p> Added {moment(this.state.rent.addedAt).format('YYYY/MM/DD HH:mm')}</p>
+                            </Grid.Column>
+                        </Grid.Row>
 
-                    <Grid columns='2'>
-                        <Grid.Column>
-                            <Form widths='equal'>
-                                <Form.Input inline name='name' label={<InfoLabel content='First name' />} readOnly={!this.state.editing} value={this.state.rent.name} onChange={this.handleChange} />
-                                <Form.Input inline name='surname' label={<InfoLabel content='Last name' />} readOnly={!this.state.editing} value={this.state.rent.surname} onChange={this.handleChange} />
-                                <Form.Input inline name='odometer' label={<InfoLabel content='Kilometers' />} readOnly={!this.state.editing} value={this.state.rent.odometer} onChange={this.handleChange} />
-                            </Form>
-                        </Grid.Column>
-
-                        <Grid.Column>
-                            <Form>
-                                <Form.Input inline name='phone' label={<InfoLabel content='Phone' />} readOnly={!this.state.editing} value={this.state.rent.phone} onChange={this.handleChange} />
-                                <Form.Input inline name='value' label={<InfoLabel content='Income' />} readOnly={!this.state.editing} value={this.state.rent.value} onChange={this.handleChange} />
-                                <Form.Dropdown inline selection options={depositOptions} compact defaultValue={this.state.rent.deposit} onChange={this.handleDepositChange} label={<InfoLabel content='Deposit' />} />
-                            </Form>
-                        </Grid.Column>
+                        <Grid.Row columns={2}>
+                            <Grid.Column>
+                                <Form widths='equal'>
+                                    <Form.Input inline name='name' label={<InfoLabel content='First name' />} value={this.state.rent.name} onChange={this.handleChange} />
+                                    <Form.Input inline name='surname' label={<InfoLabel content='Last name' />} value={this.state.rent.surname} onChange={this.handleChange} />
+                                    <Form.Input inline name='odometer' label={<InfoLabel content='Kilometers' />} value={this.state.rent.odometer} onChange={this.handleChange} />
+                                    <Form.Input inline name='address' label={<InfoLabel content='Address' />} value={this.state.rent.address} onChange={this.handleChange} />
+                                </Form>
+                            </Grid.Column>
+                            <Grid.Column>
+                                <Form>
+                                    <Form.Input inline name='phone' label={<InfoLabel content='Phone' />} value={this.state.rent.phone} onChange={this.handleChange} />
+                                    <Form.Input inline name='value' label={<InfoLabel content='Income' />} value={this.state.rent.value} onChange={this.handleChange} />
+                                    <Form.Dropdown inline selection options={depositOptions} compact defaultValue={this.state.rent.deposit} onChange={this.handleDepositChange} label={<InfoLabel content='Deposit' />} />
+                                </Form>
+                            </Grid.Column>
+                        </Grid.Row>
                     </Grid>
 
                     <Divider />
 
-                    <Button color='green' content="Save changes" onClick={this.handleSubmit}/>
+                    <Button color='green' content="Save changes" onClick={this.handleSubmit} />
                     <Button color='red' content='Close' onClick={() => closeInfoModal()} />
                 </Modal.Content>
             </Modal>

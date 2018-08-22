@@ -107,7 +107,8 @@ router.put('/', (req, res) => {
         value: req.body.value,
         phone: req.body.phone,
         deposit: req.body.deposit,
-        odometer: req.body.odometer
+        odometer: req.body.odometer,
+        address: req.body.address
     }).then(response => {
         res.json(response);
     }).catch(err =>
@@ -166,6 +167,7 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
 
     Car.findById(req.body.carId).then(response => {
+
         const newRent = new Rent({
             carId: req.body.carId,
             regNumber: response.registrationNumber,
@@ -177,7 +179,8 @@ router.post('/', (req, res) => {
             surname: req.body.surname,
             phone: req.body.phone,
             deposit: req.body.deposit,
-            odometer: req.body.odometer
+            odometer: req.body.odometer,
+            address: req.body.address
         });
 
         newRent.save().then(rent => res.json({}));

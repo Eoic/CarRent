@@ -41,6 +41,7 @@ class RentForm extends Component {
             duration: 0,
             firstName: '',
             lastName: '',
+            address: '',
             deposit: false,
             phone: '',
             price: '',
@@ -86,7 +87,8 @@ class RentForm extends Component {
                 surname: this.state.lastName,
                 phone: this.state.phone,
                 deposit: this.state.deposit,
-                odometer: this.state.odometer
+                odometer: this.state.odometer,
+                address: this.state.address
             }
 
             addRent(newRent);
