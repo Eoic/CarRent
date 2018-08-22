@@ -1,5 +1,7 @@
 const agreements = {
     pageOne: {
+        title: "Transporto priemonės nuomos sutartis Nr.: ",
+        description: 'Pagal šią sutartį Nuomotojas nuomoja automobilį Nuomininkui. Nuomininkas sutinka laikytis automobilio naudojimosi taisyklių, išdėstytų šioje sutartyje patvirtindamas tai savo parašu.',
         outer: [{
                 content: "AUTOMOBILIO PRIĖMIMAS IR GRĄŽINIMAS",
                 middle: [{
@@ -150,8 +152,75 @@ const agreements = {
                         content: "Nuomininkas įsipareigoja sumokėti naudoto automobilio kelių mokestį."
                     }
                 ]
+            },
+            {
+                content: "NUOMININKO ATSAKOMYBĖ",
+                middle: [{
+                        content: "Nuomininkas yra visiškai atsakingas nuomotojui už automobilio tyčinį arba neapdairumo pasekoje įvykusį gedimą ir kitų nuotolių atlyginimą, tuo atveju, jei draudimo kompanija neatlygina padarytų nuostolių."
+                    },
+                    {
+                        content: "Nuomininkas prisiima atsakomybę, jei įvyksta automobilio gedimas dėl jo kaltės."
+                    },
+                    {
+                        content: "Nuomininkas atsako už automobiliui padarytą žalą, jei jis pažeidė transporto priemonės eksploatavimo taisykles arba:",
+                        inner: [
+                            "Naudojo techniškai netvarkingą transporto priemonę;",
+                            "Pažeidė lengvai užsidegančių ir sprogstančių medžiagų vežimo ir saugojimo, priešgasrines saugumo taisykles;"
+                        ]
+                    }
+                ]
+            }
+        ],
+        leftover: {
+            inner: [
+                "Transporto priemonę vairavo asmuo, neturintis teisės vairuoti, apsvaigęs nuo alkoholio ar narkotinių medžiagų;",
+                "Padarė avariją ir pabėgo iš įvykio vietos;",
+                "Jeigu transporto priemonė priemonė buvo naudojama nusikalstamiems veiksmams vykdyti;"
+            ],
+            middle: [
+                "Jeigu apie autoįvykį ar automobilio sugadinimą nuomininkas nepranešė policijai ir negavo policijos pranešimo, nepranešė nuomotojui, nuomininkas privalo apmokėti automobilio remonto išlaidas. Taip pat apmokėti nuostolius, padarytus nuomojamam automobiliui tuo atveju, jei draudimas negalioja arba draudimas neapmoka padarytų nuostolių.",
+                "Nuomininkas turi laikytis galiojančių eismo taisyklių ir privalo sumokėti baudas ar išlaidas, susijusias su eismo taisyklių pažeidimais.",
+                "Jaigu atumomobilis sugedo ne dėl nuomotojo kaltės, nuomininkas įsipareigoja imtis visų galimų priemonių, kad trumpiausiu laiku automobilis būtų suremontuotas.",
+                "Pametus automobilio dokumentus, raktus, pilnai apmokama už raktų pagaminimo arba dokumentų atstatymo nuomotojo patirtus nuostolius.",
+                "Sugadinus automobilio padangas, nuomininkas padengia visas išlaidas, o taip pat ir nuperka tokios pačios būklės padangas."
+            ]
+        }
+    },
+    pageThree: {
+        outer: [{
+            content: "NUOMOTOJO ATSAKOMYBĖ",
+            middle: [{
+                    content: "Nuomotojas neatsako už nuomininko nuostolius, kuriuos jis patyrė dėl to, kad negalėjo pasinaudoti nuomojamu automobiliu pastarojo gedimo atveju, įvykus nelaimingam atsitikimui ir panašiai. Taip pat dėl pavėluoto automobilio grąžinimo. Tačiau nuomotojas tokiu atveju, atsižvelgiant į galimybes, privalo suremontuoti automobilį arba pasiūlyti išsinuomoti kitą automobilį arba grąžinti pinigus už nepanaudotą automobilio nuomos laikotarpį."
+                },
+                {
+                    content: "Nuomotojas neatsako už nuomininko sveikatos būklę."
+                },
+                {
+                    content: "Nuomotojas neatsako už automobilyje buvusiam nuomininko turtui padarytus nuostolius"
+                },
+                {
+                    content: "Nuomotojas neatsako už nuostolius, padarytus tretiesiems asmenims, dėl vairuotojo (nuomotojo) kaltės."
+                }
+            ]
+        }, {
+            content: "KITI NUOSTATAI",
+            middle: [{
+                content: "Nuomos sutarties papildymai ar kiti priedai galioja tik raštiškai patvirtinti abiejų šalių."
+            },
+            {
+                content: "Sutartis sudaryta lietuvių kalba, dviem egzemplioriais, kiekvienai iš šalių, ir turinčiais vieną juridinę galią."
+            },
+            {
+                content: "Šią sutartį reguliuoja Lietuvos Respublikos įstatymai. Ginčai ir nesutarimai sprendžiami tarpusavio derybomis, o tik po to Lietuvos Respublikos tesime, pagal Nuomotojo registracijos adresą."
+            },
+            {
+                content: "Pasirašydamas šią sutartį Nuomininkas sutinka su visomis joje išdėstytomis sąlygomis."
+            },
+            {
+                content: "Sutartis įsigalioja jos pasirašymo dieną ir galioja iki "
             }
         ]
+        }]
     }
 };
 

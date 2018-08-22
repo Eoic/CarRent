@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import 'moment/locale/lt';
 import { Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer';
-import agreements from '../../utils/invoiceText';
+import agreements from '../../utils/contractText';
 import shortid from 'shortid'
 
 const styles = StyleSheet.create({
@@ -65,20 +65,20 @@ class Contract extends Component {
         this.createList = this.createList.bind(this);
     }
 
-    createList(pageData) {
+    createList(pageData, sectionOffset) {
 
         let list = [];
 
         for (let i = 0; i < pageData.outer.length; i++) {
-            list.push(<Text key={shortid()} style={styles.sectionHeader}>{`${i + 1}. ${pageData.outer[i].content}`}</Text>);
+            list.push(<Text key={shortid()} style={styles.sectionHeader}>{`${i + 1 + sectionOffset}. ${pageData.outer[i].content}`}</Text>);
 
             if (typeof pageData.outer[i].middle !== 'undefined') {
                 for (let j = 0; j < pageData.outer[i].middle.length; j++) {
-                    list.push(<Text key={shortid()} style={styles.sectionItem}>{`${i + 1}.${j + 1}. ${pageData.outer[i].middle[j].content}`}</Text>);
+                    list.push(<Text key={shortid()} style={styles.sectionItem}>{`${i + 1 + sectionOffset}.${j + 1}. ${pageData.outer[i].middle[j].content}`}</Text>);
 
                     if (typeof pageData.outer[i].middle[j].inner !== 'undefined')
                         for (let k = 0; k < pageData.outer[i].middle[j].inner.length; k++)
-                            list.push(<Text key={shortid()} style={styles.sectionItem}>{`${i + 1}.${j + 1}.${k + 1}. ${pageData.outer[i].middle[j].inner[k]}`}</Text>);
+                            list.push(<Text key={shortid()} style={styles.sectionItem}>{`${i + 1 + sectionOffset}.${j + 1}.${k + 1}. ${pageData.outer[i].middle[j].inner[k]}`}</Text>);
                 }
             }
         }
@@ -91,10 +91,10 @@ class Contract extends Component {
             <Document style={styles.document}>
                 <Page size="A4" style={styles.page}>
                     <View style={styles.section}>
-                        <Text style={styles.title}> Transporto priemonės nuomos sutartis Nr.:  </Text>
+                        <Text style={styles.title}> {agreements.pageOne.title} </Text>
                         <Text style={styles.title}> {this.state.timestamp} </Text>
-                        <Text style={styles.openingText}> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Pagal šią sutartį Nuomotojas nuomoja automobilį Nuomininkui. Nuomininkas sutinka laikytis automobilio naudojimosi taisyklių, išdėstytų šioje sutartyje patvirtindamas tai savo parašu. </Text>
-                        {this.createList(agreements.pageOne)}
+                        <Text style={styles.openingText}> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {agreements.pageOne.description} </Text>
+                        {this.createList(agreements.pageOne, 0)}
                     </View>
                 </Page>
                 <Page size="A4" style={styles.page}>
@@ -102,7 +102,20 @@ class Contract extends Component {
                         {agreements.pageOne.leftover.items.map((item, index) => 
                             <Text key={shortid()} style={styles.sectionItem}>{`${agreements.pageOne.leftover.continueFrom}.${index + 7}. ${item.content}`}</Text>
                         )}
-                        {this.createList(agreements.pageTwo)}
+                        {this.createList(agreements.pageTwo, 2)}
+                    </View>
+                </Page>
+                <Page size="A4" style={styles.page}>
+                    <View style={styles.section}>
+                        {agreements.pageTwo.leftover.inner.map((item, index) => 
+                            <Text style={styles.sectionItem}>{`${6}.${3}.${index + 3}. ${item}`}</Text>
+                        )}
+                        {agreements.pageTwo.leftover.middle.map((item, index) =>
+                            <Text style={styles.sectionItem}>{`${6}.${index + 4}. ${item}`}</Text>
+                        )}
+                        {this.createList(agreements.pageThree, 6)}
+
+                        <Text style={styles.sectionHeader}>9. NUOMOJAMAS AUTOMOBILIS </Text>
                     </View>
                 </Page>
             </Document>
