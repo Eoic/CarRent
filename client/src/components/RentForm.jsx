@@ -184,8 +184,8 @@ class RentForm extends Component {
                     <Grid.Column style={styles.formColumn}>
                         <Form onSubmit={this.handleSubmit} autoComplete='off'>
                             <Form.Group widths='equal'>
-                                <Form.Input name='firstName' label='First Name' onChange={this.handleChange} />
-                                <Form.Input name='lastName' label='Last Name' onChange={this.handleChange} />
+                                <Form.Input required name='firstName' label='First Name' onChange={this.handleChange} />
+                                <Form.Input required name='lastName' label='Last Name' onChange={this.handleChange} />
                             </Form.Group>
                             <Form.Group widths='equal'>
                                 <Form.Input onChange={this.handleChange} name='phone' label='Phone Number' />
@@ -195,7 +195,7 @@ class RentForm extends Component {
                                 <Form.Input onChange={this.handleChange} name='address' label='Address' />
                             </Form.Group>
                             <Form.Group widths='4'>
-                                <Form.Input label='Price' icon='euro' name='price' onChange={this.handleChange} />
+                                <Form.Input required label='Price' icon='euro' name='price' onChange={this.handleChange} />
                                 <Form.Input label='Kilometers' name='odometer' onChange={this.handleChange} />
                                 <Segment>
                                     <Form.Checkbox onChange={(e, data) => this.setState({ deposit: data.checked })} toggle label='Deposit' />
@@ -206,7 +206,7 @@ class RentForm extends Component {
 
                             <Header>
                                 <Icon name='time' size='huge' />
-                                {Math.floor((this.state.duration / 60) / 24)} days {Math.floor((this.state.duration / 60) % 24)} h. {this.state.duration % 60} min.
+                                    {Math.floor((this.state.duration / 60) / 24)} days {Math.floor((this.state.duration / 60) % 24)} h. {this.state.duration % 60} min.
                                 </Header>
                             <Divider />
 

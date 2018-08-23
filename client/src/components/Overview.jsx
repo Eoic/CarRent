@@ -11,9 +11,7 @@ class Overview extends Component {
         super();
         this.state = {
             startDate: moment(),
-            turnover: {},
-            fetching: true,
-            chartState: []
+            turnover: store.getCashTurnover()
         }
         this.handleChange = this.handleChange.bind(this);
         this.updateSummary = this.updateSummary.bind(this);
@@ -32,12 +30,8 @@ class Overview extends Component {
         store.removeListener('turnoverReceived', this.updateSummary);
     }
 
-    onChange = date => this.setState({ date })
-
     handleChange(date) {
-        this.setState({
-            startDate: date
-        });
+        this.setState({ startDate: date });
     }
 
     render() {
@@ -53,12 +47,12 @@ class Overview extends Component {
                             <Segment>
                                 <Statistic.Group horizontal>
                                     <Statistic horizontal color='green'>
-                                        <Statistic.Value> &euro; {(this.state.fetching) ? 0 : this.state.turnover.rentsMonthly} </Statistic.Value>
+                                        <Statistic.Value> &euro; {this.state.turnover.rentsMonthly} </Statistic.Value>
                                         <Statistic.Label> This month </Statistic.Label>
                                     </Statistic>
 
                                     <Statistic horizontal color='green'>
-                                        <Statistic.Value> &euro; {(this.state.fetching) ? 0 : this.state.turnover.rentsTotal} </Statistic.Value>
+                                        <Statistic.Value> &euro; {this.state.turnover.rentsTotal} </Statistic.Value>
                                         <Statistic.Label> Total </Statistic.Label>
                                     </Statistic>
                                 </Statistic.Group>
@@ -70,12 +64,12 @@ class Overview extends Component {
                             <Segment>
                                 <Statistic.Group horizontal>
                                     <Statistic horizontal color='red'>
-                                        <Statistic.Value> &euro; {(this.state.fetching) ? 0 : this.state.turnover.expensesMonthly} </Statistic.Value>
+                                        <Statistic.Value> &euro; {this.state.turnover.expensesMonthly} </Statistic.Value>
                                         <Statistic.Label> This month </Statistic.Label>
                                     </Statistic>
 
                                     <Statistic horizontal color='red'>
-                                        <Statistic.Value> &euro; {(this.state.fetching) ? 0 : this.state.turnover.expensesTotal} </Statistic.Value>
+                                        <Statistic.Value> &euro; {this.state.turnover.expensesTotal} </Statistic.Value>
                                         <Statistic.Label> Total </Statistic.Label>
                                     </Statistic>
                                 </Statistic.Group>

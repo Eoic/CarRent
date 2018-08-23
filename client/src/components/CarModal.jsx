@@ -53,8 +53,8 @@ class CarModal extends Component {
                 </Modal.Header>
                 <Modal.Content>
                     <Form id='car-add-form' onSubmit={this.handleSubmit}>
-                        <Form.Input label='Model' name="carModel" onChange={this.handleChange} />
-                        <Form.Input label='Registration number' name="carRegistrationNumber" onChange={this.handleChange} />
+                        <Form.Input required label='Model' name="carModel" onChange={this.handleChange} />
+                        <Form.Input required label='Registration number' name="carRegistrationNumber" onChange={this.handleChange} />
                     </Form>
                 </Modal.Content>
                 <Modal.Actions>

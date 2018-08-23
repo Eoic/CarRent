@@ -156,7 +156,7 @@ class CarEditForm extends Component {
                 <Segment>
                     <Form id='expenses-form' onSubmit={this.handleExpensesSubmit}>
                         <Form.Group widths='equal'>
-                            <Form.Input icon='euro' error={this.state.costFieldError} label='Value' name='value' value={this.state.value} onChange={this.handleExpensesChange} width='2' />
+                            <Form.Input required icon='euro' error={this.state.costFieldError} label='Value' name='value' value={this.state.value} onChange={this.handleExpensesChange} width='2' />
                             <Form.Input label='Details' name='details' width='13' value={this.state.details} onChange={this.handleExpensesChange} />
                         </Form.Group>
                         <Form.Button type='submit' color='green'>

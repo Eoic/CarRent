@@ -9,7 +9,12 @@ class CarStore extends EventEmitter {
         this.cars = [];
         this.costs = [];
         this.car = {};
-        this.turnover = {};
+        this.turnover = {
+            rentsMonthly: 0,
+            rentsTotal: 0,
+            expensesMonthly: 0,
+            expensesTotal: 0
+        };
         this.carIncome = {};
     }
 

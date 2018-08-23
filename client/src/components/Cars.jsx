@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Dropdown, Modal, Button } from 'semantic-ui-react';
+import { Table, Dropdown, Modal, Button, Icon } from 'semantic-ui-react';
 import { getCars, deleteCar } from '../actions/carActions';
 import store from '../stores/CarStore';
 import CarModal from './CarModal';
@@ -107,10 +107,16 @@ class Cars extends Component {
                             </Table.Cell>
                             <Table.Cell> {car.model} </Table.Cell>
                             <Table.Cell textAlign='center'>
-                                <Dropdown icon='ellipsis horizontal'>
+                                <Dropdown icon={<Icon name='ellipsis horizontal' style={{ margin: '1px'}} />} button>
                                     <Dropdown.Menu>
-                                        <Dropdown.Item onClick={this.handleEdit.bind(this, car._id)}> Edit </Dropdown.Item>
-                                        <Dropdown.Item onClick={this.handleDelete.bind(this, car._id, car.registrationNumber)} style={styles.deleteButton}> Delete </Dropdown.Item>
+                                        <Dropdown.Item onClick={this.handleEdit.bind(this, car._id)}> 
+                                            <Icon name='pencil'/>
+                                            Edit 
+                                        </Dropdown.Item>
+                                        <Dropdown.Item onClick={this.handleDelete.bind(this, car._id, car.registrationNumber)} style={styles.deleteButton}> 
+                                            <Icon name='trash'/>
+                                            Delete 
+                                        </Dropdown.Item>
                                     </Dropdown.Menu>
                                 </Dropdown>
                             </Table.Cell>
