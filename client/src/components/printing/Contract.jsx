@@ -66,10 +66,26 @@ class Contract extends Component {
         super();
         this.state = { timestamp: moment().format('LL').toLocaleString() }
         this.createList = this.createList.bind(this);
+        this.getDays = this.getDays.bind(this);
     }
 
-    componentDidMount(){
-        console.log(this.props);
+    getDays() {
+        const startDate = moment(this.props.rent.startDate);
+        const endDate = moment(this.props.rent.endDate);
+
+        const utc_one = Date.UTC(startDate.get('y'),
+            startDate.get('month'),
+            startDate.get('D'),
+            startDate.get('hour'),
+            startDate.get('minute'));
+
+        const utc_two = Date.UTC(endDate.get('y'),
+            endDate.get('month'),
+            endDate.get('D'),
+            endDate.get('hour'),
+            endDate.get('minute'));
+
+        return (Math.floor(utc_two - utc_one) / 86400000) >>> 0;
     }
 
     createList(pageData, sectionOffset) {
@@ -141,8 +157,8 @@ class Contract extends Component {
                                 <Text style={styles.text}> {data.odometer} </Text>
                                 <Text style={styles.text}> {moment(data.startDate).format('YYYY/MM/DD HH:mm')} </Text>
                                 <Text style={styles.text}> {moment(data.endDate).format('YYYY/MM/DD HH:mm')} </Text>
-                                <Text style={styles.text}> 0 </Text>
-                                <Text style={styles.text}> {(data.deposit) ? 150 : 0 } EUR </Text>
+                                <Text style={styles.text}> {this.getDays()} </Text>
+                                <Text style={styles.text}> {(data.deposit) ? 150 : 0} EUR </Text>
                                 <Text style={styles.strong}> {data.value} EUR </Text>
                             </View>
 
@@ -190,17 +206,17 @@ class Contract extends Component {
                                         <Text style={styles.text}> Adresas: </Text>
                                     </View>
                                     <View>
-                                        <Text style={styles.text}> ________________ </Text>
+                                        <Text style={styles.text}> - </Text>
                                         <Text style={styles.text}> {`${data.name} ${data.surname}`}</Text>
-                                        <Text style={styles.text}> ________________ </Text>
-                                        <Text style={styles.text}> ________________ </Text>
-                                        <Text style={styles.text}> ________________ </Text>
+                                        <Text style={styles.text}> - </Text>
+                                        <Text style={styles.text}> - </Text>
+                                        <Text style={styles.text}> {data.address} </Text>
                                     </View>
                                 </View>
                             </View>
                         </View>
-                        
-                        <View style={{ marginLeft: 12, paddingTop: 6 }}> 
+
+                        <View style={{ marginLeft: 12, paddingTop: 6 }}>
                             <Text style={[styles.text, { width: 700 }]}> KITI ASMENYS, KURIE VAIRUOS TRANSPORTO PRIEMONĘ </Text>
                             <Text style={styles.text}> Vardas, pavardė: </Text>
                             <Text style={styles.text}> Adresas: </Text>
