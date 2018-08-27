@@ -37,7 +37,7 @@ class Overview extends Component {
     render() {
         return (
             <div>
-                <Grid columns={2} style={{ marginTop: '15px', marginLeft: '0px' }} >
+                <Grid columns={2} stackable style={{ marginTop: '15px', marginLeft: '0px' }} >
                     <Grid.Column width={10} style={{ height: '450px' }} elevated='true' as={Segment}>
                         <TurnoverChart/>
                     </Grid.Column>

@@ -15,6 +15,23 @@ const styles = StyleSheet.create({
     document: {
         width: "100%",
         height: "100%"
+    },
+    title: {
+        textAlign: 'center',
+        fontFamily: 'Open-Sans',
+        fontSize: 12,
+        paddingTop: 8
+    },
+    text: {
+        fontSize: 9,
+        fontFamily: 'Open-Sans'
+    },
+    bold: {
+        fontFamily: 'Open-Sans-Bold'
+    },
+    header: {
+        fontFamily: 'Open-Sans-Bold',
+        fontSize: 12
     }
 });
 
@@ -33,7 +50,38 @@ class Invoice extends Component {
             <Document style={styles.document}>
                 <Page size="A4" style={styles.page}>
                     <View style={styles.section}>
-                        <Text> Placeholder </Text>
+                        <Text style={styles.title}>  
+                            PVM SĄSKAITA FAKTŪRA Nr. RAJ18 0000000
+                        </Text>
+
+                        <View style={{ flexDirection: 'row'}}>
+                            <View>
+                                <Text style={[styles.text, styles.bold]}> { this.state.timestamp} </Text>
+                                <Text style={styles.header}> Pardavėjas </Text>
+                                <Text style={styles.header}> UAB Rajesas </Text>
+                                <Text style={styles.text}> Įm. k.: 135832118 www.rajesas.lt; info@rajesas.lt </Text>
+                                <Text style={styles.text}> PVM k.: LT358321113 </Text>
+                                <Text style={styles.text}> Kaunas, Radvilų dvaro g. 6 </Text>
+                                <Text style={styles.text}> Tel.: 837 362665, Faks.: 837362665 </Text>
+                                <Text style={styles.text}> Registro tvarkytojas </Text>
+                                <Text style={styles.text}> AB Swedbank bankas, A.s. LT507300010039753927LTL </Text>
+                                <Text style={styles.text}> AB Swedbank bankas, A.s. LT287300010096942807LTL </Text>
+                                <Text style={styles.text}> AB SEB bankas, A.s. LT737044060005881155LTL </Text>
+                            </View>
+
+                            <View style={{ paddingLeft: 40}}>
+                                <Text style={styles.text}> &nbsp; </Text>
+                                <Text style={styles.header}> Pirkėjas </Text>
+                                <Text style={styles.text}> Pavadinimas </Text>
+                                <Text style={styles.text}> Įm. (asm) k.: 123456789 </Text>
+                                <Text style={styles.text}> PVM k.: LT123456789 </Text>
+                                <Text style={styles.text}> Adresas </Text>
+                            </View>
+                        </View>
+
+                        <View style={[{ border: 1 }]}>
+                            <Text> Text </Text>
+                        </View>
                     </View>
                 </Page>
             </Document>
