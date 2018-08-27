@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Grid, Divider, Button, Icon, Header, Segment } from 'semantic-ui-react';
+import { Form, Grid, Divider, Button, Icon, Header, Segment, Label } from 'semantic-ui-react';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import '../App.css';
@@ -197,16 +197,17 @@ class RentForm extends Component {
                             <Form.Group widths='4'>
                                 <Form.Input required label='Price' icon='euro' name='price' onChange={this.handleChange} />
                                 <Form.Input label='Kilometers' name='odometer' onChange={this.handleChange} />
-                                <Segment>
-                                    <Form.Checkbox onChange={(e, data) => this.setState({ deposit: data.checked })} toggle label='Deposit' />
-                                </Segment>
+                                <div className='field'>
+                                    <label style={{ marginBottom: 12}}> Deposit </label>
+                                    <Form.Checkbox onChange={(e, data) => this.setState({ deposit: data.checked })} toggle />
+                                </div>
                             </Form.Group>
 
                             <Divider />
 
                             <Header>
                                 <Icon name='time' size='huge' />
-                                    {Math.floor((this.state.duration / 60) / 24)} days {Math.floor((this.state.duration / 60) % 24)} h. {this.state.duration % 60} min.
+                                {Math.floor((this.state.duration / 60) / 24)} days {Math.floor((this.state.duration / 60) % 24)} h. {this.state.duration % 60} min.
                                 </Header>
                             <Divider />
 
@@ -216,7 +217,7 @@ class RentForm extends Component {
                             </Button>
                         </Form>
                     </Grid.Column>
-                </Grid.Row>                
+                </Grid.Row>
             </Grid>
         );
     }

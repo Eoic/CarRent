@@ -125,7 +125,7 @@ class ActiveRents extends Component {
                                         </Dropdown.Item>
                                         <Dropdown.Item onClick={() => deleteRent(RENT_ACTIONS.DELETE_ACTIVE_RENT, rent._id)} style={{ color: 'red' }}> 
                                             <Icon name='trash'/>
-                                            Delete 
+                                            Delete
                                         </Dropdown.Item>
                                     </Dropdown.Menu>
                                 </Dropdown>
