@@ -103,7 +103,7 @@ class Cars extends Component {
                     {this.state.cars.map(car =>
                         <Table.Row key={car._id}>
                             <Table.Cell>
-                                <Link to={'/car/' + car._id} > {car.registrationNumber} </Link>
+                                <Link className={'custom-link'} to={'/car/' + car._id} > {car.registrationNumber} </Link>
                             </Table.Cell>
                             <Table.Cell> {car.model} </Table.Cell>
                             <Table.Cell textAlign='center'>

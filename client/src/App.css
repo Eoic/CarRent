@@ -25,3 +25,7 @@
 .date-label {
     width: 145px;
 }
+
+.custom-link:hover{
+    text-decoration: underline;
+}
