@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Button, Divider, Grid, Form } from 'semantic-ui-react';
+import { Modal, Button, Divider, Grid, Form, Segment, Header } from 'semantic-ui-react';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 
@@ -38,7 +38,7 @@ class RentInfoModal extends Component {
                 phone: '',
                 deposit: '',
                 address: ''
-            },  
+            },
             rentType: ''
         }
         this.toggleModal = this.toggleModal.bind(this);
@@ -96,12 +96,17 @@ class RentInfoModal extends Component {
     render() {
         return (
             <Modal size='small' open={this.state.open} closeOnDimmerClick onClose={() => closeInfoModal()}>
-                <Modal.Header>
-                    RENT INFO
+                <Modal.Header as={Segment} clearing style={{ paddingBottom: 0}}>
+                        <Header as='h3' floated='left'>
+                            Rent Info
+                        </Header>
+                        <Header as='h3' floated='right'>
+                            Added {moment(this.state.rent.addedAt).format('YYYY/MM/DD HH:mm')}
+                        </Header>
                 </Modal.Header>
                 <Modal.Content>
                     <Grid>
-                        <Grid.Row columns={3}>
+                        <Grid.Row columns={2}>
                             <Grid.Column>
                                 <p> Rent start {moment(this.state.rent.startDate).format('YYYY/MM/DD HH:mm')}</p>
                             </Grid.Column>
@@ -110,9 +115,6 @@ class RentInfoModal extends Component {
                                 <p> Rent end {moment(this.state.rent.endDate).format('YYYY/MM/DD HH:mm')}</p>
                             </Grid.Column>
 
-                            <Grid.Column>
-                                <p> Added {moment(this.state.rent.addedAt).format('YYYY/MM/DD HH:mm')}</p>
-                            </Grid.Column>
                         </Grid.Row>
 
                         <Grid.Row columns={2}>
