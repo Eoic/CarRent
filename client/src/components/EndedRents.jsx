@@ -63,7 +63,7 @@ class EndedRents extends Component {
 
     render() {
         return (
-            <Table unstackable selectable singleLine>
+            <Table unstackable selectable>
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell colSpan='7' style={style.typeHeader}>
