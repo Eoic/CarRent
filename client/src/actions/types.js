@@ -25,7 +25,9 @@ export const CAR_ACTIONS = {
 export const GLOBAL_ACTIONS = {
     REQUEST_FAILED:         'globalActions.RequestFailed',
     COLOR_SCHEME_CHANGE:    'globalActions.ColorSchemeChange',
-    FONT_SIZE_CHANGE:       'globalActions.FontSizeChange'
+    FONT_SIZE_CHANGE:       'globalActions.FontSizeChange',
+    SAVE_USER_PROFILE:      'globalActions.SaveUserProfile',
+    GET_USER_PROFILE:       'globalActions.GetUserProfile'
 };
 
 export const RENT_ACTIONS = {

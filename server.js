@@ -1,8 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const cors = require('cors');
+//const cors = require('cors');
 const path = require('path');
-const passport = require('passport');
+//const passport = require('passport');
 const config = require('./config');
 const app = express();
 
@@ -22,10 +22,10 @@ require('./models/Index').connect(config.dbUri);
 // Middleware
 app.use(bodyParser.json());  
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors());
+//app.use(cors());
 
 // Use routes.
-//app.use('/api', verifyToken);
+app.use('/api', verifyToken);
 
 app.use('/', users);
 app.use('/api/cars', cars);

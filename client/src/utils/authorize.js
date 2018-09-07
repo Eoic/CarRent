@@ -31,9 +31,21 @@ class Auth {
      *
      * @returns {string}
      */
-
     static getToken() {
         return localStorage.getItem('token');
+    }
+
+    /**
+     * Parse JWT token
+     */
+    static parseToken(){
+        let token = localStorage.getItem('token');
+
+        if(token !== null){
+            let base64URL = token.split('.')[1];
+            var base64 = base64URL.replace('-', '+').replace('_', '/');
+            return JSON.parse(window.atob(base64));
+        }
     }
 }
 

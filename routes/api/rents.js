@@ -42,7 +42,6 @@ router.get('/', (req, res) => {
     });
 });
 
-
 router.get('/times-rented', (req, res) => {
 
     const currentYear = new Date().getFullYear();

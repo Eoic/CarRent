@@ -17,7 +17,7 @@ const sidebarStyles = {
     menuHeader: {
         backgroundColor: '#001970',
         borderRadius: 0,
-        height: 42.85,
+        height: 48,
     },
     pushedContent: {
         marginLeft: 205,
