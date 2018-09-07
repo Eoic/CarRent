@@ -10,7 +10,7 @@
 .input-style:focus {
     box-shadow: 1px 1px 4px rgb(194, 216, 203);
     -moz-box-shadow: 1px 1px 4px rgb(194, 216, 203);
-    -webkit-box-shadow: 1px 1px 4px rgb(194, 216, 203); 
+    -webkit-box-shadow: 1px 1px 4px rgb(194, 216, 203);
     transition: all 0.30s ease-in-out;
     -webkit-transition: all 0.30s ease-in-out;
     -moz-transition: all 0.30s ease-in-out;
@@ -18,7 +18,7 @@
     -o-transition: all 0.30s ease-in-out;
 }
 
-.react-datepicker__time-list{
+.react-datepicker__time-list {
     padding: unset !important;
 }
 
@@ -26,6 +26,25 @@
     width: 145px;
 }
 
-.custom-link:hover{
+.custom-link:hover {
     text-decoration: underline;
+}
+
+.sidebar-content {
+    margin: 15px 15px 15px 205px;
+}
+
+.menu-item-top {
+    margin-left: 205px;
+}
+
+/* Sidebar menu */
+@media only screen and (max-width: 768px) {
+    .left-sidebar {
+        display: none;
+    }
+
+    .sidebar-content, .menu-item-top {
+        margin-left: 15px;
+    }
 }

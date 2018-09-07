@@ -40,7 +40,7 @@ class ExpensesTable extends Component {
 
     render() {
         return (
-            <Table selectable unstackable singleLine compact>
+            <Table selectable compact>
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell> Value </Table.HeaderCell>

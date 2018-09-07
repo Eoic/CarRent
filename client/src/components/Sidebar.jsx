@@ -18,11 +18,6 @@ const sidebarStyles = {
         backgroundColor: '#001970',
         borderRadius: 0,
         height: 48,
-    },
-    pushedContent: {
-        marginLeft: 205,
-        marginRight: 15,
-        marginBottom: 15
     }
 }
 
@@ -54,25 +49,27 @@ class SidebarMenu extends Component {
             <div>
                 <MenuTop />
 
-                <Menu icon='labeled' inverted vertical visible='true' style={sidebarStyles.menu}>
-                    <Menu.Item style={sidebarStyles.menuHeader} content={
-                        <ItemText content='NAVIGATION' />
-                    } />
-                    <Menu.Item as={NavLink} to='/overview' content={
-                        <ItemText content='Overview' icon='home' />
-                    } />
-                    <Menu.Item as={NavLink} to='/cars' content={
-                        <ItemText content='Cars' icon='truck' />
-                    } />
-                    <Menu.Item as={NavLink} to='/reports/1/1/1' content={
-                        <ItemText content='History' icon='history' />
-                    } />
-                    <Menu.Item as={NavLink} to='/settings' content={
-                        <ItemText content='Settings' icon='cogs' />
-                    } />
-                </Menu>
+                <div className="left-sidebar">
+                    <Menu icon='labeled' inverted vertical visible='true' style={sidebarStyles.menu}>
+                        <Menu.Item style={sidebarStyles.menuHeader} content={
+                            <ItemText content='NAVIGATION' />
+                        } />
+                        <Menu.Item as={NavLink} to='/overview' content={
+                            <ItemText content='Overview' icon='home' />
+                        } />
+                        <Menu.Item as={NavLink} to='/cars' content={
+                            <ItemText content='Cars' icon='truck' />
+                        } />
+                        <Menu.Item as={NavLink} to='/reports/1/1/1' content={
+                            <ItemText content='History' icon='history' />
+                        } />
+                        <Menu.Item as={NavLink} to='/settings' content={
+                            <ItemText content='Settings' icon='cogs' />
+                        } />
+                    </Menu>
+                </div>
 
-                <div style={sidebarStyles.pushedContent}>
+                <div className='sidebar-content'>
                     {this.props.children}
                 </div>
             </div>

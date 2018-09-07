@@ -17,7 +17,7 @@ class MenuTop extends React.Component {
     render() {
         return (
             <Menu size='large' inverted style={{ backgroundColor: '#303f9f', height: 48, borderRadius: 0 }}>
-                <Menu.Item position='left' style={{ marginLeft: 205}}> 
+                <Menu.Item position='left' className="menu-item-top"> 
                     Logged in as&nbsp;
                     <Link to='/profile' className="custom-link" style={{ fontWeight: 'bold' }}> {this.state.username} </Link>
                 </Menu.Item>
