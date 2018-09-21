@@ -7,8 +7,9 @@ import shortid from 'shortid'
 
 const styles = StyleSheet.create({
     page: {
-        flexDirection: 'row',
-        backgroundColor: '#FFFFFF'
+        flexDirection: 'column',
+        backgroundColor: '#FFFFFF',
+        textAlign: 'justify'
     },
     section: {
         margin: 10,
