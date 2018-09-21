@@ -20,6 +20,9 @@ import Logout from './components/Logout';
 import axios from 'axios';
 import Profile from './components/Profile';
 
+// Logging.
+import MessageQueue from './components/MessageQueue';
+
 const PrivateRoute = ({ component: Component, ...rest }) => (
 	<Route {...rest} render={props => (
 	  Auth.isUserAuthenticated() ? (<Component {...props} {...rest} />) : (
@@ -84,6 +87,7 @@ class App extends Component {
 						</Switch>
 				</BrowserRouter>
 				<ToastContainer/>
+				<MessageQueue/>
 			</div>
 		);
 	}

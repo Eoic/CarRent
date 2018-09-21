@@ -21,6 +21,10 @@ class AppStore extends EventEmitter {
                 this.emit('fontSizeChanged');
                 break;
             }
+            case GLOBAL_ACTIONS.REQUEST_FAILED: {
+                this.emit('requestFailed', action.value);
+                break;
+            }
             default: {}
         }
     }

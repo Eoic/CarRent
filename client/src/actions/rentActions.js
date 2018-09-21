@@ -1,6 +1,6 @@
 import dispatcher from '../Dispatcher';
 import axios from 'axios';
-import { RENT_ACTIONS } from './types';
+import { RENT_ACTIONS, GLOBAL_ACTIONS } from './types';
 
 const ROUTE = {
     RENTS: '/api/rents'
@@ -31,6 +31,11 @@ export function addRent(data){
         dispatcher.dispatch({
             type: RENT_ACTIONS.ADD_RENT,
             value: response.data
+        });
+    }).catch(err => {
+        dispatcher.dispatch({
+            type: GLOBAL_ACTIONS.REQUEST_FAILED,
+            value: "Request to server failed"
         });
     });
 }

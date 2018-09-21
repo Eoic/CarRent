@@ -113,7 +113,6 @@ class RentForm extends Component {
             return false;
         }
 
-        toast.success("Successfully rented");
         return true;
     }
 

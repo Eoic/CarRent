@@ -3,6 +3,7 @@ import { RENT_ACTIONS } from '../actions/types';
 import { EventEmitter } from 'events';
 
 const EVENT_EMIT_STRING = {
+    ADD_RENT_SUCCESS:     'rentAdded',
     ACTIVE_RENTS:         'storeUpdate_Active',
     RESERVED_RENTS:       'storeUpdate_Reserved',
     ENDED_RENTS:          'storeUpdate_Ended',
@@ -42,6 +43,12 @@ class RentStore extends EventEmitter {
 
     handleActions(action){
         switch(action.type){
+
+            // POST
+            case RENT_ACTIONS.ADD_RENT: {
+                this.emit(EVENT_EMIT_STRING.ADD_RENT_SUCCESS, "Rent added successfully");
+                break;
+            }
 
             // GET
             case RENT_ACTIONS.GET_ACTIVE_RENTS: {
