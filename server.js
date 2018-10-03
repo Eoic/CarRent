@@ -22,7 +22,6 @@ require('./models/Index').connect(config.dbUri);
 // Middleware
 app.use(bodyParser.json());  
 app.use(bodyParser.urlencoded({ extended: false }));
-//app.use(cors());
 
 // Use routes.
 app.use('/api', verifyToken);

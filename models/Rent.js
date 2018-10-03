@@ -20,6 +20,7 @@ const RentSchema = new Schema({
     address: String,
 
     // Misc.
+    notes: String,
     deposit: Boolean,
     odometer: {
         type: Number,

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Grid, Divider, Button, Icon, Header } from 'semantic-ui-react';
+import { Form, Grid, Divider, Button, Icon, Header, FormGroup } from 'semantic-ui-react';
 import moment from 'moment';
 import DatePicker from 'react-datepicker';
 import '../App.css';
@@ -45,6 +45,7 @@ class RentForm extends Component {
             deposit: false,
             phone: '',
             price: '',
+            notes: '',
             odometer: 0,
             payment: {
                 value: paymentOptions[0].value,
@@ -88,7 +89,8 @@ class RentForm extends Component {
                 phone: this.state.phone,
                 deposit: this.state.deposit,
                 odometer: this.state.odometer,
-                address: this.state.address
+                address: this.state.address,
+                notes: this.state.notes
             }
 
             addRent(newRent);
@@ -201,12 +203,15 @@ class RentForm extends Component {
                                     <Form.Checkbox onChange={(e, data) => this.setState({ deposit: data.checked })} toggle />
                                 </div>
                             </Form.Group>
+                            <FormGroup widths='equal'>
+                                <Form.TextArea name='notes' style={{ maxHeight: '500px'}} onChange={this.handleChange} label='Notes'></Form.TextArea>
+                            </FormGroup>
 
                             <Divider />
 
                             <Header>
                                 <Icon name='time' size='huge' />
-                                {Math.floor((this.state.duration / 60) / 24)} days {Math.floor((this.state.duration / 60) % 24)} h. {this.state.duration % 60} min.
+                                    {Math.floor((this.state.duration / 60) / 24)} days {Math.floor((this.state.duration / 60) % 24)} h. {this.state.duration % 60} min.
                                 </Header>
                             <Divider />
 

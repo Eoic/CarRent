@@ -37,7 +37,9 @@ class RentInfoModal extends Component {
                 value: '',
                 phone: '',
                 deposit: '',
-                address: ''
+                address: '',
+                notes: '',
+                notesVisible: false
             },
             rentType: ''
         }
@@ -45,6 +47,7 @@ class RentInfoModal extends Component {
         this.handleDepositChange = this.handleDepositChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.toggleNotes = this.toggleNotes.bind(this);
     }
 
     toggleModal() {
@@ -61,6 +64,10 @@ class RentInfoModal extends Component {
 
     componentWillUnmount() {
         store.removeListener('stateChanged', this.toggleModal);
+    }
+
+    toggleNotes() {
+        this.setState({ notesVisible: !this.state.notesVisible });
     }
 
     handleDepositChange(event, data) {
@@ -96,13 +103,13 @@ class RentInfoModal extends Component {
     render() {
         return (
             <Modal size='small' open={this.state.open} closeOnDimmerClick onClose={() => closeInfoModal()}>
-                <Modal.Header as={Segment} clearing style={{ paddingBottom: 0}}>
-                        <Header as='h3' floated='left'>
-                            Rent Info
+                <Modal.Header as={Segment} clearing style={{ paddingBottom: 0 }}>
+                    <Header as='h3' floated='left'>
+                        Rent Info
                         </Header>
-                        <Header as='h3' floated='right'>
-                            Added {moment(this.state.rent.addedAt).format('YYYY/MM/DD HH:mm')}
-                        </Header>
+                    <Header as='h3' floated='right'>
+                        Added {moment(this.state.rent.addedAt).format('YYYY/MM/DD HH:mm')}
+                    </Header>
                 </Modal.Header>
                 <Modal.Content>
                     <Grid>
@@ -134,12 +141,21 @@ class RentInfoModal extends Component {
                                 </Form>
                             </Grid.Column>
                         </Grid.Row>
+
+                        <Grid.Row>
+                            <Grid.Column>
+                                <Button icon='sticky note' color='blue' content='Notes' onClick={this.toggleNotes} style={{ marginBottom: 10 }} />
+                                    <Form>
+                                        <Form.TextArea value={this.state.rent.notes} onChange={this.handleChange} name='notes' style={{ display: `${this.state.notesVisible ? 'block' : 'none' }`, maxHeight: 300 }}/>
+                                    </Form>
+                            </Grid.Column>
+                        </Grid.Row>
                     </Grid>
 
                     <Divider />
 
                     <Button color='green' content="Save changes" onClick={this.handleSubmit} />
-                    <Button color='red' content='Close' onClick={() => closeInfoModal()} />
+                    <Button color='red' content='Close' onClick={() => { this.setState({ notesVisible: false}); closeInfoModal()} } />
                 </Modal.Content>
             </Modal>
         )

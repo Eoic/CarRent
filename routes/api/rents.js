@@ -107,7 +107,8 @@ router.put('/', (req, res) => {
         phone: req.body.phone,
         deposit: req.body.deposit,
         odometer: req.body.odometer,
-        address: req.body.address
+        address: req.body.address,
+        notes: req.body.notes
     }).then(response => {
         res.json(response);
     }).catch(err =>
@@ -179,10 +180,13 @@ router.post('/', (req, res) => {
             phone: req.body.phone,
             deposit: req.body.deposit,
             odometer: req.body.odometer,
-            address: req.body.address
+            address: req.body.address,
+            notes: req.body.notes
         });
 
-        newRent.save().then(rent => res.json({}));
+        console.log(newRent);
+
+        newRent.save().then(rent => res.json({ }));
     });
 });
 
