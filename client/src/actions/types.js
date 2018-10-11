@@ -58,5 +58,8 @@ export const RENT_ACTIONS = {
 
     // PRINT
     PRINT_INVOICE:          'rentActions.PrintInvoice',
-    PRINT_CONTRACT:         'rentActions.PrintContract'
+    PRINT_CONTRACT:         'rentActions.PrintContract',
+
+    // FILTER
+    FILTER_RECORDS:         'rentActions.FilterRecords'
 };

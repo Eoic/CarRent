@@ -70,7 +70,7 @@ class ExpensesTable extends Component {
                         <Table.HeaderCell colSpan='4'>
                             <Statistic color='red' horizontal>
                                 <Statistic.Value>
-                                    &euro; {this.state.costs.sum}
+                                    &euro; {Math.round(this.state.costs.sum * 100) / 100}
                                 </Statistic.Value>
                                 <Statistic.Label content={"TOTAL"} />
                             </Statistic>

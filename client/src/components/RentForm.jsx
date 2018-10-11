@@ -20,7 +20,9 @@ const paymentOptions = [
 const styles = {
     label: {
         paddingTop: '7px',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        textAlign: 'left',
+        width: '100px'
     },
     innerGrid: {
         paddingBottom: '10px'

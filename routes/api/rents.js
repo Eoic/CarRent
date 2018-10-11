@@ -9,6 +9,12 @@ const ACTIVE_LIMIT = 20;
 const RESERVED_LIMIT = 20;
 const ENDED_LIMIT = 10;
 
+// Get rents by given filter
+router.post('/filter', (req, res) => {
+    console.log(req.body);
+    res.json({});
+});
+
 // @route   GET api/rents
 // @desc    Get rents.
 // @access  Public.

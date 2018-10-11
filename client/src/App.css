@@ -5,6 +5,7 @@
     -moz-border-radius: 3px;
     padding: 8px;
     width: 170px;
+    border-color: #e3e3e3;
 }
 
 .input-style:focus {

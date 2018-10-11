@@ -131,3 +131,11 @@ export function printContract(rentId){
         });
     });
 }
+
+export function filterResults(filter){
+    axios.post(`${ROUTE.RENTS}/filter`, filter).then(response => {
+        dispatcher.dispatch({
+            type: RENT_ACTIONS.FILTER_RECORDS
+        }); 
+    });
+}

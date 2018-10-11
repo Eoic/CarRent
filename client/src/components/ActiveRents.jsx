@@ -166,4 +166,3 @@ class ActiveRents extends Component {
 }
 
 export default ActiveRents;
-
