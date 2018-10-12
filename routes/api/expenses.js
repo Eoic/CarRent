@@ -4,6 +4,7 @@ const moment = require('moment');
 
 // Expense model.
 const Expense = require('../../models/Expense');
+const resultChunkSize = 5;
 
 // @route   GET api/expenses/
 // @desc    Get expenses from all cars.
@@ -21,6 +22,8 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
 
+    let offset = req.query.offset;
+
     Expense.aggregate([{
         $match: {
             carId: req.params.id
@@ -35,6 +38,8 @@ router.get('/:id', (req, res) => {
     }], function (err, sum) {
         Expense.find({
             'carId': req.params.id
+        }).skip(offset * resultChunkSize).limit(resultChunkSize).sort({
+            addedAt: -1
         }).then(response => {
             res.json({
                 response,

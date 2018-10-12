@@ -11,7 +11,6 @@ const ENDED_LIMIT = 10;
 
 // Get rents by given filter
 router.post('/filter', (req, res) => {
-    console.log(req.body);
     res.json({});
 });
 
@@ -189,9 +188,7 @@ router.post('/', (req, res) => {
             address: req.body.address,
             notes: req.body.notes
         });
-
-        console.log(newRent);
-
+        
         newRent.save().then(rent => res.json({ }));
     });
 });

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Icon, Button, Statistic } from 'semantic-ui-react';
+import { Table, Icon, Button, Statistic, Label } from 'semantic-ui-react';
 import { getCosts, deleteCost } from '../actions/carActions';
 import store from '../stores/CarStore';
 import moment from 'moment';
@@ -9,10 +9,12 @@ class ExpensesTable extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            costs: store.getCosts()
+            costs: store.getCosts(),
+            resultsOffset: 0
         };
         this.updateList = this.updateList.bind(this);
         this.fetchData = this.fetchData.bind(this);
+        this.handleDataLoad = this.handleDataLoad.bind(this);
     }
 
     componentDidMount() {
@@ -27,7 +29,7 @@ class ExpensesTable extends Component {
     }
 
     fetchData() {
-        getCosts(this.props.carId);
+        getCosts(this.props.carId, this.state.resultsOffset);
     }
 
     updateList() {
@@ -36,6 +38,12 @@ class ExpensesTable extends Component {
 
     handleDelete = (id) => {
         deleteCost(id);
+    }
+
+    handleDataLoad(){
+        this.setState({
+            resultsOffset: this.state.resultsOffset + 1
+        }, () => getCosts(this.props.carId, this.state.resultsOffset));
     }
 
     render() {
@@ -66,6 +74,12 @@ class ExpensesTable extends Component {
                     )}
                 </Table.Body>
                 <Table.Footer>
+                    <Table.Row>
+                        <Table.HeaderCell colSpan='4'>
+                            <Button onClick={this.handleDataLoad}> Show more... </Button>
+                            <Label color='violet' size='large'> {this.state.resultsOffset} / 25 results loaded </Label>
+                        </Table.HeaderCell>
+                    </Table.Row>
                     <Table.Row>
                         <Table.HeaderCell colSpan='4'>
                             <Statistic color='red' horizontal>

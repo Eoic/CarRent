@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Table, Menu, Icon, Button } from 'semantic-ui-react';
+import { Table, Menu, Icon, Button, Dropdown } from 'semantic-ui-react';
 import { Link, NavLink } from 'react-router-dom';
 import moment from 'moment';
 
 // Flux.
 import store from '../stores/RentStore';
-import { getRents, deleteRent, openInfoModal } from '../actions/rentActions';
+import { getRents, deleteRent, openInfoModal, printContract } from '../actions/rentActions';
 import { RENT_ACTIONS } from '../actions/types';
 
 const style = {
@@ -53,9 +53,9 @@ class ReservedRents extends Component {
         let menuItems = [];
 
         for (let i = 0; i < pageCount; i++) {
-            menuItems.push( <Menu.Item as={NavLink} to={`/reports/${this.props.page.active}/${(i + 1)}/${this.props.page.ended}`} key={i}
-                                onClick={() => getRents(RENT_ACTIONS.GET_RESERVED_RENTS, 'reserved', i + 1)}> {i + 1}
-                            </Menu.Item>);
+            menuItems.push(<Menu.Item as={NavLink} to={`/reports/${this.props.page.active}/${(i + 1)}/${this.props.page.ended}`} key={i}
+                onClick={() => getRents(RENT_ACTIONS.GET_RESERVED_RENTS, 'reserved', i + 1)}> {i + 1}
+            </Menu.Item>);
         }
 
         return menuItems;
@@ -89,7 +89,19 @@ class ReservedRents extends Component {
                             <Table.Cell> {moment(rent.startDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
                             <Table.Cell> {moment(rent.endDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
                             <Table.Cell textAlign='right' width='1'>
-                                <Button icon='trash' color='red' onClick={() => deleteRent(RENT_ACTIONS.DELETE_RESERVED_RENT, rent._id)} />
+
+                                <Dropdown icon={<Icon style={{ margin: '2px' }} name='ellipsis horizontal' />} button>
+                                    <Dropdown.Menu>
+                                        <Dropdown.Item onClick={() => printContract(rent._id)}>
+                                            <Icon name='credit card' />
+                                            Print Contract
+                                        </Dropdown.Item>
+                                        <Dropdown.Item onClick={() => deleteRent(RENT_ACTIONS.DELETE_RESERVED_RENT, rent._id)} style={{ color: 'red' }}>
+                                            <Icon name='trash' />
+                                            Delete
+                                        </Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>
                             </Table.Cell>
                             <Table.Cell textAlign='right' width='1'>
                                 <Button animated='vertical' color='green' onClick={() => openInfoModal(RENT_ACTIONS.UPDATE_RESERVED_RENT, rent._id)} >

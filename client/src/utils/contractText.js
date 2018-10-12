@@ -1,6 +1,6 @@
 const agreements = {
     pageOne: {
-        title: "Transporto priemonės nuomos sutartis nr.: ",
+        title: "Transporto priemonės nuomos sutarties nr.: ",
         description: 'Pagal šią sutartį Nuomotojas nuomoja automobilį Nuomininkui. Nuomininkas sutinka laikytis automobilio naudojimosi taisyklių, išdėstytų šioje sutartyje patvirtindamas tai savo parašu.',
         outer: [{
                 content: "AUTOMOBILIO PRIĖMIMAS IR GRĄŽINIMAS",
