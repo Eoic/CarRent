@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Icon, Button, Statistic, Label } from 'semantic-ui-react';
+import { Table, Icon, Button, Statistic } from 'semantic-ui-react';
 import { getCosts, deleteCost } from '../actions/carActions';
 import store from '../stores/CarStore';
 import moment from 'moment';
@@ -74,12 +74,6 @@ class ExpensesTable extends Component {
                     )}
                 </Table.Body>
                 <Table.Footer>
-                    <Table.Row>
-                        <Table.HeaderCell colSpan='4'>
-                            <Button onClick={this.handleDataLoad}> Show more... </Button>
-                            <Label color='violet' size='large'> {this.state.resultsOffset} / 25 results loaded </Label>
-                        </Table.HeaderCell>
-                    </Table.Row>
                     <Table.Row>
                         <Table.HeaderCell colSpan='4'>
                             <Statistic color='red' horizontal>

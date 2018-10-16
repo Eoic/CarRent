@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Table, Menu, Icon, Button } from 'semantic-ui-react';
+import { Table, Menu, Icon, Button, Dropdown } from 'semantic-ui-react';
 import { Link, NavLink } from 'react-router-dom';
 import moment from 'moment';
 
 // Flux.
 import store from '../stores/RentStore';
-import { getRents, openInfoModal } from '../actions/rentActions';
+import { getRents, openInfoModal, deleteRent } from '../actions/rentActions';
 import { RENT_ACTIONS } from '../actions/types';
 
 const style = {
@@ -66,9 +66,9 @@ class EndedRents extends Component {
             <Table unstackable selectable>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell colSpan='7' style={style.typeHeader}>
+                        <Table.HeaderCell colSpan='6' style={style.typeHeader}>
                             Ended
-                    </Table.HeaderCell>
+                        </Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Header>
@@ -77,7 +77,8 @@ class EndedRents extends Component {
                         <Table.HeaderCell> Income, &euro; </Table.HeaderCell>
                         <Table.HeaderCell> Start Date </Table.HeaderCell>
                         <Table.HeaderCell> End Date </Table.HeaderCell>
-                        <Table.HeaderCell />
+                        <Table.HeaderCell textAlign='right'/>
+                        <Table.HeaderCell textAlign='right'/>
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -88,6 +89,16 @@ class EndedRents extends Component {
                             <Table.Cell> {moment(rent.startDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
                             <Table.Cell> {moment(rent.endDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
                             <Table.Cell textAlign='right'>
+                                <Dropdown icon={<Icon style={{ margin: '2px' }} name='ellipsis horizontal' />} button>
+                                    <Dropdown.Menu>
+                                        <Dropdown.Item onClick={() => deleteRent(RENT_ACTIONS.DELETE_ENDED_RENT, rent._id)} style={{ color: 'red' }}>
+                                            <Icon name='trash' />
+                                            Delete
+                                        </Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>
+                            </Table.Cell>
+                            <Table.Cell textAlign='right' width='1'>
                                 <Button animated='vertical' color='green' onClick={() => openInfoModal(RENT_ACTIONS.UPDATE_ENDED_RENT, rent._id)} >
                                     <Button.Content hidden> INFO </Button.Content>
                                     <Button.Content visible>
@@ -100,7 +111,7 @@ class EndedRents extends Component {
                 </Table.Body>
                 <Table.Footer>
                     <Table.Row>
-                        <Table.HeaderCell colSpan='7'>
+                        <Table.HeaderCell colSpan='6'>
                             <Menu floated pagination>
                                 <Menu.Item as='a' icon>
                                     <Icon name='chevron left' />

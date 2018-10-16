@@ -95,7 +95,12 @@ class RentStore extends EventEmitter {
                 this.emit(EVENT_EMIT_STRING.UPDATE_RENT_RESERVED);
                 break;
             }
-            
+
+            case RENT_ACTIONS.DELETE_ENDED_RENT: {
+                this.emit(EVENT_EMIT_STRING.UPDATE_RENT_ENDED);
+                break;
+            }
+
             // END
             case RENT_ACTIONS.END_RENT_ACTIVE: {
                 this.emit(EVENT_EMIT_STRING.UPDATE_RENT_ACTIVE);
