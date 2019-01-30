@@ -3,10 +3,10 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
-const { check, body, validationResult} = require('express-validator/check');
+const { check, body, validationResult } = require('express-validator/check');
 const { jwtSecret, expiresIn } = require('../config/index');
 
-router.post('/login',(req, res) => {
+router.post('/login', (req, res) => {
     const user = {
         username: req.body.username.trim(),
         password: req.body.password.trim()
@@ -16,9 +16,11 @@ router.post('/login',(req, res) => {
         username: user.username
     }, (err, userObject) => {
         if (err)
-            return res.status(500).send("Server error.");
+            return res.status(500).json({
+                errors: ['Internal server error']
+            })
 
-        if (!userObject){
+        if (!userObject) {
             return res.status(404).json({
                 errors: ["Invalid username or password"]
             });
@@ -26,14 +28,14 @@ router.post('/login',(req, res) => {
 
         bcrypt.compare(user.password, userObject.password, (err, success) => {
             if (err || !success)
-                res.status(401).send("Invalid password.");
+                res.status(401).json({
+                    errors: ["Invalid username or password"]
+                });
             else {
                 const token = jwt.sign({
                     id: userObject._id,
                     username: userObject.username
-                }, process.env.JWT_SECRET || jwtSecret, {
-                    expiresIn: process.env.JWT_EXPIRES || expiresIn
-                });
+                }, process.env.JWT_SECRET || jwtSecret, { expiresIn: process.env.JWT_EXPIRES || expiresIn });
 
                 res.status(200).send({
                     auth: true,
@@ -56,7 +58,7 @@ router.post('/register', [
             return User.findOne({
                 email: value
             }).then(user => {
-                if(user)
+                if (user)
                     return Promise.reject("Email is already in use.")
             });
         }),
@@ -65,7 +67,7 @@ router.post('/register', [
             return User.findOne({
                 username: value
             }).then(user => {
-                if(user)
+                if (user)
                     return Promise.reject('Username already taken.');
             });
         }),
@@ -77,7 +79,7 @@ router.post('/register', [
 
     const errors = validationResult(req);
 
-    if(!errors.isEmpty())
+    if (!errors.isEmpty())
         return res.status(422).json({ errors: errors.array() });
 
     const user = {
@@ -94,8 +96,8 @@ router.post('/register', [
         const token = jwt.sign({
             id: response._id
         }, process.env.JWT_SECRET || jwtSecret, {
-            expiresIn: process.env.JWT_EXPIRES || expiresIn
-        });
+                expiresIn: process.env.JWT_EXPIRES || expiresIn
+            });
 
         res.json({
             auth: true,
