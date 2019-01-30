@@ -16,7 +16,7 @@ const turnover = require('./routes/api/turnover');
 const verifyToken = require('./routes/verifyToken');
 
 // Connect to MongoDB.
-require('./models/Index').connect(config.dbUri);
+require('./models/Index').connect(process.env.MONGO_URI || config.dbUri);
 
 // Middleware
 app.use(helmet())
@@ -38,7 +38,7 @@ if(process.env.NODE_ENV === 'production'){
     //Set static folder.
     app.use(express.static('client/build'));
     
-    app.get('*', (req, res) => {
+    app.get('*', (_req, res) => {
         res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
     });
 }

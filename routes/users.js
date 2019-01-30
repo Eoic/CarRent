@@ -31,8 +31,8 @@ router.post('/login',(req, res) => {
                 const token = jwt.sign({
                     id: userObject._id,
                     username: userObject.username
-                }, jwtSecret, {
-                    expiresIn: expiresIn
+                }, process.env.JWT_SECRET || jwtSecret, {
+                    expiresIn: process.env.JWT_EXPIRES || expiresIn
                 });
 
                 res.status(200).send({
@@ -93,8 +93,8 @@ router.post('/register', [
     }).then((response) => {
         const token = jwt.sign({
             id: response._id
-        }, jwtSecret, {
-            expiresIn: expiresIn
+        }, process.env.JWT_SECRET || jwtSecret, {
+            expiresIn: process.env.JWT_EXPIRES || expiresIn
         });
 
         res.json({
@@ -104,7 +104,7 @@ router.post('/register', [
     });
 });
 
-router.get('/logout', function (req, res) {
+router.get('/logout', function (_req, res) {
     res.status(200).send({
         auth: false,
         token: null

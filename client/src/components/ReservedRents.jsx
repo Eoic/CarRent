@@ -107,9 +107,7 @@ class ReservedRents extends Component {
                                 </Button>
                             </Table.Cell>
                         </Table.Row>
-                    )}
-
-                    {this.state.reservedRents.length === 0 && <Table.Row><Table.Cell colSpan='6'> No reserved rents </Table.Cell> </Table.Row>}
+                    )}{this.state.reservedRents.length === 0 && <Table.Row><Table.Cell colSpan='6'>No reserved rents</Table.Cell></Table.Row>}
                 </Table.Body>
                 <Table.Footer>
                     <Table.Row>

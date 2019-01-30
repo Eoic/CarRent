@@ -11,7 +11,7 @@ function verifyToken(req, res, next) {
         });
     }
 
-    jwt.verify(token, jwtSecret, (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET || jwtSecret, (err, decoded) => {
         if (err) {
             return res.status(500).send({
                 auth: false,
