@@ -5,6 +5,13 @@ import { getTurnover } from '../actions/carActions';
 import moment from 'moment';
 import TurnoverChart from './TurnoverChart';
 
+const style = {
+    redText: { color: '#e44445' },
+    greenText: { color: '#239e87'},
+    redBackground: { backgroundColor: '#e44445'},
+    greenBackgrond: { backgroundColor: '#239e87'}
+}
+
 class Overview extends Component {
 
     constructor() {
@@ -37,22 +44,22 @@ class Overview extends Component {
     render() {
         return (
             <div>
-                <Grid columns={2} stackable style={{ marginTop: '15px', marginLeft: '0px' }} >
-                    <Grid.Column width={10} style={{ height: '450px' }} elevated='true' as={Segment}>
+                <Grid stackable style={{ marginTop: '15px', marginLeft: '0px' }} >
+                    <Grid.Column width={11} style={{ height: '448px' }} elevated='true' as={Segment}>
                         <TurnoverChart/>
                     </Grid.Column>
-                    <Grid.Column width={6} style={{ paddingTop: '0px' }}>
+                    <Grid.Column width={5} style={{ paddingTop: '0px' }}>
                         <Segment.Group>
-                            <Segment as={Header}> INCOME </Segment>
+                            <Segment as={Header} inverted style={style.greenBackgrond}> INCOME </Segment>
                             <Segment>
                                 <Statistic.Group horizontal>
-                                    <Statistic horizontal color='green'>
-                                        <Statistic.Value> &euro; {this.state.turnover.rentsMonthly} </Statistic.Value>
+                                    <Statistic horizontal style={{ display: 'block' }}>
+                                        <Statistic.Value style={style.greenText}> &euro; {this.state.turnover.rentsMonthly} </Statistic.Value>
                                         <Statistic.Label> This month </Statistic.Label>
                                     </Statistic>
 
-                                    <Statistic horizontal color='green'>
-                                        <Statistic.Value> &euro; {this.state.turnover.rentsTotal} </Statistic.Value>
+                                    <Statistic horizontal style={{ display: 'block' }}>
+                                        <Statistic.Value style={style.greenText}> &euro; {this.state.turnover.rentsTotal} </Statistic.Value>
                                         <Statistic.Label> Total </Statistic.Label>
                                     </Statistic>
                                 </Statistic.Group>
@@ -60,16 +67,16 @@ class Overview extends Component {
                         </Segment.Group>
 
                         <Segment.Group>
-                            <Segment as={Header}> EXPENSES </Segment>
+                            <Segment as={Header} inverted style={style.redBackground}> EXPENSES </Segment>
                             <Segment>
                                 <Statistic.Group horizontal>
-                                    <Statistic horizontal color='red'>
-                                        <Statistic.Value> &euro; {this.state.turnover.expensesMonthly} </Statistic.Value>
+                                    <Statistic horizontal style={{ display: 'block' }}>
+                                        <Statistic.Value style={style.redText}> &euro; {this.state.turnover.expensesMonthly} </Statistic.Value>
                                         <Statistic.Label> This month </Statistic.Label>
                                     </Statistic>
 
-                                    <Statistic horizontal color='red'>
-                                        <Statistic.Value> &euro; {this.state.turnover.expensesTotal} </Statistic.Value>
+                                    <Statistic horizontal style={{ display: 'block' }}>
+                                        <Statistic.Value style={style.redText}> &euro; {this.state.turnover.expensesTotal} </Statistic.Value>
                                         <Statistic.Label> Total </Statistic.Label>
                                     </Statistic>
                                 </Statistic.Group>
