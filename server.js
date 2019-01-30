@@ -1,10 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-//const cors = require('cors');
 const path = require('path');
-//const passport = require('passport');
 const config = require('./config');
 const app = express();
+const helmet = require('helmet')
 
 // API routes.
 const cars = require('./routes/api/cars');
@@ -20,6 +19,7 @@ const verifyToken = require('./routes/verifyToken');
 require('./models/Index').connect(config.dbUri);
 
 // Middleware
+app.use(helmet())
 app.use(bodyParser.json());  
 app.use(bodyParser.urlencoded({ extended: false }));
 
