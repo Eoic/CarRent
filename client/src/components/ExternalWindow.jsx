@@ -15,12 +15,15 @@ class ExternalWindow extends Component {
 
     componentDidMount() {
         this.externalWindow = window.open('', ',', "width=600, height=700, left=0, top=0");
-        this.externalWindow.document.body.appendChild(this.containerEl);
-        this.externalWindow.document.title = (this.props.title) ? this.props.title : 'blank' ;
 
-        this.externalWindow.addEventListener('beforeunload', () => {
-            this.props.closeWindowPortal();
-        });
+        if(this.externalWindow !== null) {
+            this.externalWindow.document.body.appendChild(this.containerEl);
+            this.externalWindow.document.title = (this.props.title) ? this.props.title : 'blank' ;
+
+            this.externalWindow.addEventListener('beforeunload', () => {
+                this.props.closeWindowPortal();
+            });
+        }
     }
 
     componentWillUnmount() {

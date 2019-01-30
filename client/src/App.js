@@ -10,7 +10,7 @@ import Register from './components/Register';
 import Overview from './components/Overview';
 import Cars from './components/Cars';
 import Reports from './components/Reports';
-import Settings from './components/Settings';
+import History from './components/History';
 import CarEditForm from './components/CarEditForm';
 import { ToastContainer } from '../node_modules/react-toastify';
 
@@ -81,7 +81,7 @@ class App extends Component {
 								<PrivateRoute path='/cars' component={Cars}/>
 								<PrivateRoute path='/car/:id' component={CarEditForm}/>
 								<PrivateRoute path='/reports/:active/:reserved/:ended' component={Reports}/>
-								<PrivateRoute path='/settings' component={Settings}/>
+								<PrivateRoute path='/history' component={History}/>
 								<PrivateRoute path='/profile' component={Profile}/>
 							</Sidebar>
 						</Switch>

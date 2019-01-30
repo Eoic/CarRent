@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Table, Menu, Icon, Button, Dropdown } from 'semantic-ui-react';
-import { Link, NavLink } from 'react-router-dom';
+import { Table, Menu, Icon, Button, Dropdown, Pagination } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 // Flux.
@@ -48,19 +48,6 @@ class EndedRents extends Component {
         });
     }
 
-    createPages() {
-        const pageCount = Math.ceil(this.state.size / 10);
-        let menuItems = [];
-
-        for (let i = 0; i < pageCount; i++) {
-            menuItems.push(<Menu.Item as={NavLink} to={`/reports/${this.props.page.active}/${this.props.page.reserved}/${(i + 1)}`} key={i}
-                onClick={() => getRents(RENT_ACTIONS.GET_ENDED_RENTS, 'ended', i + 1)}> {i + 1}
-            </Menu.Item>);
-        }
-
-        return menuItems;
-    }
-
     render() {
         return (
             <Table unstackable selectable>
@@ -77,8 +64,8 @@ class EndedRents extends Component {
                         <Table.HeaderCell> Income, &euro; </Table.HeaderCell>
                         <Table.HeaderCell> Start Date </Table.HeaderCell>
                         <Table.HeaderCell> End Date </Table.HeaderCell>
-                        <Table.HeaderCell textAlign='right'/>
-                        <Table.HeaderCell textAlign='right'/>
+                        <Table.HeaderCell textAlign='right' />
+                        <Table.HeaderCell textAlign='right' />
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -112,15 +99,7 @@ class EndedRents extends Component {
                 <Table.Footer>
                     <Table.Row>
                         <Table.HeaderCell colSpan='6'>
-                            <Menu floated pagination>
-                                <Menu.Item as='a' icon>
-                                    <Icon name='chevron left' />
-                                </Menu.Item>
-                                {this.createPages()}
-                                <Menu.Item as='a' icon>
-                                    <Icon name='chevron right' />
-                                </Menu.Item>
-                            </Menu>
+                            <Pagination defaultActivePage={1} totalPages={Math.ceil(this.state.size / 10)} onPageChange={(_event, data) => getRents(RENT_ACTIONS.GET_ENDED_RENTS, 'ended', data.activePage)} />
                         </Table.HeaderCell>
                     </Table.Row>
                 </Table.Footer>

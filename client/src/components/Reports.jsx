@@ -4,7 +4,6 @@ import EndedRents from './EndedRents';
 import ActiveRents from './ActiveRents';
 import RentInfoModal from './RentInfoModal';
 import Printer from './Printer';
-import Filter from './Filter';
 
 class Reports extends Component {
     render() {
@@ -12,7 +11,6 @@ class Reports extends Component {
 
         return (
             <div>
-                <Filter/>
                 <RentInfoModal />
                 <Printer />
                 <ActiveRents page={{ active, reserved, ended }} />

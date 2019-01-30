@@ -63,8 +63,8 @@ class SidebarMenu extends Component {
                         <Menu.Item as={NavLink} to='/reports/1/1/1' content={
                             <ItemText content='History' icon='history' />
                         } />
-                        <Menu.Item as={NavLink} to='/settings' content={
-                            <ItemText content='Settings' icon='cogs' />
+                        <Menu.Item as={NavLink} to='/history' content={
+                            <ItemText content='Reports' icon='book' />
                         } />
                     </Menu>
                 </div>

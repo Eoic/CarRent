@@ -52,8 +52,8 @@ class TurnoverChart extends Component {
                         <YAxis />
                         <Tooltip />
                         <Legend />
-                        <Bar dataKey="uv" name="Income" fill="#379634" />
-                        <Bar dataKey="pv" name="Expenses" fill="#db3a34" />
+                        <Bar dataKey="uv" name="Income" fill="#239E87" />
+                        <Bar dataKey="pv" name="Expenses" fill="#E44445" />
                     </BarChart>
                 </ResponsiveContainer>
         );

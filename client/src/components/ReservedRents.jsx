@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { Table, Menu, Icon, Button, Dropdown } from 'semantic-ui-react';
-import { Link, NavLink } from 'react-router-dom';
+import { Table, Menu, Icon, Button, Dropdown, Pagination } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 import moment from 'moment';
 
 // Flux.
@@ -26,6 +26,7 @@ class ReservedRents extends Component {
         }
         this.updateRentsList = this.updateRentsList.bind(this);
         this.fetchData = this.fetchData.bind(this);
+        this.handlePageChange = this.handlePageChange.bind(this)
     }
 
     updateRentsList() {
@@ -48,17 +49,11 @@ class ReservedRents extends Component {
         store.removeListener('updateReserved', this.fetchData);
     }
 
-    createPages() {
-        const pageCount = Math.ceil(this.state.size / 20);
-        let menuItems = [];
-
-        for (let i = 0; i < pageCount; i++) {
-            menuItems.push(<Menu.Item as={NavLink} to={`/reports/${this.props.page.active}/${(i + 1)}/${this.props.page.ended}`} key={i}
-                onClick={() => getRents(RENT_ACTIONS.GET_RESERVED_RENTS, 'reserved', i + 1)}> {i + 1}
-            </Menu.Item>);
-        }
-
-        return menuItems;
+    handlePageChange(_event, data) {
+        if(data.activePage < 1)
+            return;
+        
+        getRents(RENT_ACTIONS.GET_RESERVED_RENTS, 'reserved',  data.activePage)
     }
 
     render() {
@@ -113,19 +108,13 @@ class ReservedRents extends Component {
                             </Table.Cell>
                         </Table.Row>
                     )}
+
+                    {this.state.reservedRents.length === 0 && <Table.Row><Table.Cell colSpan='6'> No reserved rents </Table.Cell> </Table.Row>}
                 </Table.Body>
                 <Table.Footer>
                     <Table.Row>
                         <Table.HeaderCell colSpan='7'>
-                            <Menu floated pagination>
-                                <Menu.Item as='a' icon>
-                                    <Icon name='chevron left' />
-                                </Menu.Item>
-                                {this.createPages()}
-                                <Menu.Item as='a' icon>
-                                    <Icon name='chevron right' />
-                                </Menu.Item>
-                            </Menu>
+                            <Pagination defaultActivePage={1} totalPages={Math.ceil(this.state.size / 10)} onPageChange={this.handlePageChange} />
                         </Table.HeaderCell>
                     </Table.Row>
                 </Table.Footer>

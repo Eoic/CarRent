@@ -56,10 +56,6 @@ class Filter extends Component {
     render() {
         return (
             <Segment.Group>
-                <Segment>
-                    <Button icon='filter' onClick={this.toggleFilter} color='blue' content='Filter results' />
-                </Segment>
-                {this.state.filterOpen &&
                     <Segment>
                         <Form onSubmit={this.handleSubmit}>
                             <Grid stackable columns={4} padded>
@@ -87,7 +83,7 @@ class Filter extends Component {
                             <Divider />
                             <Form.Button icon='search' content='Apply' color='green' />
                         </Form>
-                    </Segment>}
+                    </Segment>
             </Segment.Group>
         );
     }
