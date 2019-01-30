@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Segment, Button, Grid, Divider } from 'semantic-ui-react';
+import { Form, Segment, Grid, Divider, Table, Tab } from 'semantic-ui-react';
 import { filterResults } from '../actions/rentActions';
 
 const Label = (props) => (
@@ -36,7 +36,7 @@ class Filter extends Component {
         });
     }
 
-    handleChange(event){
+    handleChange(event) {
 
         let name = event.target.name;
         let value = event.target.value;
@@ -44,18 +44,19 @@ class Filter extends Component {
         this.setState(prevState => ({
             filter: {
                 ...prevState.filter,
-                [name]: value 
+                [name]: value
             }
         }));
     }
 
-    handleSubmit(){
+    handleSubmit() {
         filterResults(this.state.filter);
     }
 
     render() {
         return (
-            <Segment.Group>
+            <React.Fragment>
+                <Segment.Group>
                     <Segment>
                         <Form onSubmit={this.handleSubmit}>
                             <Grid stackable columns={4} padded>
@@ -84,7 +85,33 @@ class Filter extends Component {
                             <Form.Button icon='search' content='Apply' color='green' />
                         </Form>
                     </Segment>
-            </Segment.Group>
+                </Segment.Group>
+
+                <Table unstackable selectable>
+                <Table.Header>
+                    <Table.Row>
+                        <Table.HeaderCell> Car </Table.HeaderCell>
+                        <Table.HeaderCell> Income, &euro; </Table.HeaderCell>
+                        <Table.HeaderCell> Start Date </Table.HeaderCell>
+                        <Table.HeaderCell> End Date </Table.HeaderCell>
+                        <Table.HeaderCell textAlign='right' />
+                        <Table.HeaderCell textAlign='right' />
+                    </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                    <Table.Row>
+                        <Table.Cell> Body </Table.Cell>
+                    </Table.Row>
+                </Table.Body>
+                <Table.Footer>
+                    <Table.Row>
+                        <Table.HeaderCell colSpan='6'>
+                            Footer
+                        </Table.HeaderCell>
+                    </Table.Row>
+                </Table.Footer>
+            </Table>
+            </React.Fragment>
         );
     }
 }

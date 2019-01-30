@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Menu, Icon, Button, Dropdown, Pagination } from 'semantic-ui-react';
+import { Table, Icon, Button, Dropdown, Pagination } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 
