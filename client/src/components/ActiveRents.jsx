@@ -67,9 +67,9 @@ class ActiveRents extends Component {
                 <Table unstackable selectable>
                     <Table.Header>
                         <Table.Row>
-                            <Table.HeaderCell colSpan='7' style={style.typeHeader}>
-                                Active
-                    </Table.HeaderCell>
+                            <Table.HeaderCell colSpan='7' style={style.typeHeader}> 
+                                <i className='fa fa-hourglass-half'/>
+                            Active </Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
                     <Table.Header>
