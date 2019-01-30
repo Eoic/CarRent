@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
         fontSize: 11,
         marginLeft: 12,
         marginRight: 12,
-        paddingTop: 12,
+        paddingTop: 8,
         paddingBottom: 5,
         width: 700
     },
@@ -58,8 +58,8 @@ const styles = StyleSheet.create({
     }
 });
 
-Font.register('http://fonts.gstatic.com/s/opensans/v15/mem8YaGs126MiZpBA-U1Ug.ttf', { family: 'Open-Sans' });
-Font.register('http://fonts.gstatic.com/s/opensans/v15/mem5YaGs126MiZpBA-UN7rg-VQ.ttf', { family: 'Open-Sans-Bold' });
+Font.register('//fonts.gstatic.com/s/opensans/v15/mem8YaGs126MiZpBA-U1Ug.ttf', { family: 'Open-Sans' });
+Font.register('//fonts.gstatic.com/s/opensans/v15/mem5YaGs126MiZpBA-UN7rg-VQ.ttf', { family: 'Open-Sans-Bold' });
 
 class Contract extends Component {
 
@@ -191,7 +191,7 @@ class Contract extends Component {
                                 <Text style={styles.text}> TEL.: +37065505568 </Text>
                             </View>
                             <View style={{ width: 250 }}>
-                                <Text style={[styles.strong, { textAlign: 'center', marginBottom: 6 }]}> NUOMININKAS </Text>
+                                <Text style={[styles.strong, { textAlign: 'center', marginBottom: 0 }]}> NUOMININKAS </Text>
                                 <View style={{ flexDirection: 'row' }}>
                                     <View style={{ width: 100 }}>
                                         <Text style={styles.text}> Pavadinimas: </Text>
