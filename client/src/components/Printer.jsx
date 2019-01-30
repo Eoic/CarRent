@@ -5,6 +5,7 @@ import store from '../stores/RentStore';
 import ExternalWindow from './ExternalWindow';
 import Invoice from './printing/Invoice';
 import Contract from './printing/Contract';
+import { PDFViewer } from '@react-pdf/renderer'
 
 class Printer extends Component {
     constructor() {
@@ -21,16 +22,16 @@ class Printer extends Component {
         this.closeWindowPortal = this.closeWindowPortal.bind(this);
     }
 
-    handleInvoicePrint(){
+    handleInvoicePrint() {
         this.setState({
             printWindowOpen: true,
             printInvoice: true,
             rent: store.getRent(),
             title: 'Invoice Print'
         });
-    }   
+    }
 
-    handleContractPrint(){
+    handleContractPrint() {
         this.setState({
             printWindowOpen: true,
             printInvoice: false,
@@ -39,7 +40,7 @@ class Printer extends Component {
         });
     }
 
-    closeWindowPortal(){
+    closeWindowPortal() {
         this.setState({ printWindowOpen: false });
     }
 
@@ -58,7 +59,9 @@ class Printer extends Component {
             <div>
                 {this.state.printWindowOpen && (
                     <ExternalWindow title={this.state.title} closeWindowPortal={this.closeWindowPortal} >
-                        {(this.state.printInvoice) ? <Invoice rent={this.state.rent} /> : <Contract rent={this.state.rent} />}
+                        <PDFViewer style={{ width: '100%', height: '100%'}}>
+                            {(this.state.printInvoice) ? <Invoice rent={this.state.rent} /> : <Contract rent={this.state.rent} />}
+                        </PDFViewer>
                     </ExternalWindow>
                 )}
             </div>

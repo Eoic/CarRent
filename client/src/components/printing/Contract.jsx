@@ -106,7 +106,6 @@ class Contract extends Component {
                 }
             }
         }
-
         return list;
     }
 
@@ -118,7 +117,7 @@ class Contract extends Component {
             <Document style={styles.document}>
                 <Page size="A4" style={styles.page}>
                     <View style={styles.section}>
-                        <Text style={[styles.text, { textAlign: 'center', width: 515 }]}> {`${agreements.pageOne.title}${shortid()}`}</Text>
+                        <Text style={Object.assign({}, styles.text, { textAlign: 'center', width: 515 })}> {`${agreements.pageOne.title}${shortid()}`}</Text>
                         <Text style={styles.title}> {this.state.timestamp} </Text>
                         <Text style={styles.openingText}> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {agreements.pageOne.description} </Text>
                         {this.createList(agreements.pageOne, 0)}
@@ -180,12 +179,9 @@ class Contract extends Component {
                             </View>
                         </View>
 
-                        {/* Last section */}
-
-                        <Text style={[{ textAlign: 'center', fontSize: 10, fontFamily: 'Open-Sans-Bold', marginTop: 6 }]}>
+                        <Text style={{ textAlign: 'center', fontSize: 10, fontFamily: 'Open-Sans-Bold', marginTop: 6 }}>
                             Šalių parašai
                         </Text>
-
                         <View style={{ flexDirection: 'row', marginLeft: 12, marginRight: 12, marginTop: 6 }}>
                             <View style={{ width: 250 }}>
                                 <Text style={[styles.strong, { textAlign: 'center', marginBottom: 6 }]}> NUOMOTOJAS </Text>
@@ -194,10 +190,8 @@ class Contract extends Component {
                                 <Text style={[styles.text, { width: 500 }]}> ADRESAS: RADVILŲ DVARO 6, KAUNAS </Text>
                                 <Text style={styles.text}> TEL.: +37065505568 </Text>
                             </View>
-
                             <View style={{ width: 250 }}>
                                 <Text style={[styles.strong, { textAlign: 'center', marginBottom: 6 }]}> NUOMININKAS </Text>
-
                                 <View style={{ flexDirection: 'row' }}>
                                     <View style={{ width: 100 }}>
                                         <Text style={styles.text}> Pavadinimas: </Text>
@@ -216,7 +210,6 @@ class Contract extends Component {
                                 </View>
                             </View>
                         </View>
-
                         <View style={{ marginLeft: 12, paddingTop: 6 }}>
                             <Text style={[styles.text, { width: 700 }]}> KITI ASMENYS, KURIE VAIRUOS TRANSPORTO PRIEMONĘ </Text>
                             <Text style={styles.text}> Vardas, pavardė: </Text>
