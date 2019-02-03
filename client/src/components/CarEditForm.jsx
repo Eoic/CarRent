@@ -15,7 +15,6 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import axios from 'axios';
-import RentSummary from './RentSummary';
 
 class CarEditForm extends Component {
 
@@ -187,6 +186,10 @@ class CarEditForm extends Component {
                     <Statistic>
                         <Statistic.Label> Times rented &nbsp; </Statistic.Label>
                         <Statistic.Value> {this.state.timesRented} </Statistic.Value>
+                    </Statistic>
+                    <Statistic>
+                        <Statistic.Label> Income per single rent </Statistic.Label>
+                        <Statistic.Value> &euro; {(this.state.carIncome / this.state.timesRented).toFixed(2)} </Statistic.Value>
                     </Statistic>
                 </Segment>
 

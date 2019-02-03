@@ -7,7 +7,11 @@ class CarStore extends EventEmitter {
     constructor(){
         super();
         this.cars = [];
-        this.costs = [];
+        this.costs = {
+            size: 0,
+            sum: 0,
+            list: []
+        };
         this.car = {};
         this.turnover = {
             rentsMonthly: 0,
@@ -31,8 +35,9 @@ class CarStore extends EventEmitter {
                 break;
             }
             case CAR_ACTIONS.GET_COSTS: {
-                this.costs = action.value.response;
+                this.costs.list = action.value.response;
                 this.costs.sum = action.value.sum;
+                this.costs.size = action.value.size
                 this.emit('storeUpdated');
                 break;
             }

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Icon, Button, Statistic } from 'semantic-ui-react';
+import { Table, Icon, Button, Statistic, Pagination } from 'semantic-ui-react';
 import { getCosts, deleteCost } from '../actions/carActions';
 import store from '../stores/CarStore';
 import moment from 'moment';
@@ -8,13 +8,9 @@ class ExpensesTable extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            costs: store.getCosts(),
-            resultsOffset: 0
-        };
+        this.state = { costs: store.getCosts() };
         this.updateList = this.updateList.bind(this);
         this.fetchData = this.fetchData.bind(this);
-        this.handleDataLoad = this.handleDataLoad.bind(this);
     }
 
     componentDidMount() {
@@ -29,7 +25,7 @@ class ExpensesTable extends Component {
     }
 
     fetchData() {
-        getCosts(this.props.carId, this.state.resultsOffset);
+        getCosts(this.props.carId, 1);
     }
 
     updateList() {
@@ -40,15 +36,9 @@ class ExpensesTable extends Component {
         deleteCost(id);
     }
 
-    handleDataLoad(){
-        this.setState({
-            resultsOffset: this.state.resultsOffset + 1
-        }, () => getCosts(this.props.carId, this.state.resultsOffset));
-    }
-
     render() {
         return (
-            <Table selectable stackable>
+            <Table selectable stackable compact>
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell> Value </Table.HeaderCell>
@@ -58,10 +48,10 @@ class ExpensesTable extends Component {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {this.state.costs.map(cost =>
+                    {this.state.costs.list.map(cost =>
                         <Table.Row key={cost._id}>
-                            <Table.Cell> 
-                                {cost.value} 
+                            <Table.Cell>
+                                {cost.value}
                             </Table.Cell>
                             <Table.Cell> {cost.details} </Table.Cell>
                             <Table.Cell> {moment(cost.addedAt).format('YYYY/MM/DD HH:mm')} </Table.Cell>
@@ -74,6 +64,11 @@ class ExpensesTable extends Component {
                     )}
                 </Table.Body>
                 <Table.Footer>
+                    <Table.Row>
+                        <Table.HeaderCell colSpan='4'>
+                        <Pagination defaultActivePage={1} totalPages={Math.ceil(this.state.costs.size / 10)} onPageChange={(_event, data) => getCosts(this.props.carId, data.activePage)} />
+                        </Table.HeaderCell>
+                    </Table.Row>
                     <Table.Row>
                         <Table.HeaderCell colSpan='4'>
                             <Statistic color='red' horizontal>

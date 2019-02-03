@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const moment = require('moment');
 
+const EXPENSES_PER_PAGE = 10
+
 // Expense model.
 const Expense = require('../../models/Expense');
 
@@ -21,6 +23,8 @@ router.get('/', (req, res) => {
 
 router.get('/:id', (req, res) => {
 
+    const page = (req.query.page < 1 ? 0 : req.query.page - 1);
+
     Expense.aggregate([{
         $match: {
             carId: req.params.id
@@ -33,16 +37,21 @@ router.get('/:id', (req, res) => {
             }
         }
     }], function (err, sum) {
-        Expense.find({
-            'carId': req.params.id
-        }).sort({
-            addedAt: -1
-        }).then(response => {
-            res.json({
-                response,
-                sum: (sum.length === 0 || err) ? 0 : sum[0].total
+        Expense.countDocuments({
+            carId: req.params.id
+        }).then(totalExpensesCount => {
+            Expense.find({
+                'carId': req.params.id
+            }).skip(page * EXPENSES_PER_PAGE).limit(EXPENSES_PER_PAGE).sort({
+                addedAt: -1
+            }).then(response => {
+                res.json({
+                    response,
+                    sum: (sum.length === 0 || err) ? 0 : sum[0].total,
+                    size: totalExpensesCount
+                });
             });
-        });
+        })
     });
 });
 

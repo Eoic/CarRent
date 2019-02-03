@@ -77,10 +77,10 @@ export function deleteCar(id) {
  * Get all cost of car with given id
  * @param { Object } carId Car id 
  */
-export function getCosts(carId, offset) {
+export function getCosts(carId, page) {
 
     axios.get(ROUTE.EXPENSES + carId, {
-        params: { offset }
+        params: { page }
     }).then(response => {
         dispatcher.dispatch({
             type: CAR_ACTIONS.GET_COSTS,

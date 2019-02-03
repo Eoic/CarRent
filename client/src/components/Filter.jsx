@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Segment, Grid, Divider, Table, Tab } from 'semantic-ui-react';
+import { Form, Segment, Grid, Divider, Table } from 'semantic-ui-react';
 import { filterResults } from '../actions/rentActions';
 
 const Label = (props) => (
