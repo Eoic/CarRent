@@ -144,7 +144,7 @@ class CarEditForm extends Component {
                             <Form.Input label='Model' name='model' value={this.state.model} onChange={this.handleInfoChange} />
                             <Form.Input label='Registration number' name='registrationNumber' value={this.state.registrationNumber} onChange={this.handleInfoChange} />
                         </Form.Group>
-                        <Form.Button color='green' disabled={!this.state.infoChanged}>
+                        <Form.Button icon labelPosition='left' color='green' disabled={!this.state.infoChanged}>
                             <Icon name='save' />
                             Save changes
                         </Form.Button>
@@ -167,7 +167,7 @@ class CarEditForm extends Component {
                             <Form.Input required icon='euro' error={this.state.costFieldError} label='Value' name='value' value={this.state.value} onChange={this.handleExpensesChange} width='2' />
                             <Form.Input label='Details' name='details' width='13' value={this.state.details} onChange={this.handleExpensesChange} />
                         </Form.Group>
-                        <Form.Button type='submit' color='green'>
+                        <Form.Button icon labelPosition='left' type='submit' color='green'>
                             <Icon name='plus' />
                             Add
                         </Form.Button>

@@ -64,7 +64,7 @@ class ActiveRents extends Component {
     render() {
         return (
             <div>
-                <Table unstackable selectable>
+                <Table unstackable selectable compact>
                     <Table.Header>
                         <Table.Row>
                             <Table.HeaderCell colSpan='7' style={style.typeHeader}> 

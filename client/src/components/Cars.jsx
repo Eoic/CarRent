@@ -79,8 +79,7 @@ class Cars extends Component {
 
     render() {
         return (
-            <Table selectable size='large' unstackable>
-
+            <Table selectable size='large' unstackable compact>
                 <Modal size='mini' open={this.state.deleteConfirmOpen}>
                     <Modal.Header>Are you sure?</Modal.Header>
                     <Modal.Content>

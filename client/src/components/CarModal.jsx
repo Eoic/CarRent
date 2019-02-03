@@ -47,7 +47,7 @@ class CarModal extends Component {
 
     render() {
         return (
-            <Modal size='tiny' trigger={<Button color='blue' onClick={this.handleOpen}> <Icon name='plus square' /> ADD NEW </Button>} closeOnDimmerClick={false} open={this.state.open}>
+            <Modal size='tiny' trigger={<Button icon labelPosition='left' color='blue' onClick={this.handleOpen}> <Icon name='plus square' /> ADD NEW </Button>} closeOnDimmerClick={false} open={this.state.open}>
                 <Modal.Header>
                     ADD NEW CAR
                 </Modal.Header>

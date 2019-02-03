@@ -58,7 +58,7 @@ class ReservedRents extends Component {
 
     render() {
         return (
-            <Table unstackable selectable>
+            <Table unstackable selectable compact>
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell colSpan='7' style={style.typeHeader}>

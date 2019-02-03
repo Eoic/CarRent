@@ -239,11 +239,10 @@ class RentForm extends Component {
                                         {Math.floor((this.state.duration / 60) / 24)} days {Math.floor((this.state.duration / 60) % 24)} h. {this.state.duration % 60} min.
                                 </Header>
                                     <Divider />
-
-                                    <Button color='green'>
+                                    <Button icon labelPosition='left' color='green'>
                                         <Icon name='payment' />
                                         Rent
-                            </Button>
+                                    </Button>
                                 </Form>
                             </Grid.Column>
                         </Grid.Row>
