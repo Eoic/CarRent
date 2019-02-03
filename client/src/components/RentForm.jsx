@@ -5,6 +5,8 @@ import DatePicker from 'react-datepicker';
 import '../App.css';
 import { addRent } from '../actions/rentActions';
 import { toast } from 'react-toastify';
+import rentStore from '../stores/RentStore'
+import RentSummary from './RentSummary';
 
 const paymentOptions = [
     {
@@ -52,7 +54,8 @@ class RentForm extends Component {
             payment: {
                 value: paymentOptions[0].value,
                 text: paymentOptions[0].text
-            }
+            },
+            rentAdded: false
         }
 
         this.handleStartDateChange = this.handleStartDateChange.bind(this);
@@ -62,6 +65,25 @@ class RentForm extends Component {
         this.getDuration = this.getDuration.bind(this);
         this.handlePaymentChange = this.handlePaymentChange.bind(this);
         this.validateFields = this.validateFields.bind(this);
+        this.handleRentSuccess = this.handleRentSuccess.bind(this)
+        this.handleFormReset = this.handleFormReset.bind(this)
+    }
+
+    handleFormReset() {
+        this.setState({ rentAdded: false })
+    }
+
+    handleRentSuccess(message) {
+        toast.success(message)
+        this.setState({ rentAdded: true })
+    }
+
+    componentDidMount() {
+        rentStore.on('rentAdded', this.handleRentSuccess)
+    }
+
+    componentWillUnmount() {
+        rentStore.removeListener('rentAdded', this.handleRentSuccess)
     }
 
     handleStartDateChange(date) {
@@ -126,7 +148,7 @@ class RentForm extends Component {
                 value: data.value,
                 text: data.options[data.value].text
             }
-        });
+        })
     }
 
     // Get duration between start and end dates.
@@ -152,78 +174,80 @@ class RentForm extends Component {
     render() {
         return (
             <Grid padded columns='1' centered>
-                <Grid padded style={styles.innerGrid}>
-                    <label style={styles.label}> Start Date </label>
-                    <DatePicker
-                        className='input-style'
-                        showTimeSelect
-                        timeFormat="HH:mm"
-                        timeIntervals={30}
-                        dateFormat="YYYY/MM/DD HH:mm"
-                        timeCaption="time"
-                        locale='lt'
-                        selected={this.state.startDate}
-                        onChange={this.handleStartDateChange}
-                        disabled={this.state.isRented}
-                    />
-                </Grid>
-                <Grid padded style={styles.innerGrid}>
-                    <label style={styles.label}> End Date </label>
-                    <DatePicker
-                        className='input-style'
-                        showTimeSelect
-                        timeFormat="HH:mm"
-                        locale='lt'
-                        timeIntervals={30}
-                        dateFormat="YYYY/MM/DD HH:mm"
-                        timeCaption="time"
-                        selected={this.state.endDate}
-                        onChange={this.handleEndDateChange}
-                        disabled={this.state.isRented}
-                    />
-                </Grid>
+                {this.state.rentAdded ? <RentSummary data={this.state} resetForm={this.handleFormReset} /> :
+                    <React.Fragment>
+                        <Grid padded style={styles.innerGrid}>
+                            <label style={styles.label}> Start Date </label>
+                            <DatePicker
+                                className='input-style'
+                                showTimeSelect
+                                timeFormat="HH:mm"
+                                timeIntervals={30}
+                                dateFormat="YYYY/MM/DD HH:mm"
+                                timeCaption="time"
+                                locale='lt'
+                                selected={this.state.startDate}
+                                onChange={this.handleStartDateChange}
+                                disabled={this.state.isRented}
+                            />
+                        </Grid>
+                        <Grid padded style={styles.innerGrid}>
+                            <label style={styles.label}> End Date </label>
+                            <DatePicker
+                                className='input-style'
+                                showTimeSelect
+                                timeFormat="HH:mm"
+                                locale='lt'
+                                timeIntervals={30}
+                                dateFormat="YYYY/MM/DD HH:mm"
+                                timeCaption="time"
+                                selected={this.state.endDate}
+                                onChange={this.handleEndDateChange}
+                                disabled={this.state.isRented}
+                            />
+                        </Grid>
+                        <Grid.Row>
+                            <Grid.Column style={styles.formColumn}>
+                                <Form onSubmit={this.handleSubmit} autoComplete='off'>
+                                    <Form.Group widths='equal'>
+                                        <Form.Input required name='firstName' label='First Name' onChange={this.handleChange} />
+                                        <Form.Input required name='lastName' label='Last Name' onChange={this.handleChange} />
+                                    </Form.Group>
+                                    <Form.Group widths='equal'>
+                                        <Form.Input onChange={this.handleChange} name='phone' label='Phone Number' />
+                                        <Form.Dropdown selection options={paymentOptions} defaultValue={paymentOptions[0].value} onChange={this.handlePaymentChange} label='Payment Type' />
+                                    </Form.Group>
+                                    <Form.Group widths='equal'>
+                                        <Form.Input onChange={this.handleChange} name='address' label='Address' />
+                                    </Form.Group>
+                                    <Form.Group widths='4'>
+                                        <Form.Input required label='Price' icon='euro' name='price' onChange={this.handleChange} />
+                                        <Form.Input label='Kilometers' name='odometer' onChange={this.handleChange} />
+                                        <div className='field'>
+                                            <label style={{ marginBottom: 12 }}> Deposit </label>
+                                            <Form.Checkbox onChange={(e, data) => this.setState({ deposit: data.checked })} toggle />
+                                        </div>
+                                    </Form.Group>
+                                    <FormGroup widths='equal'>
+                                        <Form.TextArea name='notes' style={{ maxHeight: '500px' }} onChange={this.handleChange} label='Notes'></Form.TextArea>
+                                    </FormGroup>
 
-                <Grid.Row>
-                    <Grid.Column style={styles.formColumn}>
-                        <Form onSubmit={this.handleSubmit} autoComplete='off'>
-                            <Form.Group widths='equal'>
-                                <Form.Input required name='firstName' label='First Name' onChange={this.handleChange} />
-                                <Form.Input required name='lastName' label='Last Name' onChange={this.handleChange} />
-                            </Form.Group>
-                            <Form.Group widths='equal'>
-                                <Form.Input onChange={this.handleChange} name='phone' label='Phone Number' />
-                                <Form.Dropdown selection options={paymentOptions} defaultValue={paymentOptions[0].value} onChange={this.handlePaymentChange} label='Payment Type' />
-                            </Form.Group>
-                            <Form.Group widths='equal'>
-                                <Form.Input onChange={this.handleChange} name='address' label='Address' />
-                            </Form.Group>
-                            <Form.Group widths='4'>
-                                <Form.Input required label='Price' icon='euro' name='price' onChange={this.handleChange} />
-                                <Form.Input label='Kilometers' name='odometer' onChange={this.handleChange} />
-                                <div className='field'>
-                                    <label style={{ marginBottom: 12}}> Deposit </label>
-                                    <Form.Checkbox onChange={(e, data) => this.setState({ deposit: data.checked })} toggle />
-                                </div>
-                            </Form.Group>
-                            <FormGroup widths='equal'>
-                                <Form.TextArea name='notes' style={{ maxHeight: '500px'}} onChange={this.handleChange} label='Notes'></Form.TextArea>
-                            </FormGroup>
+                                    <Divider />
 
-                            <Divider />
-
-                            <Header>
-                                <Icon name='time' size='huge' />
-                                    {Math.floor((this.state.duration / 60) / 24)} days {Math.floor((this.state.duration / 60) % 24)} h. {this.state.duration % 60} min.
+                                    <Header>
+                                        <Icon name='time' size='huge' />
+                                        {Math.floor((this.state.duration / 60) / 24)} days {Math.floor((this.state.duration / 60) % 24)} h. {this.state.duration % 60} min.
                                 </Header>
-                            <Divider />
+                                    <Divider />
 
-                            <Button color='green'>
-                                <Icon name='payment' />
-                                Rent
+                                    <Button color='green'>
+                                        <Icon name='payment' />
+                                        Rent
                             </Button>
-                        </Form>
-                    </Grid.Column>
-                </Grid.Row>
+                                </Form>
+                            </Grid.Column>
+                        </Grid.Row>
+                    </React.Fragment>}
             </Grid>
         );
     }

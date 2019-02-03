@@ -8,13 +8,14 @@ import store from '../stores/CarStore';
 
 // Components.
 import ExpensesTable from './ExpensesTable';
-import RentFrom from './RentForm';
+import RentForm from './RentForm';
 
 // Toast.
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import axios from 'axios';
+import RentSummary from './RentSummary';
 
 class CarEditForm extends Component {
 
@@ -29,8 +30,10 @@ class CarEditForm extends Component {
             carId: this.props.match.params.id,
             costFieldError: false,
             carIncome: 0,
-            timesRented: 0
+            timesRented: 0,
+            rentAdded: false
         }
+
         this.state = this.initialState;
         this.handleInfoSubmit = this.handleInfoSubmit.bind(this);
         this.handleExpensesSubmit = this.handleExpensesSubmit.bind(this);
@@ -48,6 +51,7 @@ class CarEditForm extends Component {
         store.on('storeUpdated', this.fillForm);
         store.on('incomeReceived', this.updateIncome);
         store.on('requestFailed', this.handleError);
+
         getCarById(this.state.carId);
         carRentIncome(this.state.carId);
 
@@ -124,6 +128,11 @@ class CarEditForm extends Component {
         this.setState({ [event.target.name]: event.target.value });
     }
 
+    handleRentSuccess(message) {
+        toast.success(message)
+        this.setState({ rentAdded: true })
+    }
+
     render() {
         return (
             <Segment.Group>
@@ -147,7 +156,7 @@ class CarEditForm extends Component {
                     RENT
                 </Segment>
                 <Segment>
-                    <RentFrom carId={this.state.carId} />
+                    <RentForm carId={this.state.carId} />
                 </Segment>
 
                 <Segment as={Header} color='blue' inverted>
@@ -173,11 +182,11 @@ class CarEditForm extends Component {
                 <Segment>
                     <Statistic color='green'>
                         <Statistic.Label> Income &nbsp; </Statistic.Label>
-                        <Statistic.Value> &euro; { this.state.carIncome } </Statistic.Value>
+                        <Statistic.Value> &euro; {this.state.carIncome} </Statistic.Value>
                     </Statistic>
                     <Statistic>
                         <Statistic.Label> Times rented &nbsp; </Statistic.Label>
-                        <Statistic.Value> { this.state.timesRented } </Statistic.Value>
+                        <Statistic.Value> {this.state.timesRented} </Statistic.Value>
                     </Statistic>
                 </Segment>
 
