@@ -30,6 +30,9 @@ const agreements = {
                     },
                     {
                         content: "Jei nuomininkas negrąžina automobilio 24 valandų laikotarpyje nuo sutartyje nurodyto termino pabaigos, o taip pat raštiškai apie tai neinformuoja Nuomotojo, nuomotojas kreipiasi į policiją dėl automobilio vagystės."
+                    },
+                    {
+                        content: "Automobilis grąžintas be nuomotojo parašo laikomas negrąžintu."
                     }
                 ]
             },
@@ -64,26 +67,27 @@ const agreements = {
                             "Automobilyje draudžiama rūkyti;"
                         ]
                     },
+                    {
+                        content: "Nuomininkas ar vairuotojas privalo laikytis saugaus eismo taisyklių ir nuomos sutarties sąlygų."
+                    },
+                    {
+                        content: "Kiekvieną kartą pildamas kurą nuomininkas privalo kontroliuoti tepalų, vandens ir oro slėgį padangose, nesumaišyti kuro rūšių."
+                    },
+                    {
+                        content: "Sugedus automobiliui remontas turi būti atliekamas tik Nuomotojo rekomenduotame servise."
+                    },
+                    {
+                        content: "Nuomos metu nuomininkas privalo imtis visų priemonių, kad automobilis būtų apsaugotas nuo vagysčių ir avarijų."
+                    },
+                    {
+                        content: "Už nuomos mokestį per parą leidžiama nuvažiuoti ne daugiau nei 500 km. Už papildomą 1 km. Nuomininkas Nuomotojui sumoka po 0.05 EUR."
+                    }
                 ]
             }
         ],
         leftover: {
             continueFrom: 2,
-            items: [{
-                    content: "Nuomininkas ar vairuotojas privalo laikytis saugaus eismo taisyklių ir nuomos sutarties sąlygų."
-                },
-                {
-                    content: "Kiekvieną kartą pildamas kurą nuomininkas privalo kontroliuoti tepalų ir kitų eksploatacinių skysčių lygį."
-                },
-                {
-                    content: "Sugedus automobiliui remontas turi būti atliekamas tik Nuomotojo rekomenduotame servise."
-                },
-                {
-                    content: "Nuomos metu nuomininkas privalo imtis visų priemonių, kad automobilis būtų apsaugotas nuo vagysčių ir avarijų."
-                },
-                {
-                    content: "Už nuomos mokestį per parą leidžiama nuvažiuoti ne daugiau nei 500 km. Už papildomą 1 km. Nuomininkas Nuomotojui sumoka po 0.05 EUR."
-                }
+            items: [
             ]
         }
     },
@@ -97,7 +101,7 @@ const agreements = {
                         content: "Policijos dokumentai, transportavimo įmonių pažymos – pagrindas išmokėti draudimą bei apkaltinti trečiuosius asmenis dėl žalos padarymo."
                     },
                     {
-                        content: "Įrodymų objektai (daiktai, pėdsakai, liudininkų parodymai) turi būti saugomi, įvykio dalyvių pavardės ir adresai užrašomi. Klientui draudžiama pasirašyti bet kokius dokumentus, kaltinančius Nuomotoją dėl padarytos žalos nuostolių atlyginimo."
+                        content: "Įrodymų objektai (daiktai, pėdsakai, liudininkų parodymai) turi būti saugomi, įvykio dalyvių pavardės ir adresai užrašomi. Klientui draudžiama pasirašyti bet kokius dokumentus, kaltinančius Nuomotoją dėl padarytos žalos nuostolių atlyginimo. Pastarieji bus laikomi negaliojančiais jei nepasirašo pats automobilio savininkas."
                     },
                     {
                         content: "Nuomininkas ar kitas įgaliotas vairuotojas privalo imtis priemonių, kad apsaugotų nuomotojo bei draudimo kompanijos interesus, jeigu nuomos laikotarpiu įvyksta avarija. Nuomininkas privalo:",
@@ -140,7 +144,7 @@ const agreements = {
                         content: "Nuomininkas, pasiimdamas automobilį, moka 150 EUR užstatą. Grąžinus automobilį Nuomotojas Nuomininkui grąžina užstatą, jei neatsirado nuostolių dėl Nuomininko kaltės."
                     },
                     {
-                        content: "Už kiekvieną uždelstą dieną nuomininkas įsipareigoja sumokėti 0.5% delspinigių."
+                        content: "Už kiekvieną uždelstą dieną sumokėti pagal šią sutartį nurodytą dieną nuomininkas įsipareigoja sumokėti 0.5% delspinigių."
                     },
                     {
                         content: "Jei grąžinamas nešvarus automobilis, papildomai reikia sumokėti 20 EUR."
@@ -162,10 +166,15 @@ const agreements = {
                         content: "Nuomininkas prisiima atsakomybę, jei įvyksta automobilio gedimas dėl jo kaltės."
                     },
                     {
+                        content: "Apie nuomos sutarties nutraukimą nuomotuojas privalo perspėti prieš 15 dienų."
+                    },
+                    {
                         content: "Nuomininkas atsako už automobiliui padarytą žalą, jei jis pažeidė transporto priemonės eksploatavimo taisykles arba:",
                         inner: [
                             "Naudojo techniškai netvarkingą transporto priemonę;",
-                            "Pažeidė lengvai užsidegančių ir sprogstančių medžiagų vežimo ir saugojimo, priešgasrines saugumo taisykles;"
+                            "Pažeidė lengvai užsidegančių ir sprogstančių medžiagų vežimo ir saugojimo, priešgasrines saugumo taisykles;",
+                            "Transporto priemonę vairavo asmuo, neturintis teisės vairuoti, apsvaigęs nuo alkoholio ar narkotinių medžiagų;",
+                            "Padarė avariją ir pabėgo iš įvykio vietos;",
                         ]
                     }
                 ]
@@ -173,8 +182,6 @@ const agreements = {
         ],
         leftover: {
             inner: [
-                "Transporto priemonę vairavo asmuo, neturintis teisės vairuoti, apsvaigęs nuo alkoholio ar narkotinių medžiagų;",
-                "Padarė avariją ir pabėgo iš įvykio vietos;",
                 "Jeigu transporto priemonė priemonė buvo naudojama nusikalstamiems veiksmams vykdyti;"
             ],
             middle: [
@@ -208,6 +215,9 @@ const agreements = {
                 content: "Nuomos sutarties papildymai ar kiti priedai galioja tik raštiškai patvirtinti abiejų šalių."
             },
             {
+                content: "Išvykimas už Lietuvos Respublikos ribų leidžiamas tik gavus raštišką automobilio savininko sutikimą. Už savavališką išvykimą už LR ribų be raštiško automobilio savininko sutikimo taikoma 1500 EUR bauda."
+            },
+            {
                 content: "Sutartis sudaryta lietuvių kalba, dviem egzemplioriais, kiekvienai iš šalių, ir turinčiais vieną juridinę galią."
             },
             {
@@ -217,7 +227,7 @@ const agreements = {
                 content: "Pasirašydamas šią sutartį Nuomininkas sutinka su visomis joje išdėstytomis sąlygomis."
             },
             {
-                content: "Sutartis įsigalioja jos pasirašymo dieną ir galioja iki "
+                content: "Sutartis įsigalioja jos pasirašymo dieną ir galioja iki automobilio grąžinimo nuomotojui datos."
             }
         ]
         }]

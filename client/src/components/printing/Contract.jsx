@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     },
     section: {
         margin: 10,
-        padding: "35px 10px 10px 10px"
+        padding: "25px 10px 10px 10px"
     },
     document: {
         width: "100%",
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
         marginLeft: 12,
         marginRight: 12,
         paddingTop: 8,
-        paddingBottom: 5,
+        paddingBottom: 0,
         width: 700
     },
     sectionItem: {
@@ -210,11 +210,24 @@ class Contract extends Component {
                                 </View>
                             </View>
                         </View>
-                        <View style={{ marginLeft: 12, paddingTop: 6 }}>
+                        <View style={{ marginLeft: 12, paddingTop: 4 }}>
                             <Text style={[styles.text, { width: 700 }]}> KITI ASMENYS, KURIE VAIRUOS TRANSPORTO PRIEMONĘ </Text>
-                            <Text style={styles.text}> Vardas, pavardė: </Text>
-                            <Text style={styles.text}> Adresas: </Text>
-                            <Text style={styles.text}> Tel.: </Text>
+                        </View>
+                        <View style={{ flexDirection: 'row', marginLeft: 12, marginRight: 12, marginTop: 6 }}>
+                            <View style={{ width: 250 }}>
+                                <Text style={styles.text}> Vardas, pavardė: </Text>
+                                <Text style={[styles.text, {marginTop: 4 }]}> Adresas: </Text>
+                                <Text style={[styles.text, {marginTop: 4}]}> Tel.: </Text>       
+                            </View>
+                            <View style={{ width: 300 }}>
+                                <Text style={styles.text}>_______________________________________________________</Text>
+                                <Text style={[styles.text, {marginTop: 4}]}>_______________________________________________________</Text>
+                                <Text style={[styles.text, {marginTop: 4}]}>_______________________________________________________</Text>
+                            </View>
+                        </View>
+                        <View style={{ marginLeft: 12, marginRight: 12, marginTop: 20 }}>
+                            <Text style={styles.text}> _______________________________________________________ </Text>
+                            <Text style={styles.text}> (Nuomotojo parašas grąžinant transporto priemonę) </Text>
                         </View>
                     </View>
                 </Page>

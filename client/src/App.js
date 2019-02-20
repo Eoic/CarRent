@@ -4,7 +4,6 @@ import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 // Components.
 import Login from './components/Login';
 import Sidebar from './components/Sidebar';
-import Register from './components/Register';
 
 // Sidebar views.
 import Overview from './components/Overview';
@@ -14,12 +13,13 @@ import History from './components/History';
 import CarEditForm from './components/CarEditForm';
 import { ToastContainer } from '../node_modules/react-toastify';
 
+
 // Authentication.
 import Auth from './utils/authorize';
 import Logout from './components/Logout';
 import axios from 'axios';
 import Profile from './components/Profile';
-
+import Register from './components/Register'
 // Logging.
 import MessageQueue from './components/MessageQueue';
 
