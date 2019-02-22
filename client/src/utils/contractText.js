@@ -77,10 +77,7 @@ const agreements = {
                         content: "Sugedus automobiliui remontas turi būti atliekamas tik Nuomotojo rekomenduotame servise."
                     },
                     {
-                        content: "Nuomos metu nuomininkas privalo imtis visų priemonių, kad automobilis būtų apsaugotas nuo vagysčių ir avarijų."
-                    },
-                    {
-                        content: "Už nuomos mokestį per parą leidžiama nuvažiuoti ne daugiau nei 500 km. Už papildomą 1 km. Nuomininkas Nuomotojui sumoka po 0.05 EUR."
+                        content: "Maksimalus automobilio greitis - 110 km/h"
                     }
                 ]
             }
@@ -88,7 +85,9 @@ const agreements = {
         leftover: {
             continueFrom: 2,
             items: [
-            ]
+                    { content:  "Nuomos metu nuomininkas privalo imtis visų priemonių, kad automobilis būtų apsaugotas nuo vagysčių ir avarijų." },
+                    { content: "Už nuomos mokestį per parą leidžiama nuvažiuoti ne daugiau nei 500 km. Už papildomą 1 km. Nuomininkas Nuomotojui sumoka po 0.05 EUR." }
+                ]
         }
     },
     pageTwo: {
@@ -188,8 +187,8 @@ const agreements = {
                 "Jeigu apie autoįvykį ar automobilio sugadinimą nuomininkas nepranešė policijai ir negavo policijos pranešimo, nepranešė nuomotojui, nuomininkas privalo apmokėti automobilio remonto išlaidas. Taip pat apmokėti nuostolius, padarytus nuomojamam automobiliui tuo atveju, jei draudimas negalioja arba draudimas neapmoka padarytų nuostolių.",
                 "Nuomininkas turi laikytis galiojančių eismo taisyklių ir privalo sumokėti baudas ar išlaidas, susijusias su eismo taisyklių pažeidimais.",
                 "Jaigu atumomobilis sugedo ne dėl nuomotojo kaltės, nuomininkas įsipareigoja imtis visų galimų priemonių, kad trumpiausiu laiku automobilis būtų suremontuotas.",
-                "Pametus automobilio dokumentus, raktus, pilnai apmokama už raktų pagaminimo arba dokumentų atstatymo nuomotojo patirtus nuostolius.",
-                "Sugadinus automobilio padangas, nuomininkas padengia visas išlaidas, o taip pat ir nuperka tokios pačios būklės padangas."
+                "Pametus automobilio raktus mokama 200 EUR bauda",
+                "Sugadinus automobilio padangas ar ratlankius, nuomininkas padengia visas remonto išlaidas, o taip pat ir nuperka tokios pačios būklės padangas."
             ]
         }
     },
