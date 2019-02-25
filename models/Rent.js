@@ -9,7 +9,7 @@ const RentSchema = new Schema({
 
     // Rent info.
     value: {
-        type: String,
+        type: Number,
         default: 0
     },
     startDate: Date,

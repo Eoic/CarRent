@@ -187,6 +187,7 @@ const agreements = {
                 "Jeigu apie autoįvykį ar automobilio sugadinimą nuomininkas nepranešė policijai ir negavo policijos pranešimo, nepranešė nuomotojui, nuomininkas privalo apmokėti automobilio remonto išlaidas. Taip pat apmokėti nuostolius, padarytus nuomojamam automobiliui tuo atveju, jei draudimas negalioja arba draudimas neapmoka padarytų nuostolių.",
                 "Nuomininkas turi laikytis galiojančių eismo taisyklių ir privalo sumokėti baudas ar išlaidas, susijusias su eismo taisyklių pažeidimais.",
                 "Jaigu atumomobilis sugedo ne dėl nuomotojo kaltės, nuomininkas įsipareigoja imtis visų galimų priemonių, kad trumpiausiu laiku automobilis būtų suremontuotas.",
+                "Pametus automobilio dokumentus, raktus, pilnai apmokama už raktų pagaminimo arba dokumentų at-statymo nuomotojo patirtus nuostolius.",
                 "Pametus automobilio raktus mokama 200 EUR bauda",
                 "Sugadinus automobilio padangas ar ratlankius, nuomininkas padengia visas remonto išlaidas, o taip pat ir nuperka tokios pačios būklės padangas."
             ]
