@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Segment, Grid, Divider, Table, Icon } from 'semantic-ui-react';
+import { Form, Segment, Grid, Divider, Table, Icon, Tab } from 'semantic-ui-react';
 import { filterResults } from '../actions/rentActions';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
@@ -161,6 +161,7 @@ class Filter extends Component {
                             <Table.HeaderCell> Income, &euro; </Table.HeaderCell>
                             <Table.HeaderCell> Start Date </Table.HeaderCell>
                             <Table.HeaderCell> End Date </Table.HeaderCell>
+                            <Table.HeaderCell> Added </Table.HeaderCell>
                             <Table.HeaderCell textAlign='right' />
                             <Table.HeaderCell textAlign='right' />
                         </Table.Row>
@@ -172,7 +173,7 @@ class Filter extends Component {
                     </Table.Body>
                     <Table.Footer>
                         <Table.Row>
-                            <Table.HeaderCell colSpan='6'>
+                            <Table.HeaderCell colSpan='7'>
                                 Footer
                         </Table.HeaderCell>
                         </Table.Row>

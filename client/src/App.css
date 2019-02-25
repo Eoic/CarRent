@@ -1,3 +1,22 @@
+.login-wrapper {
+    height: 100%;
+    margin-top: 14px;
+    background: rgb(35,158,135);
+    background: linear-gradient(90deg, rgba(35,158,135,1) 0%, rgba(16,108,115,1) 100%);
+}
+
+.login-button {
+    color: #FFFFFF !important;
+    background-color: #25283D !important;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    transition: all 0.2s !important;
+}
+
+.login-button:hover {
+    background-color: #333753 !important;
+}
+
 .input-style {
     border-style: solid;
     border-radius: 3px;

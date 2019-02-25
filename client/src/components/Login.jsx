@@ -7,6 +7,10 @@ import Auth from '../utils/authorize';
 //import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+const CustomButton = () => (
+    <Button fluid className='login-button' size='huge' form='login-form' type='submit'> LOGIN </Button>
+)
+
 class Login extends Component {
 
     constructor(props, context) {
@@ -72,6 +76,7 @@ class Login extends Component {
 
     render() {
         return (
+            <div className='login-wrapper'>
                 <Grid columns={1} centered style={{ height: 'inherit' }}>
                     <StickyHeader />
                     <Grid.Column verticalAlign='middle' style={{ maxWidth: '400px' }}>
@@ -88,7 +93,7 @@ class Login extends Component {
                                     <Form.Input required name='password' icon='lock' type='password' placeholder='Password' onChange={this.handleChange} size='huge' />
                                 </Form>
                             </Segment>
-                            <Segment compact as={Button} form='login-form' type='submit' style={{ width: "100%", padding: 16 }} color='green'>
+                            <Segment compact as={CustomButton}>
                                 LOGIN
                             </Segment>
 
@@ -104,7 +109,7 @@ class Login extends Component {
                         </Segment.Group>
                     </Grid.Column>
                 </Grid>
-
+            </div>
         );
     }
 }
