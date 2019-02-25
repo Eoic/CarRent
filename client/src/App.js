@@ -18,7 +18,7 @@ import { ToastContainer } from '../node_modules/react-toastify';
 import Auth from './utils/authorize';
 import Logout from './components/Logout';
 import axios from 'axios';
-import Profile from './components/Profile';
+//import Profile from './components/Profile';
 import Register from './components/Register'
 // Logging.
 import MessageQueue from './components/MessageQueue';
@@ -82,7 +82,6 @@ class App extends Component {
 								<PrivateRoute path='/car/:id' component={CarEditForm}/>
 								<PrivateRoute path='/reports/:active/:reserved/:ended' component={Reports}/>
 								<PrivateRoute path='/history' component={History}/>
-								<PrivateRoute path='/profile' component={Profile}/>
 							</Sidebar>
 						</Switch>
 				</BrowserRouter>

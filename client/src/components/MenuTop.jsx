@@ -31,9 +31,20 @@ class MenuTop extends React.Component {
                 </Menu.Item>
                 <Menu.Item className="menu-item-top">
                     Logged in as&nbsp;
-                    <Link to='/profile' className="custom-link" style={{ fontWeight: 'bold' }}> {this.state.username} </Link>
+                    {/*<Link to='/profile' className="custom-link" style={{ fontWeight: 'bold' }}> */} {this.state.username} {/* </Link> */}
                 </Menu.Item>
-                <Menu.Item position='right' as={Link} to='/logout' content='Logout' />
+
+                <Menu.Menu position='right'>
+                    { /*
+                    <Dropdown item text='Language'>
+                        <Dropdown.Menu>
+                            <Dropdown.Item> EN </Dropdown.Item>
+                            <Dropdown.Item> LT </Dropdown.Item>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                    */}
+                    <Menu.Item as={Link} to='/logout' content='Logout' icon='log out' />
+                </Menu.Menu>
             </Menu>
         );
     }

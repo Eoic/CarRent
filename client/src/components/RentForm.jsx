@@ -237,7 +237,7 @@ class RentForm extends Component {
                                     <Header>
                                         <Icon name='time' size='huge' />
                                         {Math.floor((this.state.duration / 60) / 24)} days {Math.floor((this.state.duration / 60) % 24)} h. {this.state.duration % 60} min.
-                                </Header>
+                                    </Header>
                                     <Divider />
                                     <Button icon labelPosition='left' color='green'>
                                         <Icon name='payment' />
