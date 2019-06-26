@@ -23,6 +23,8 @@
   },
   "homepage": "https://github.com/Eoic/car-rent#readme",
   "dependencies": {
+    "@fullcalendar/interaction": "^4.2.0",
+    "@fullcalendar/timegrid": "^4.2.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "concurrently": "^3.6.0",

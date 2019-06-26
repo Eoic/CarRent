@@ -4,7 +4,6 @@ import store from '../stores/CarStore';
 import { getTurnover } from '../actions/carActions';
 import moment from 'moment';
 import TurnoverChart from './TurnoverChart';
-import RentCalendar from './RentCalendar';
 
 const style = {
     redText: { color: '#e44445' },
@@ -83,9 +82,6 @@ class Overview extends Component {
                                 </Statistic.Group>
                             </Segment>
                         </Segment.Group>
-                    </Grid.Column>
-                    <Grid.Column width={16}>
-                        <RentCalendar/>
                     </Grid.Column>
                 </Grid>
             </div >
