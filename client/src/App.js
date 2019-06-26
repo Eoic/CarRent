@@ -13,7 +13,6 @@ import History from './components/History';
 import CarEditForm from './components/CarEditForm';
 import { ToastContainer } from '../node_modules/react-toastify';
 
-
 // Authentication.
 import Auth from './utils/authorize';
 import Logout from './components/Logout';
@@ -90,6 +89,6 @@ class App extends Component {
 			</div>
 		);
 	}
-}
+} 
 
 export default App;

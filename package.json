@@ -7,6 +7,8 @@
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
+    "kill-server": "lsof -i :5000 | awk 'END { system(\"kill -9 \" $2) }'",
+    "kill-client": "lsof -i :3000 | awk 'END { system(\"kill -9 \" $2) }'",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
@@ -30,6 +32,6 @@
     "helmet": "^3.15.0",
     "jsonwebtoken": "^8.3.0",
     "moment": "^2.22.2",
-    "mongoose": "^5.2.2"
+    "mongoose": "^5.6.1"
   }
 }
