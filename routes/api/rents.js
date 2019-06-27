@@ -9,6 +9,30 @@ const ACTIVE_LIMIT = 20;
 const RESERVED_LIMIT = 20;
 const ENDED_LIMIT = 10;
 
+// Get all active and reserved rents.
+router.get('/monthly', (req, res) => {
+    Promise.all([
+        Rent.aggregate([{
+            $match: {
+                'endDate': { '$gt': new Date() }
+            },
+        },
+        {
+            $project: {
+                _id: 1,
+                carId: 1,
+                'title': '$regNumber',
+                'start': '$startDate',
+                'end': '$endDate'
+            }
+        }])
+    ]).then(([activeRents]) => {
+        res.json({ activeRents });
+    }).catch(err => {
+        res.json(err);
+    });
+});
+
 // Get rents by given filter
 router.post('/filter', (req, res) => {
     res.json({});
@@ -183,8 +207,8 @@ router.post('/', (req, res) => {
             address: req.body.address,
             notes: req.body.notes
         });
-        
-        newRent.save().then(rent => res.json({ }));
+
+        newRent.save().then(rent => res.json({}));
     });
 });
 

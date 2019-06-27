@@ -13,7 +13,6 @@ import History from './components/History';
 import CarEditForm from './components/CarEditForm';
 import { ToastContainer } from '../node_modules/react-toastify';
 
-
 // Authentication.
 import Auth from './utils/authorize';
 import Logout from './components/Logout';
@@ -22,71 +21,73 @@ import axios from 'axios';
 import Register from './components/Register'
 // Logging.
 import MessageQueue from './components/MessageQueue';
+import Calendar from './components/Calendar';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
 	<Route {...rest} render={props => (
-	  Auth.isUserAuthenticated() ? (<Component {...props} {...rest} />) : (
-		<Redirect to={{
-		  pathname: '/',
-		  state: { from: props.location }
-		}}/>
-	  )
-	)}/>
+		Auth.isUserAuthenticated() ? (<Component {...props} {...rest} />) : (
+			<Redirect to={{
+				pathname: '/',
+				state: { from: props.location }
+			}} />
+		)
+	)} />
 );
 
 const PublicRoute = ({ component: Component, ...rest }) => (
 	<Route {...rest} render={props => (
-	  Auth.isUserAuthenticated() ? (
-		<Redirect to={{
-		  pathname: '/overview',
-		  state: { from: props.location }
-		}}/>
-	  ) : (
-		<Component {...props} {...rest} />
-	  )
-	)}/>
-	);
-	
-	
+		Auth.isUserAuthenticated() ? (
+			<Redirect to={{
+				pathname: '/overview',
+				state: { from: props.location }
+			}} />
+		) : (
+				<Component {...props} {...rest} />
+			)
+	)} />
+);
+
+
 const token = Auth.getToken();
 axios.defaults.headers.common['x-access-token'] = (token) ? token : null;
 
 class App extends Component {
 
-	constructor(props){
+	constructor(props) {
 		super(props);
 		this.state = {
 			authenticated: false
 		}
 	}
 
-	componentDidMount(){
+	componentDidMount() {
 		this.toggleAuthenticateStatus();
 	}
 
-	toggleAuthenticateStatus(){
+	toggleAuthenticateStatus() {
 		this.setState({ authenticated: Auth.isUserAuthenticated });
 	}
 
 	render() {
 		return (
-			<div className="App" style={{ height: '100%'}}>
+			<div className="App" style={{ height: '100%' }}>
 				<BrowserRouter>
-						<Switch>
-							<PublicRoute exact path='/' component={Login} toggleAuthenticateStatus={() => this.toggleAuthenticateStatus()} />
-							<PublicRoute exact path='/register' component={Register} />
-							<Route exact path='/logout' component={Logout} />
-							<Sidebar>
-								<PrivateRoute path='/overview' component={Overview}/>
-								<PrivateRoute path='/cars' component={Cars}/>
-								<PrivateRoute path='/car/:id' component={CarEditForm}/>
-								<PrivateRoute path='/reports/:active/:reserved/:ended' component={Reports}/>
-								<PrivateRoute path='/history' component={History}/>
-							</Sidebar>
-						</Switch>
+					<Switch>
+						<PublicRoute exact path='/' component={Login} toggleAuthenticateStatus={() => this.toggleAuthenticateStatus()} />
+						<PublicRoute exact path='/register' component={Register} />
+						<Route exact path='/logout' component={Logout} />
+						<Sidebar>
+							<PrivateRoute path='/overview' component={Overview} />
+							<PrivateRoute path='/cars' component={Cars} />
+							<PrivateRoute path='/car/:id' component={CarEditForm} />
+							<PrivateRoute path='/reports/:active/:reserved/:ended' component={Reports} />
+							<PrivateRoute path='/history' component={History} />
+							<PrivateRoute path='/calendar' component={Calendar} />
+						</Sidebar>
+					</Switch>
 				</BrowserRouter>
-				<ToastContainer/>
-				<MessageQueue/>
+				<ToastContainer />
+				<MessageQueue />
 			</div>
 		);
 	}

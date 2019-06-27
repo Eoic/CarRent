@@ -60,6 +60,9 @@ class SidebarMenu extends Component {
                         <Menu.Item as={NavLink} to='/cars' content={
                             <ItemText content='Cars' icon='truck' />
                         } />
+                        <Menu.Item as={NavLink} to='/calendar' content={
+                            <ItemText content='Calendar' icon='retweet' />
+                        } />
                         <Menu.Item as={NavLink} to='/reports/1/1/1' content={
                             <ItemText content='History' icon='history' />
                         } />
