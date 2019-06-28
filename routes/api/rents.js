@@ -18,15 +18,26 @@ router.get('/monthly', (req, res) => {
             },
         },
         {
+            $lookup: {
+                from: 'cars',
+                localField: 'carId',
+                foreignField: '_id',
+                as: 'carInfo'
+            }
+        },
+        {
             $project: {
                 _id: 1,
                 carId: 1,
+                color: 1,
+                "color": "$carInfo.color",
                 'title': '$regNumber',
                 'start': '$startDate',
                 'end': '$endDate'
             }
         }])
     ]).then(([activeRents]) => {
+        console.log(activeRents)
         res.json({ activeRents });
     }).catch(err => {
         res.json(err);

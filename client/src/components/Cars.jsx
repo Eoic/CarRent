@@ -95,6 +95,7 @@ class Cars extends Component {
                     <Table.Row>
                         <Table.HeaderCell width='4'> Registration nr. </Table.HeaderCell>
                         <Table.HeaderCell> Model </Table.HeaderCell>
+                        <Table.HeaderCell> Color </Table.HeaderCell>
                         <Table.HeaderCell />
                     </Table.Row>
                 </Table.Header>
@@ -105,16 +106,17 @@ class Cars extends Component {
                                 <Link className={'custom-link'} to={'/car/' + car._id} > {car.registrationNumber} </Link>
                             </Table.Cell>
                             <Table.Cell> {car.model} </Table.Cell>
+                            <Table.Cell> <div className='color-sample' style={{ backgroundColor: car.color }}></div> </Table.Cell>
                             <Table.Cell textAlign='center'>
-                                <Dropdown icon={<Icon name='ellipsis horizontal' style={{ margin: '1px'}} />} button>
+                                <Dropdown icon={<Icon name='ellipsis horizontal' style={{ margin: '1px' }} />} button>
                                     <Dropdown.Menu>
-                                        <Dropdown.Item onClick={this.handleEdit.bind(this, car._id)}> 
-                                            <Icon name='pencil'/>
-                                            Edit 
+                                        <Dropdown.Item onClick={this.handleEdit.bind(this, car._id)}>
+                                            <Icon name='pencil' />
+                                            Edit
                                         </Dropdown.Item>
-                                        <Dropdown.Item onClick={this.handleDelete.bind(this, car._id, car.registrationNumber)} style={styles.deleteButton}> 
-                                            <Icon name='trash'/>
-                                            Delete 
+                                        <Dropdown.Item onClick={this.handleDelete.bind(this, car._id, car.registrationNumber)} style={styles.deleteButton}>
+                                            <Icon name='trash' />
+                                            Delete
                                         </Dropdown.Item>
                                     </Dropdown.Menu>
                                 </Dropdown>

@@ -25,6 +25,7 @@ class CarEditForm extends Component {
             details: '',
             model: '',
             registrationNumber: '',
+            color: '#000000',
             infoChanged: false,
             carId: this.props.match.params.id,
             costFieldError: false,
@@ -78,7 +79,8 @@ class CarEditForm extends Component {
 
         this.setState({
             model: car.model,
-            registrationNumber: car.registrationNumber
+            registrationNumber: car.registrationNumber,
+            color: car.color
         });
     }
 
@@ -109,6 +111,7 @@ class CarEditForm extends Component {
             const car = {
                 model: this.state.model,
                 registrationNumber: this.state.registrationNumber,
+                color: this.state.color,
                 id: this.state.carId
             }
 
@@ -140,10 +143,14 @@ class CarEditForm extends Component {
                 </Segment>
                 <Segment>
                     <Form id='car-edit-form' onSubmit={this.handleInfoSubmit}>
-                        <Form.Group widths='equal'>
-                            <Form.Input label='Model' name='model' value={this.state.model} onChange={this.handleInfoChange} />
-                            <Form.Input label='Registration number' name='registrationNumber' value={this.state.registrationNumber} onChange={this.handleInfoChange} />
+                        <Form.Group>
+                            <Form.Input width={7} label='Model' name='model' value={this.state.model} onChange={this.handleInfoChange} />
+                            <Form.Input width={7} label='Registration number' name='registrationNumber' value={this.state.registrationNumber} onChange={this.handleInfoChange} />
+                            <Form.Input width={2} label='Color' >
+                                <input type='color' className='input-color' name='color' value={this.state.color} onChange={this.handleInfoChange} />
+                            </Form.Input>
                         </Form.Group>
+            
                         <Form.Button icon labelPosition='left' color='green' disabled={!this.state.infoChanged}>
                             <Icon name='save' />
                             Save changes

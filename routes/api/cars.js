@@ -8,7 +8,7 @@ const Car = require('../../models/Car');
 // @desc    Get cars.
 // @access  Public.
 
-router.get('/', (req, res) => {
+router.get('/', (_req, res) => {
     Car.find().sort({
         date: -1
     }).then(cars => {
@@ -47,7 +47,8 @@ router.post('/', (req, res) => {
 router.put('/', (req, res) => {
     Car.findByIdAndUpdate(req.body.id, {
         model: req.body.model,
-        registrationNumber: req.body.registrationNumber
+        registrationNumber: req.body.registrationNumber,
+        color: req.body.color
     }).then(response => {
         res.json(response);
     });

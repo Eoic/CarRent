@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const RentSchema = new Schema({
 
     // Car info.
-    carId: String,
+    carId: Schema.Types.ObjectId,
     regNumber: String,
 
     // Rent info.
