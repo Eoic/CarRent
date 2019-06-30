@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
 
 // Rent model.
 const Rent = require('../../models/Rent');
@@ -10,7 +11,7 @@ const RESERVED_LIMIT = 20;
 const ENDED_LIMIT = 10;
 
 // Get all active and reserved rents.
-router.get('/monthly', (req, res) => {
+router.get('/monthly', (_req, res) => {
     Promise.all([
         Rent.aggregate([{
             $match: {
@@ -170,7 +171,7 @@ router.put('/cancel/:id', (req, res) => {
 router.get('/income/:id', (req, res) => {
     Rent.aggregate([{
         $match: {
-            carId: req.params.id
+            carId: mongoose.Types.ObjectId(req.params.id)
         }
     }, {
         $group: {

@@ -17,7 +17,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
 class CarEditForm extends Component {
-
     constructor(props) {
         super(props);
         this.initialState = {

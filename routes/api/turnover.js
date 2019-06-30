@@ -1,12 +1,10 @@
 const express = require('express');
 const router = express.Router();
-
 const moment = require('moment');
-
 const Rent = require('../../models/Rent');
 const Expense = require('../../models/Expense');
 
-router.get('/', (req, res) => {
+router.get('/', (_req, res) => {
     Promise.all([
         Expense.aggregate([{
             $group: {
