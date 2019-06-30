@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { Form, Segment, Grid, Divider, Table, Icon, Tab } from 'semantic-ui-react';
+import { Form, Segment, Grid, Divider, Table, Icon } from 'semantic-ui-react';
 import { filterResults } from '../actions/rentActions';
 import DatePicker from 'react-datepicker';
-import moment from 'moment';
 import '../date-picker.css'
 
 const Label = (props) => (

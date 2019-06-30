@@ -139,3 +139,15 @@ export function filterResults(filter){
         }); 
     });
 }
+
+export function getCalendarRents() {
+    axios.get(`${ROUTE.RENTS}/monthly`).then(response => {
+        if (typeof response.data.activeRents === "undefined")
+            return;
+
+        dispatcher.dispatch({
+            type: RENT_ACTIONS.GET_CALENDAR_RENTS,
+            data: response.data.activeRents
+        });
+    });
+}

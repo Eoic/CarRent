@@ -3,30 +3,31 @@ import { RENT_ACTIONS } from '../actions/types';
 import { EventEmitter } from 'events';
 
 const EVENT_EMIT_STRING = {
-    ADD_RENT_SUCCESS:     'rentAdded',
-    ACTIVE_RENTS:         'storeUpdate_Active',
-    RESERVED_RENTS:       'storeUpdate_Reserved',
-    ENDED_RENTS:          'storeUpdate_Ended',
-    UPDATE_RENT_ACTIVE:   'update_Active',
+    ADD_RENT_SUCCESS: 'rentAdded',
+    ACTIVE_RENTS: 'storeUpdate_Active',
+    RESERVED_RENTS: 'storeUpdate_Reserved',
+    ENDED_RENTS: 'storeUpdate_Ended',
+    UPDATE_RENT_ACTIVE: 'update_Active',
     UPDATE_RENT_RESERVED: 'update_Reserved',
-    UPDATE_RENT_ENDED:    'update_Ended',
-    MODAL_STATE_CHANGE:   'stateChanged'
+    UPDATE_RENT_ENDED: 'update_Ended',
+    MODAL_STATE_CHANGE: 'stateChanged',
+    CALENDAR_RENTS: 'calendarRents'
 }
 
 class RentStore extends EventEmitter {
-    constructor(){
+    constructor() {
         super();
-        
+
         this.activeRents = {
             activeRents: [],
             size: 0
         };
-        
+
         this.reservedRents = {
             reservedRents: [],
             size: 0
         };
-        
+
         this.endedRents = {
             endedRents: [],
             size: 0
@@ -38,11 +39,12 @@ class RentStore extends EventEmitter {
             rentType: ''
         };
 
+        this.calendarRents = [];
         this.rent = {};
     }
 
-    handleActions(action){
-        switch(action.type){
+    handleActions(action) {
+        switch (action.type) {
 
             // POST
             case RENT_ACTIONS.ADD_RENT: {
@@ -56,16 +58,22 @@ class RentStore extends EventEmitter {
                 this.emit(EVENT_EMIT_STRING.ACTIVE_RENTS);
                 break;
             }
-            
+
             case RENT_ACTIONS.GET_RESERVED_RENTS: {
                 this.reservedRents = action.value;
                 this.emit(EVENT_EMIT_STRING.RESERVED_RENTS);
                 break;
             }
-            
+
             case RENT_ACTIONS.GET_ENDED_RENTS: {
                 this.endedRents = action.value;
                 this.emit(EVENT_EMIT_STRING.ENDED_RENTS);
+                break;
+            }
+
+            case RENT_ACTIONS.GET_CALENDAR_RENTS: {
+                this.calendarRents = action.data;
+                this.emit(EVENT_EMIT_STRING.CALENDAR_RENTS);
                 break;
             }
 
@@ -90,7 +98,7 @@ class RentStore extends EventEmitter {
                 this.emit(EVENT_EMIT_STRING.UPDATE_RENT_ACTIVE);
                 break;
             }
-            
+
             case RENT_ACTIONS.DELETE_RESERVED_RENT: {
                 this.emit(EVENT_EMIT_STRING.UPDATE_RENT_RESERVED);
                 break;
@@ -125,7 +133,7 @@ class RentStore extends EventEmitter {
                     data: {}
                 }
                 this.emit(EVENT_EMIT_STRING.MODAL_STATE_CHANGE);
-                break; 
+                break;
             }
 
             // PRINT DOCUMENTS
@@ -141,28 +149,32 @@ class RentStore extends EventEmitter {
                 break;
             }
 
-            default: {}
+            default: { }
         }
     }
 
-    getActiveRents(){
+    getActiveRents() {
         return this.activeRents;
     }
 
-    getReservedRents(){
+    getReservedRents() {
         return this.reservedRents;
     }
 
-    getEndedRents(){
+    getEndedRents() {
         return this.endedRents;
     }
 
-    getInfoModalState(){
+    getInfoModalState() {
         return this.rentModalInfo;
     }
 
-    getRent(){
+    getRent() {
         return this.rent;
+    }
+
+    getCalendarRents() {
+        return this.calendarRents;
     }
 }
 

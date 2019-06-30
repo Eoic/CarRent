@@ -38,7 +38,6 @@ router.get('/monthly', (_req, res) => {
             }
         }])
     ]).then(([activeRents]) => {
-        console.log(activeRents)
         res.json({ activeRents });
     }).catch(err => {
         res.json(err);

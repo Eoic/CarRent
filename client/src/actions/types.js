@@ -36,6 +36,7 @@ export const RENT_ACTIONS = {
     GET_ACTIVE_RENTS:       'rentActions.GetActiveRents',
     GET_RESERVED_RENTS:     'rentActions.GetReservedRents',
     GET_ENDED_RENTS:        'rentActions.GetEndedRents',
+    GET_CALENDAR_RENTS:     'rentActions.GetCalendarRents',
 
     // ADD
     ADD_RENT:               'rentActions.AddRent',

@@ -3,8 +3,9 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import axios from 'axios';
 import moment from 'moment'
+import store from '../stores/RentStore';
+import { getCalendarRents } from '../actions/rentActions';
 
 import '../styles/calendar.scss';
 import { Modal, Button, Header, Grid, Icon } from 'semantic-ui-react';
@@ -14,7 +15,7 @@ class RentCalendar extends Component {
     constructor() {
         super();
         this.state = {
-            calendarEvents: [],
+            calendarEvents: store.getCalendarRents(),
             eventInfoOpen: false,
             carRegNumber: "",
             start: "",
@@ -22,15 +23,20 @@ class RentCalendar extends Component {
         }
 
         this.openInfoModal = this.openInfoModal.bind(this);
+        this.updateCalendar = this.updateCalendar.bind(this);
     }
 
     componentDidMount() {
-        axios.get('/api/rents/monthly').then(response => {
-            if (typeof response.data.activeRents === "undefined")
-                return;
+        store.on('calendarRents', this.updateCalendar);
+        getCalendarRents();
+    }
 
-            this.setState({ calendarEvents: response.data.activeRents })
-        })
+    componentWillUnmount() {
+        store.removeListener('calendarRents', this.updateCalendar);
+    }
+
+    updateCalendar() {
+        this.setState({ calendarEvents: store.getCalendarRents() })
     }
 
     openInfoModal(data) {

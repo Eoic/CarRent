@@ -7,9 +7,6 @@ const { check, body, validationResult } = require('express-validator/check');
 const { jwtSecret, expiresIn } = require('../config/index');
 
 router.post('/login', (req, res) => {
-
-    console.log(req.body);
-
     if (typeof req.body.username === 'undefined' || typeof req.body.password === 'undefined')
         return res.status(401).json({ errors: "Username or password was not provided." })
 
