@@ -4,42 +4,12 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
+import { filterCache, paymentOptions, depositOptions } from '../stores/FilterCache';
 import '../date-picker.css'
 
 const Label = (props) => (
     <label style={{ width: 170 }}> {props.text} </label>
 );
-
-const paymentOptions = [
-    {
-        text: 'Any',
-        value: 'Any'
-    },
-    {
-        text: 'In Cash',
-        value: 'In Cash'
-    },
-    {
-        text: 'Bank Transfer',
-        value: 'Bank Transfer'
-    }
-];
-
-const depositOptions = [
-    {
-        text: 'Any',
-        value: 'Any'
-    },
-    {
-        text: 'Yes',
-        value: true
-    },
-    {
-        text: 'No',
-        value: false
-    }
-]
-
 
 const styles = {
     dateInput: {
@@ -55,10 +25,6 @@ const styles = {
 }
 
 class CustomDatePicker extends Component {
-    constructor(props) {
-        super(props)
-    }
-
     render() {
         return (
             <DatePicker
@@ -88,20 +54,8 @@ class Filter extends Component {
     constructor() {
         super();
         this.state = {
-            filteredEntries: [],
-            filter: {
-                startDate: null,
-                endDate: null,
-                dateAddedFrom: null,
-                dateAddedTo: null,
-                firstName: '',
-                lastName: '',
-                phone: '',
-                address: '',
-                income: '',
-                deposit: depositOptions[0].value,
-                paymentType: paymentOptions[0].value
-            },
+            filteredEntries: filterCache.getFilteredEntries(),
+            filter: filterCache.getFilterParameters(),
             columnFilterOpen: false,
             loadingResults: false
         }
@@ -147,6 +101,11 @@ class Filter extends Component {
                 [key]: date
             }
         }));
+    }
+
+    componentWillUnmount() {
+        //filterCache.setFilterParameters(this.state.filter);
+        filterCache.setFilteredEntries(this.state.filteredEntries);
     }
 
     render() {
