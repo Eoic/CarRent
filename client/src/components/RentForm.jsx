@@ -114,7 +114,8 @@ class RentForm extends Component {
                 deposit: this.state.deposit,
                 odometer: this.state.odometer,
                 address: this.state.address,
-                notes: this.state.notes
+                notes: this.state.notes,
+                paymentType: this.state.payment.text
             }
 
             addRent(newRent);
@@ -142,7 +143,7 @@ class RentForm extends Component {
         return true;
     }
 
-    handlePaymentChange(event, data) {
+    handlePaymentChange(_event, data) {
         this.setState({
             payment: {
                 value: data.value,
@@ -225,7 +226,7 @@ class RentForm extends Component {
                                         <Form.Input label='Kilometers' name='odometer' onChange={this.handleChange} />
                                         <div className='field'>
                                             <label style={{ marginBottom: 12 }}> Deposit </label>
-                                            <Form.Checkbox onChange={(e, data) => this.setState({ deposit: data.checked })} toggle />
+                                            <Form.Checkbox onChange={(_e, data) => this.setState({ deposit: data.checked })} toggle />
                                         </div>
                                     </Form.Group>
                                     <FormGroup widths='equal'>

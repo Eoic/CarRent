@@ -6,6 +6,8 @@ const mongoose = require('mongoose');
 const Rent = require('../../models/Rent');
 const Car = require('../../models/Car');
 
+const QueryBuilder = require('../../utils/query-builder');
+
 const ACTIVE_LIMIT = 20;
 const RESERVED_LIMIT = 20;
 const ENDED_LIMIT = 10;
@@ -46,7 +48,22 @@ router.get('/monthly', (_req, res) => {
 
 // Get rents by given filter
 router.post('/filter', (req, res) => {
-    res.json({});
+    let queryBuilder = new QueryBuilder(req.body);
+    
+    queryBuilder.greaterThan("startDate", "startDate", true);
+    queryBuilder.lessThan("endDate", "endDate", true);
+    queryBuilder.range(true, true, "addedAt", "dateAddedFrom", "dateAddedTo");
+    queryBuilder.matchWithException("Any", "deposit")
+    queryBuilder.matchWithException("Any", "paymentType")
+    queryBuilder.like("phone");
+    queryBuilder.like("name", "firstName");
+    queryBuilder.like("surname", "lastName");
+    queryBuilder.like("address");
+    filter = queryBuilder.getQueryObject();
+
+    Rent.find(filter).then((rents) => {
+        res.json({ rents });
+    });
 });
 
 // @route   GET api/rents
@@ -216,7 +233,8 @@ router.post('/', (req, res) => {
             deposit: req.body.deposit,
             odometer: req.body.odometer,
             address: req.body.address,
-            notes: req.body.notes
+            notes: req.body.notes,
+            paymentType: req.body.paymentType
         });
 
         newRent.save().then(rent => res.json({}));

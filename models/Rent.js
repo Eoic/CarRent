@@ -25,6 +25,7 @@ const RentSchema = new Schema({
     // Misc.
     notes: String,
     deposit: Boolean,
+    paymentType: Schema.Types.String,
     odometer: {
         type: Number,
         default: 0
