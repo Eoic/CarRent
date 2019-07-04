@@ -48,6 +48,7 @@ class ExpensesTable extends Component {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
+                    {this.state.costs.list.length === 0 && <Table.Row><Table.Cell colSpan='3'> No costs were added to this car. </Table.Cell></Table.Row>}
                     {this.state.costs.list.map(cost =>
                         <Table.Row key={cost._id}>
                             <Table.Cell>
@@ -66,7 +67,7 @@ class ExpensesTable extends Component {
                 <Table.Footer>
                     <Table.Row>
                         <Table.HeaderCell colSpan='4'>
-                        <Pagination defaultActivePage={1} totalPages={Math.ceil(this.state.costs.size / 10)} onPageChange={(_event, data) => getCosts(this.props.carId, data.activePage)} />
+                            <Pagination defaultActivePage={1} totalPages={Math.ceil(this.state.costs.size / 10)} onPageChange={(_event, data) => getCosts(this.props.carId, data.activePage)} />
                         </Table.HeaderCell>
                     </Table.Row>
                     <Table.Row>

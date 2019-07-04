@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Segment, Header, Icon, Statistic } from 'semantic-ui-react';
+import { Form, Segment, Header, Icon, Statistic, Button, Message } from 'semantic-ui-react';
 import 'react-datepicker/dist/react-datepicker.css';
 
 // Flux.
@@ -30,7 +30,8 @@ class CarEditForm extends Component {
             costFieldError: false,
             carIncome: 0,
             timesRented: 0,
-            rentAdded: false
+            rentAdded: false,
+            costAdded: false
         }
 
         this.state = this.initialState;
@@ -84,12 +85,11 @@ class CarEditForm extends Component {
     }
 
     handleExpensesSubmit() {
-
         if (this.state.value.trim() === '') {
             toast.error('Please enter a value');
             this.setState({ costFieldError: true });
         } else {
-            this.setState({ costFieldError: false });
+            this.setState({ costFieldError: false, costAdded: true });
 
             const cost = {
                 carId: this.state.carId,
@@ -145,11 +145,11 @@ class CarEditForm extends Component {
                         <Form.Group>
                             <Form.Input width={7} label='Model' name='model' value={this.state.model} onChange={this.handleInfoChange} />
                             <Form.Input width={7} label='Registration number' name='registrationNumber' value={this.state.registrationNumber} onChange={this.handleInfoChange} />
-                            <Form.Input width={2} label='Color' >
+                            <Form.Input width={2} label='Color' value={this.state.color} >
                                 <input type='color' className='input-color' name='color' value={this.state.color} onChange={this.handleInfoChange} />
                             </Form.Input>
                         </Form.Group>
-            
+
                         <Form.Button icon labelPosition='left' color='green' disabled={!this.state.infoChanged}>
                             <Icon name='save' />
                             Save changes
@@ -168,16 +168,24 @@ class CarEditForm extends Component {
                     EXPENSES
                 </Segment>
                 <Segment>
-                    <Form id='expenses-form' onSubmit={this.handleExpensesSubmit}>
-                        <Form.Group widths='equal'>
-                            <Form.Input required icon='euro' error={this.state.costFieldError} label='Value' name='value' value={this.state.value} onChange={this.handleExpensesChange} width='2' />
-                            <Form.Input label='Details' name='details' width='13' value={this.state.details} onChange={this.handleExpensesChange} />
-                        </Form.Group>
-                        <Form.Button icon labelPosition='left' type='submit' color='green'>
-                            <Icon name='plus' />
-                            Add
+                    {!this.state.costAdded &&
+                        <Form id='expenses-form' onSubmit={this.handleExpensesSubmit}>
+                            <Form.Group widths='equal'>
+                                <Form.Input required icon='euro' error={this.state.costFieldError} type='number' min='0' label='Value' name='value' value={this.state.value} onChange={this.handleExpensesChange} width='2' />
+                                <Form.Input label='Details' name='details' required width='13' value={this.state.details} onChange={this.handleExpensesChange} />
+                            </Form.Group>
+                            <Form.Button icon labelPosition='left' type='submit' color='green'>
+                                <Icon name='plus' />
+                                Add
                         </Form.Button>
-                    </Form>
+                        </Form>}
+                    {this.state.costAdded &&
+                        <> <Message color='teal'> Cost added successfully! </Message>
+                            <Button icon labelPosition='left' color='linkedin' onClick={() => this.setState({ costAdded: false })}>
+                                <Icon name='repeat' />
+                                Add another
+                        </Button>
+                        </>}
                     <ExpensesTable carId={this.props.match.params.id} />
                 </Segment>
 
@@ -195,7 +203,7 @@ class CarEditForm extends Component {
                     </Statistic>
                     <Statistic>
                         <Statistic.Label> Income per single rent </Statistic.Label>
-                        <Statistic.Value> &euro; {(this.state.carIncome / this.state.timesRented).toFixed(2)} </Statistic.Value>
+                        <Statistic.Value>&euro; {(this.state.timesRented !== 0) ? (this.state.carIncome / this.state.timesRented).toFixed(2) : 0}</Statistic.Value>
                     </Statistic>
                 </Segment>
 

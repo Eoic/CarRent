@@ -42,6 +42,18 @@ const RentSummary = (props) => (
                             <Icon name='pencil alternate' />
                             Add another
                         </Button>
+
+                        <div style={{ float: 'right' }}>
+                            <Button icon labelPosition='left' color='green' inverted>
+                                <Icon name='credit card alternative' />
+                                Print contract
+                        </Button>
+                            <Button icon labelPosition='left' color='violet' inverted>
+                                <Icon name='file pdf' />
+                                Print invoice
+                        </Button>
+                        </div>
+                        <div style={{ clear: 'both' }} />
                     </Segment>
                 </Segment.Group>
             </Grid.Column>

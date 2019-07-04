@@ -18,22 +18,61 @@ const styles = StyleSheet.create({
     },
     title: {
         textAlign: 'center',
-        fontFamily: 'Open-Sans',
-        fontSize: 12,
-        paddingTop: 8
+        fontFamily: 'Open-Sans-Bold',
+        fontSize: 18,
+        paddingBottom: 12
     },
     text: {
-        fontSize: 9,
+        fontSize: 11,
         fontFamily: 'Open-Sans'
     },
     bold: {
+        fontSize: 11,
         fontFamily: 'Open-Sans-Bold'
+    },
+    centered: {
+        textAlign: 'center'
     },
     header: {
         fontFamily: 'Open-Sans-Bold',
         fontSize: 12
+    },
+    container: {
+        flexDirection: 'row',
+        marginTop: 24
+    },
+
+    bordered: {
+        borderTop: 1,
+        borderBottom: 1
     }
 });
+
+const tableStyle = {
+    columnWidths: [130, 40, 40, 80, 80, 70, 45, "auto"]
+}
+
+const tableHeaders = [
+    "Pavadinimas",
+    "Kiekis",
+    "Matas",
+    "Kaina be PVM",
+    "Suma be PVM",
+    "PVM suma",
+    "PVM %",
+    "Iš viso"
+]
+
+const tablePlaceholders = [
+    "Mikroautobuso nuoma",
+    "1",
+    "vnt",
+    "0 €",
+    "0 €",
+    "0 €",
+    "0 €",
+    "0 €"
+]
 
 Font.register('http://fonts.gstatic.com/s/opensans/v15/mem8YaGs126MiZpBA-U1Ug.ttf', { family: 'Open-Sans' });
 Font.register('http://fonts.gstatic.com/s/opensans/v15/mem5YaGs126MiZpBA-UN7rg-VQ.ttf', { family: 'Open-Sans-Bold' });
@@ -50,38 +89,70 @@ class Invoice extends Component {
             <Document style={styles.document}>
                 <Page size="A4" style={styles.page}>
                     <View style={styles.section}>
-                        <Text style={styles.title}>  
-                            PVM SĄSKAITA FAKTŪRA Nr. RAJ18 0000000
+                        <Text style={styles.title}>
+                            PVM SĄSKAITA FAKTŪRA
                         </Text>
+                        <Text style={[styles.text, styles.centered]}> Serija ir nr. RA-001 </Text>
+                        <Text style={[styles.text, styles.centered]}> Sąskaitos data: {Date.now().toString()}</Text>
+                        <Text style={[styles.text, styles.centered]}> Apmokėti iki {Date.now().toString()}</Text>
 
-                        <View style={{ flexDirection: 'row'}}>
+                        <View style={styles.container}>
                             <View>
-                                <Text style={[styles.text, styles.bold]}> { this.state.timestamp} </Text>
                                 <Text style={styles.header}> Pardavėjas </Text>
-                                <Text style={styles.header}> UAB Rajesas </Text>
-                                <Text style={styles.text}> Įm. k.: 135832118 www.rajesas.lt; info@rajesas.lt </Text>
-                                <Text style={styles.text}> PVM k.: LT358321113 </Text>
-                                <Text style={styles.text}> Kaunas, Radvilų dvaro g. 6 </Text>
-                                <Text style={styles.text}> Tel.: 837 362665, Faks.: 837362665 </Text>
-                                <Text style={styles.text}> Registro tvarkytojas </Text>
-                                <Text style={styles.text}> AB Swedbank bankas, A.s. LT507300010039753927LTL </Text>
-                                <Text style={styles.text}> AB Swedbank bankas, A.s. LT287300010096942807LTL </Text>
-                                <Text style={styles.text}> AB SEB bankas, A.s. LT737044060005881155LTL </Text>
+                                <Text style={styles.text}> UAB &bdquo;Rajesas" </Text>
+                                <Text style={styles.text}> Įm. kodas: 135832118 </Text>
+                                <Text style={styles.text}> PVM mokėtojo kodas: LT358321113 </Text>
+                                <Text style={styles.text}> Radvilų dvaro g. 6, Kaunas, LT48322, Lietuva </Text>
+                                <Text style={{ fontSize: 9 }}> &nbsp; </Text>
+                                <Text style={styles.text}> Bankas: Citadele </Text>
+                                <Text style={styles.text}> Banko kodas: 72900 </Text>
+                                <Text style={styles.text}> SWIFT kodas: INDULT2X </Text>
+                                <Text style={styles.text}> LT987290000016467889 </Text>
                             </View>
 
-                            <View style={{ paddingLeft: 40}}>
+                            <View style={{ paddingLeft: 40 }}>
                                 <Text style={styles.text}> &nbsp; </Text>
                                 <Text style={styles.header}> Pirkėjas </Text>
-                                <Text style={styles.text}> Pavadinimas </Text>
-                                <Text style={styles.text}> Įm. (asm) k.: 123456789 </Text>
-                                <Text style={styles.text}> PVM k.: LT123456789 </Text>
-                                <Text style={styles.text}> Adresas </Text>
+                                <Text style={styles.text}> [Pilnas vardas / Pavadinimas] </Text>
+                                <Text style={styles.text}> [Įm. kodas 1212121212 ] </Text>
+                                <Text style={styles.text}> [PVM mokėtojo kodas: 1212121212112 ] </Text>
+                                <Text style={styles.text}> [Adresas] </Text>
                             </View>
                         </View>
 
-                        <View style={[{ border: 1 }]}>
-                            <Text> Text </Text>
+                        <View style={styles.container}>
+                            {tableHeaders.map((header, index) =>
+                                <View style={{ width: tableStyle.columnWidths[index] }}>
+                                    <Text style={[styles.bold, { marginBottom: 4 }]}> {header} </Text>
+                                </View>
+                            )}
                         </View>
+
+                        <View style={[{ flexDirection: "row" }, styles.bordered]}>
+                            {tableStyle.columnWidths.map((colWidth, index) =>
+                                <View style={{ width: colWidth }}>
+                                    <Text style={[styles.text, { marginTop: 4, marginBottom: 4 }]}>
+                                        {tablePlaceholders[index]}
+                                    </Text>
+                                </View>
+                            )}
+                        </View>
+
+                        <View style={{ flexDirection: "row", textAlign: "right"  }}>
+                            <Text style={[styles.text, styles.bold]}> Suma be PVM (21%) </Text>
+                            <Text style={styles.text}> 0 &euro; </Text>                            
+                        </View>
+
+                        <View style={{ flexDirection: "row", textAlign: "right"  }}>
+                            <Text style={[styles.text, styles.bold]}> PVM (21%) </Text>
+                            <Text style={styles.text}> 0 &euro; </Text>                            
+                        </View>
+
+                        <View style={{ flexDirection: "row", textAlign: "right" }}>
+                            <Text style={[styles.text, styles.bold]}> Bendra suma </Text>
+                            <Text style={styles.text}> 00000000 &euro; </Text>                            
+                        </View>
+
                     </View>
                 </Page>
             </Document>
