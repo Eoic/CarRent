@@ -7,6 +7,7 @@ import { addRent } from '../actions/rentActions';
 import { toast } from 'react-toastify';
 import rentStore from '../stores/RentStore'
 import RentSummary from './RentSummary';
+import { dateFormatter } from '../utils/dateFormatter';
 
 const paymentOptions = [
     {
@@ -39,34 +40,43 @@ class RentForm extends Component {
     constructor() {
         super();
 
-        this.state = {
-            startDate: moment(),
-            endDate: moment(),
+        var rentCopy = rentStore.getRentCopy();
+        
+        var initialState = {
+            startDate: moment(rentCopy.startDate) || moment(),
+            endDate: moment(rentCopy.endDate) || moment(),
             duration: 0,
-            firstName: '',
-            lastName: '',
-            address: '',
-            deposit: false,
-            phone: '',
-            price: '',
-            notes: '',
-            odometer: 0,
-            payment: {
+            firstName: rentCopy.name || '',
+            lastName: rentCopy.surname || '',
+            address: rentCopy.address || '',
+            deposit: rentCopy.deposit || false,
+            phone: rentCopy.phone || '',
+            price: rentCopy.value || '',
+            notes: rentCopy.notes || '',
+            odometer: rentCopy.odometer || 0,
+            payment: rentCopy.paymentType || {
                 value: paymentOptions[0].value,
                 text: paymentOptions[0].text
             },
-            rentAdded: false
+            rentAdded: false,
+            rentAddPending: false,
+            processedRentData: {}
         }
 
+        initialState.duration = dateFormatter.getDuration(initialState.startDate, initialState.endDate);
+
+        this.state = initialState;
         this.handleStartDateChange = this.handleStartDateChange.bind(this);
         this.handleEndDateChange = this.handleEndDateChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.getDuration = this.getDuration.bind(this);
         this.handlePaymentChange = this.handlePaymentChange.bind(this);
         this.validateFields = this.validateFields.bind(this);
         this.handleRentSuccess = this.handleRentSuccess.bind(this)
         this.handleFormReset = this.handleFormReset.bind(this)
+
+        if(!(Object.keys(rentCopy).length === 0 && rentCopy.constructor === Object))
+            rentStore.flushRentCopy(); 
     }
 
     handleFormReset() {
@@ -74,8 +84,7 @@ class RentForm extends Component {
     }
 
     handleRentSuccess(message) {
-        toast.success(message)
-        this.setState({ rentAdded: true })
+        this.setState({ rentAddPending: false, rentAdded: true, processedRentData: rentStore.getRent() })
     }
 
     componentDidMount() {
@@ -87,11 +96,15 @@ class RentForm extends Component {
     }
 
     handleStartDateChange(date) {
-        this.setState({ startDate: date }, () => this.getDuration());
+        this.setState({ startDate: date }, () => {
+            this.setState({ duration: dateFormatter.getDuration(this.state.startDate, this.state.endDate) })
+        });
     }
 
     handleEndDateChange(date) {
-        this.setState({ endDate: date }, () => this.getDuration());
+        this.setState({ endDate: date }, () => {
+            this.setState({ duration: dateFormatter.getDuration(this.state.startDate, this.state.endDate) })
+        });
     }
 
     handleChange(event) {
@@ -100,6 +113,7 @@ class RentForm extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
+        this.setState({ rentAddPending: true })
 
         if (this.validateFields()) {
 
@@ -152,30 +166,10 @@ class RentForm extends Component {
         })
     }
 
-    // Get duration between start and end dates.
-    getDuration() {
-        const { startDate, endDate } = this.state;
-
-        const utc_one = Date.UTC(startDate.get('y'),
-            startDate.get('month'),
-            startDate.get('D'),
-            startDate.get('hour'),
-            startDate.get('minute'));
-
-        const utc_two = Date.UTC(endDate.get('y'),
-            endDate.get('month'),
-            endDate.get('D'),
-            endDate.get('hour'),
-            endDate.get('minute'));
-
-        const duration = Math.floor((utc_two - utc_one) / 60000);
-        this.setState({ duration });
-    }
-
     render() {
         return (
             <Grid padded columns='1' centered>
-                {this.state.rentAdded ? <RentSummary data={this.state} resetForm={this.handleFormReset} /> :
+                {this.state.rentAdded ? <RentSummary data={this.state.processedRentData} resetForm={this.handleFormReset} duration={dateFormatter.getLongDurationString(this.state.duration)} /> :
                     <React.Fragment>
                         <Grid padded style={styles.innerGrid}>
                             <label style={styles.label}> Start Date </label>
@@ -211,36 +205,36 @@ class RentForm extends Component {
                             <Grid.Column style={styles.formColumn}>
                                 <Form onSubmit={this.handleSubmit} autoComplete='off'>
                                     <Form.Group widths='equal'>
-                                        <Form.Input required name='firstName' label='First Name' onChange={this.handleChange} />
-                                        <Form.Input required name='lastName' label='Last Name' onChange={this.handleChange} />
+                                        <Form.Input required name='firstName' label='First Name' onChange={this.handleChange} value={this.state.firstName} />
+                                        <Form.Input required name='lastName' label='Last Name' onChange={this.handleChange} value={this.state.lastName} />
                                     </Form.Group>
                                     <Form.Group widths='equal'>
-                                        <Form.Input onChange={this.handleChange} name='phone' label='Phone Number' />
+                                        <Form.Input onChange={this.handleChange} name='phone' label='Phone Number' value={this.state.phone} />
                                         <Form.Dropdown selection options={paymentOptions} defaultValue={paymentOptions[0].value} onChange={this.handlePaymentChange} label='Payment Type' />
                                     </Form.Group>
                                     <Form.Group widths='equal'>
-                                        <Form.Input onChange={this.handleChange} name='address' label='Address' />
+                                        <Form.Input onChange={this.handleChange} name='address' label='Address' value={this.state.address} />
                                     </Form.Group>
                                     <Form.Group widths='4'>
-                                        <Form.Input required label='Price' icon='euro' name='price' onChange={this.handleChange} />
-                                        <Form.Input label='Kilometers' name='odometer' onChange={this.handleChange} />
+                                        <Form.Input required label='Price' icon='euro' type='number' min='0' name='price' onChange={this.handleChange} value={this.state.price} />
+                                        <Form.Input label='Kilometers' name='odometer' onChange={this.handleChange} value={this.state.odometer} />
                                         <div className='field'>
                                             <label style={{ marginBottom: 12 }}> Deposit </label>
-                                            <Form.Checkbox onChange={(_e, data) => this.setState({ deposit: data.checked })} toggle />
+                                            <Form.Checkbox checked={this.state.deposit} onChange={(_e, data) => this.setState({ deposit: data.checked })} toggle />
                                         </div>
                                     </Form.Group>
                                     <FormGroup widths='equal'>
-                                        <Form.TextArea name='notes' style={{ maxHeight: '500px' }} onChange={this.handleChange} label='Notes'></Form.TextArea>
+                                        <Form.TextArea name='notes' style={{ maxHeight: '500px' }} value={this.state.notes} onChange={this.handleChange} label='Notes'></Form.TextArea>
                                     </FormGroup>
 
                                     <Divider />
 
                                     <Header>
                                         <Icon name='time' size='huge' />
-                                        {Math.floor((this.state.duration / 60) / 24)} days {Math.floor((this.state.duration / 60) % 24)} h. {this.state.duration % 60} min.
+                                        {`${dateFormatter.getLongDurationString(this.state.duration)}`}
                                     </Header>
                                     <Divider />
-                                    <Button icon labelPosition='left' color='green'>
+                                    <Button icon labelPosition='left' color='green' loading={this.state.rentAddPending}>
                                         <Icon name='payment' />
                                         Rent
                                     </Button>

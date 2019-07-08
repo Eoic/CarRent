@@ -11,7 +11,8 @@ const EVENT_EMIT_STRING = {
     UPDATE_RENT_RESERVED: 'update_Reserved',
     UPDATE_RENT_ENDED: 'update_Ended',
     MODAL_STATE_CHANGE: 'stateChanged',
-    CALENDAR_RENTS: 'calendarRents'
+    CALENDAR_RENTS: 'calendarRents',
+    RENT_COPY_AVAILABLE: 'rentCopyAvailable'
 }
 
 class RentStore extends EventEmitter {
@@ -41,6 +42,7 @@ class RentStore extends EventEmitter {
 
         this.calendarRents = [];
         this.rent = {};
+        this.rentCopy = {};
     }
 
     handleActions(action) {
@@ -48,6 +50,7 @@ class RentStore extends EventEmitter {
 
             // POST
             case RENT_ACTIONS.ADD_RENT: {
+                this.rent = action.value; // Cache added rent info.
                 this.emit(EVENT_EMIT_STRING.ADD_RENT_SUCCESS, "Rent added successfully");
                 break;
             }
@@ -74,6 +77,12 @@ class RentStore extends EventEmitter {
             case RENT_ACTIONS.GET_CALENDAR_RENTS: {
                 this.calendarRents = action.data;
                 this.emit(EVENT_EMIT_STRING.CALENDAR_RENTS);
+                break;
+            }
+
+            case RENT_ACTIONS.GET_RENT_COPY: {
+                this.rentCopy = action.value;
+                this.emit(EVENT_EMIT_STRING.RENT_COPY_AVAILABLE);
                 break;
             }
 
@@ -171,6 +180,14 @@ class RentStore extends EventEmitter {
 
     getRent() {
         return this.rent;
+    }
+
+    getRentCopy() {
+        return this.rentCopy;
+    }
+
+    flushRentCopy() {
+        this.rentCopy = {};
     }
 
     getCalendarRents() {

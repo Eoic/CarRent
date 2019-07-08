@@ -29,7 +29,11 @@ const RentSchema = new Schema({
     odometer: {
         type: Number,
         default: 0
-    }
+    },
+
+    // Printing
+    contractId: String,
+    invoiceId: String
 });
 
 module.exports = Rent = mongoose.model('rent', RentSchema);

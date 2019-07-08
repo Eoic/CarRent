@@ -117,7 +117,7 @@ class Contract extends Component {
             <Document style={styles.document}>
                 <Page size="A4" style={styles.page}>
                     <View style={styles.section}>
-                        <Text style={Object.assign({}, styles.text, { textAlign: 'center', width: 515 })}> {`${agreements.pageOne.title}${shortid()}`}</Text>
+                        <Text style={Object.assign({}, styles.text, { textAlign: 'center', width: 515 })}> {`${agreements.pageOne.title}${data.contractId || shortid()}`}</Text>
                         <Text style={styles.title}> {this.state.timestamp} </Text>
                         <Text style={styles.openingText}> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; {agreements.pageOne.description} </Text>
                         {this.createList(agreements.pageOne, 0)}

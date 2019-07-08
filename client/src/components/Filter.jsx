@@ -6,6 +6,7 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import { filterCache, paymentOptions, depositOptions } from '../stores/FilterCache';
 import '../date-picker.css'
+import CarSelection from './CarSelection';
 
 const Label = (props) => (
     <label style={{ width: 170 }}> {props.text} </label>
@@ -57,7 +58,9 @@ class Filter extends Component {
             filteredEntries: filterCache.getFilteredEntries(),
             filter: filterCache.getFilterParameters(),
             columnFilterOpen: false,
-            loadingResults: false
+            loadingResults: false,
+            carSelectionOpen: false,
+            selectedRentId: ''
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -111,6 +114,7 @@ class Filter extends Component {
     render() {
         return (
             <React.Fragment>
+                <CarSelection open={this.state.carSelectionOpen} rentId={this.state.selectedRentId} handleClose={() => this.setState({ carSelectionOpen: false }) } />
                 <Segment.Group>
                     <Segment>
                         <Form onSubmit={this.handleSubmit}>
@@ -159,7 +163,7 @@ class Filter extends Component {
                 <Table unstackable selectable>
                     <Table.Header>
                         <Table.Row>
-                            {this.state.filteredEntries.length > 0 && <Table.HeaderCell colSpan='7'>
+                            {this.state.filteredEntries.length > 0 && <Table.HeaderCell colSpan='8'>
                                 Showing {this.state.filteredEntries.length} results
                             </Table.HeaderCell>}
                         </Table.Row>
@@ -173,17 +177,18 @@ class Filter extends Component {
                             <Table.HeaderCell> End Date </Table.HeaderCell>
                             <Table.HeaderCell> Added </Table.HeaderCell>
                             <Table.HeaderCell textAlign='right' />
+                            <Table.HeaderCell textAlign='right' />
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
-                        {this.state.filteredEntries.length === 0 && !this.state.loadingResults && <Table.Row><Table.Cell colSpan='7'>No rents match search parameters</Table.Cell></Table.Row>}
+                        {this.state.filteredEntries.length === 0 && !this.state.loadingResults && <Table.Row><Table.Cell colSpan='8'>No rents match search parameters</Table.Cell></Table.Row>}
                         {this.state.filteredEntries.map((rent, index) => <Table.Row key={index}>
                             <Table.Cell> <Link className='custom-link' to={'/car/' + rent.carId}> {rent.regNumber} </Link> </Table.Cell>
                             <Table.Cell> {rent.name} {rent.surname} </Table.Cell>
                             <Table.Cell> {rent.value} </Table.Cell>
                             <Table.Cell> {moment(rent.startDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
                             <Table.Cell> {moment(rent.endDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
-                            <Table.Cell> {rent.addedAt} </Table.Cell>
+                            <Table.Cell> {moment(rent.addedAt).format('YYYY/MM/DD HH:mm')} </Table.Cell>
 
                             <Table.Cell textAlign='right' width='1'>
                                 <Button animated='vertical' color='green'>
@@ -193,11 +198,20 @@ class Filter extends Component {
                                     </Button.Content>
                                 </Button>
                             </Table.Cell>
+
+                            <Table.Cell textAlign='center' width='1'>
+                                <Button animated='vertical' color='purple' onClick={() => this.setState({ selectedRentId: rent._id, carSelectionOpen: true })}>
+                                    <Button.Content hidden> COPY </Button.Content>
+                                    <Button.Content visible>
+                                        <Icon name='redo alternate' />
+                                    </Button.Content>
+                                </Button>
+                            </Table.Cell>
                         </Table.Row>)}
                     </Table.Body>
                     <Table.Footer>
                         <Table.Row>
-                            <Table.HeaderCell colSpan='7'>
+                            <Table.HeaderCell colSpan='8'>
 
                             </Table.HeaderCell>
                         </Table.Row>

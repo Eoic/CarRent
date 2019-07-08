@@ -5,8 +5,10 @@ const mongoose = require('mongoose');
 // Rent model.
 const Rent = require('../../models/Rent');
 const Car = require('../../models/Car');
+const Print = require('../../models/Print');
 
 const QueryBuilder = require('../../utils/query-builder');
+const PrintPrefix = require('../../utils/print-prefix');
 
 const ACTIVE_LIMIT = 20;
 const RESERVED_LIMIT = 20;
@@ -49,7 +51,7 @@ router.get('/monthly', (_req, res) => {
 // Get rents by given filter
 router.post('/filter', (req, res) => {
     let queryBuilder = new QueryBuilder(req.body);
-    
+
     queryBuilder.greaterThan("startDate", "startDate", true);
     queryBuilder.lessThan("endDate", "endDate", true);
     queryBuilder.range(true, true, "addedAt", "dateAddedFrom", "dateAddedTo");
@@ -215,14 +217,14 @@ router.get('/:id', (req, res) => {
 // @route   POST api/rents
 // @desc    Add rent.
 // @access  Public.
-
 router.post('/', (req, res) => {
-
-    Car.findById(req.body.carId).then(response => {
-
+    Promise.all([
+        Car.findById(req.body.carId),
+        Print.findOneAndUpdate({}, { $inc: { contractCount: 1, invoiceCount: 1 } })
+    ]).then(([car, printCounter]) => {
         const newRent = new Rent({
             carId: req.body.carId,
-            regNumber: response.registrationNumber,
+            regNumber: car.registrationNumber,
             value: req.body.price,
             startDate: req.body.startDate,
             endDate: req.body.endDate,
@@ -234,11 +236,17 @@ router.post('/', (req, res) => {
             odometer: req.body.odometer,
             address: req.body.address,
             notes: req.body.notes,
-            paymentType: req.body.paymentType
+            paymentType: req.body.paymentType,
+            contractId: `${PrintPrefix.contract}${printCounter.contractCount}`,
+            invoiceId: `${PrintPrefix.invoice}${printCounter.invoiceCount}`
         });
 
-        newRent.save().then(rent => res.json({}));
+        newRent.save().then(rent => res.json(rent));
     });
 });
+
+/*
+
+*/
 
 module.exports = router;

@@ -151,3 +151,12 @@ export function getCalendarRents() {
         });
     });
 }
+
+export function getRentCopy(rentId) {
+    axios.get(`${ROUTE.RENTS}/${rentId}`).then(response => {
+        dispatcher.dispatch({
+            type: RENT_ACTIONS.GET_RENT_COPY,
+            value: response.data
+        });
+    });
+}

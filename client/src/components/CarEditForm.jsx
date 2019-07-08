@@ -31,7 +31,8 @@ class CarEditForm extends Component {
             carIncome: 0,
             timesRented: 0,
             rentAdded: false,
-            costAdded: false
+            costAdded: false,
+            formLoading: true
         }
 
         this.state = this.initialState;
@@ -56,9 +57,7 @@ class CarEditForm extends Component {
         carRentIncome(this.state.carId);
 
         axios.get('/api/rents/times-rented', {
-            params: {
-                carId: this.state.carId
-            }
+            params: { carId: this.state.carId }
         }).then(response => {
             this.setState({ timesRented: response.data.count });
         });
@@ -80,7 +79,8 @@ class CarEditForm extends Component {
         this.setState({
             model: car.model,
             registrationNumber: car.registrationNumber,
-            color: car.color
+            color: car.color,
+            formLoading: false
         });
     }
 
@@ -143,10 +143,10 @@ class CarEditForm extends Component {
                 <Segment>
                     <Form id='car-edit-form' onSubmit={this.handleInfoSubmit}>
                         <Form.Group>
-                            <Form.Input width={7} label='Model' name='model' value={this.state.model} onChange={this.handleInfoChange} />
-                            <Form.Input width={7} label='Registration number' name='registrationNumber' value={this.state.registrationNumber} onChange={this.handleInfoChange} />
+                            <Form.Input width={7} label='Model' name='model' value={this.state.model || ''} onChange={this.handleInfoChange} loading={this.state.formLoading} />
+                            <Form.Input width={7} label='Registration number' name='registrationNumber' value={this.state.registrationNumber || ''} onChange={this.handleInfoChange} loading={this.state.formLoading} />
                             <Form.Input width={2} label='Color' value={this.state.color} >
-                                <input type='color' className='input-color' name='color' value={this.state.color} onChange={this.handleInfoChange} />
+                                <input type='color' className='input-color' name='color' value={this.state.color || '#000000'} onChange={this.handleInfoChange} />
                             </Form.Input>
                         </Form.Group>
 
