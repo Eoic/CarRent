@@ -35,14 +35,14 @@ class MenuTop extends React.Component {
                 </Menu.Item>
 
                 <Menu.Menu position='right'>
-                    { /*
+                    { 
                     <Dropdown item text='Language'>
                         <Dropdown.Menu>
                             <Dropdown.Item> EN </Dropdown.Item>
                             <Dropdown.Item> LT </Dropdown.Item>
                         </Dropdown.Menu>
                     </Dropdown>
-                    */}
+                    }
                     <Menu.Item as={Link} to='/logout' content='Logout' icon='log out' />
                 </Menu.Menu>
             </Menu>

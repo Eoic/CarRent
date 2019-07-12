@@ -13,6 +13,7 @@ const PrintPrefix = require('../../utils/print-prefix');
 const ACTIVE_LIMIT = 20;
 const RESERVED_LIMIT = 20;
 const ENDED_LIMIT = 10;
+const FILTER_RENTS_PER_PAGE = 15;
 
 // Get all active and reserved rents.
 router.get('/monthly', (_req, res) => {
@@ -50,7 +51,17 @@ router.get('/monthly', (_req, res) => {
 
 // Get rents by given filter
 router.post('/filter', (req, res) => {
+    const tableSize = req.query.tableSize
     let queryBuilder = new QueryBuilder(req.body);
+    let page = req.query.page;
+
+    if (page === null)
+        return res.json({ rents: {} });
+
+    if (page <= 0)
+        return res.json({ rents: {} });
+
+    page = (req.query.page < 1 ? 0 : req.query.page - 1);
 
     queryBuilder.greaterThan("startDate", "startDate", true);
     queryBuilder.lessThan("endDate", "endDate", true);
@@ -63,9 +74,12 @@ router.post('/filter', (req, res) => {
     queryBuilder.like("address");
     filter = queryBuilder.getQueryObject();
 
-    Rent.find(filter).then((rents) => {
-        res.json({ rents });
-    });
+    Promise.all([
+        Rent.countDocuments(filter),
+        Rent.find(filter).skip(page * tableSize).limit(parseInt(tableSize)).sort({ startDate: -1 })
+    ]).then(([size, rents]) => {
+        res.json({ rents, size })
+    }).catch(err => console.log(err));
 });
 
 // @route   GET api/rents

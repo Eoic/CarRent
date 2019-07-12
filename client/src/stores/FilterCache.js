@@ -46,6 +46,8 @@ class FilterCache {
         }
 
         this.filteredEntries = [];
+        this.currentPage = 1;
+        this.totalPages = 1;
     }
 
     getFilteredEntries() {
@@ -68,6 +70,18 @@ class FilterCache {
             return;
 
         this.filterParameters = data;
+    }
+
+    setFilterOptions(currentPage, totalPages) {
+        this.currentPage = currentPage;
+        this.totalPages = totalPages;
+    }
+
+    getFilterOptions() {
+        return {
+            currentPage: this.currentPage,
+            totalPages: this.totalPages
+        }
     }
 }
 
