@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Segment, Grid, Divider, Table, Icon, Button } from 'semantic-ui-react';
+import { Form, Segment, Grid, Divider, Table, Icon, Button, Pagination, Dropdown } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
@@ -7,6 +7,15 @@ import moment from 'moment';
 import { filterCache, paymentOptions, depositOptions } from '../stores/FilterCache';
 import '../date-picker.css'
 import CarSelection from './CarSelection';
+
+const tableSize = 15;
+
+const tableSizeOptions = [
+    { key: 1, text: '10', value: 10 },
+    { key: 2, text: '20', value: 20 },
+    { key: 3, text: '50', value: 50 },
+    { key: 4, text: '100', value: 100 },
+  ]
 
 const Label = (props) => (
     <label style={{ width: 170 }}> {props.text} </label>
@@ -54,19 +63,24 @@ class Filter extends Component {
 
     constructor() {
         super();
+        const filterOptions = filterCache.getFilterOptions();
         this.state = {
             filteredEntries: filterCache.getFilteredEntries(),
             filter: filterCache.getFilterParameters(),
+            filterEntriesCount: 0,
             columnFilterOpen: false,
             loadingResults: false,
             carSelectionOpen: false,
-            selectedRentId: ''
+            selectedRentId: '',
+            currentPage: filterOptions.currentPage,
+            totalPages: filterOptions.totalPages
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleDropdownChange = this.handleDropdownChange.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
+        this.filterRents = this.filterRents.bind(this);
     }
 
     handleChange(event) {
@@ -90,10 +104,23 @@ class Filter extends Component {
         }));
     }
 
+    // On button click, submit new filter and start showing results from page 1.
     handleSubmit() {
         this.setState({ loadingResults: true });
-        axios.post('/api/rents/filter', this.state.filter).then(response => {
-            this.setState({ filteredEntries: response.data.rents, loadingResults: false });
+
+        axios.post('/api/rents/filter', this.state.filter, {
+            params: { page: 1, tableSize }
+        }).then(response => {
+            this.setState({ filteredEntries: response.data.rents, loadingResults: false, currentPage: 1, totalPages: Math.ceil(response.data.size / tableSize) });
+        });
+    }
+
+    // On page button click, submit same filter and show results, according to page number.
+    filterRents(_event, data) {
+        axios.post('/api/rents/filter', this.state.filter, {
+            params: { page: data.activePage, tableSize }
+        }).then(response => {
+            this.setState({ filteredEntries: response.data.rents, loadingResults: false, currentPage: data.activePage, totalPages: Math.ceil(response.data.size / tableSize) });
         });
     }
 
@@ -109,12 +136,13 @@ class Filter extends Component {
     componentWillUnmount() {
         //filterCache.setFilterParameters(this.state.filter);
         filterCache.setFilteredEntries(this.state.filteredEntries);
+        filterCache.setFilterOptions(this.state.currentPage, this.state.totalPages)
     }
 
     render() {
         return (
             <React.Fragment>
-                <CarSelection open={this.state.carSelectionOpen} rentId={this.state.selectedRentId} handleClose={() => this.setState({ carSelectionOpen: false }) } />
+                <CarSelection open={this.state.carSelectionOpen} rentId={this.state.selectedRentId} handleClose={() => this.setState({ carSelectionOpen: false })} />
                 <Segment.Group>
                     <Segment>
                         <Form onSubmit={this.handleSubmit}>
@@ -160,12 +188,13 @@ class Filter extends Component {
                         </Form>
                     </Segment>
                 </Segment.Group>
-                <Table unstackable selectable>
+                <Table unstackable selectable compact>
                     <Table.Header>
                         <Table.Row>
-                            {this.state.filteredEntries.length > 0 && <Table.HeaderCell colSpan='8'>
-                                Showing {this.state.filteredEntries.length} results
-                            </Table.HeaderCell>}
+                            <Table.HeaderCell colSpan='8'>
+                                <label> Results per page </label>
+                                <Dropdown labeled options={tableSizeOptions} defaultValue={tableSizeOptions[0].value} />
+                            </Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
                     <Table.Header>
@@ -212,7 +241,7 @@ class Filter extends Component {
                     <Table.Footer>
                         <Table.Row>
                             <Table.HeaderCell colSpan='8'>
-
+                                <Pagination activePage={this.state.currentPage} totalPages={this.state.totalPages} onPageChange={this.filterRents} />
                             </Table.HeaderCell>
                         </Table.Row>
                     </Table.Footer>
