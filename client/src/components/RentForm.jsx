@@ -145,9 +145,10 @@ class RentForm extends Component {
 
         if (this.state.startDate.isSameOrAfter(this.state.endDate) || this.state.duration === 0)
             errors.push("Selected rent date is incorrect.");
-
+        /*
         if (this.state.price.trim() === '')
             errors.push("Price field is empty");
+        */
 
         if (errors.length > 0) {
             errors.map(err => toast.error(err));
