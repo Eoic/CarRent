@@ -58,8 +58,8 @@ class CarModal extends Component {
                     </Form>
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button positive icon='save' labelPosition='right' type='submit' form='car-add-form' color='blue' content='Save' />
-                    <Button negative icon='times' labelPosition='right' content='Close' onClick={() => { this.setState({ open: false }) }} />
+                    <Button positive icon='save' labelPosition='left' type='submit' form='car-add-form' color='blue' content='Save' />
+                    <Button negative icon='times' labelPosition='left' content='Close' onClick={() => { this.setState({ open: false }) }} />
                 </Modal.Actions>
             </Modal>
         );

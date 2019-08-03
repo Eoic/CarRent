@@ -30,8 +30,7 @@ class MenuTop extends React.Component {
                     </Responsive>
                 </Menu.Item>
                 <Menu.Item className="menu-item-top">
-                    Logged in as&nbsp;
-                    {/*<Link to='/profile' className="custom-link" style={{ fontWeight: 'bold' }}> */} {this.state.username} {/* </Link> */}
+                    Logged in as&nbsp;<b>{this.state.username}</b>
                 </Menu.Item>
 
                 <Menu.Menu position='right'>

@@ -67,6 +67,11 @@
     .sidebar-content, .menu-item-top {
         margin-left: 15px;
     }
+
+    .y-padding-none {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
 }
 
 .input-color {
@@ -75,10 +80,20 @@
 }
 
 .color-sample {
-    width: 30px;
+    width: 84px;
     height: 30px;
     border-radius: 3px;
     border-color: #dededf;
     border-style: solid;
     border-width: 2px;
+}
+
+.align-right-large {
+    text-align: left !important;
+}
+
+@media only screen and (min-width: 768px) {
+    .align-right-large {
+        text-align: right !important;
+    }
 }

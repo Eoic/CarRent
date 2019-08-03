@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Table, Icon, Button, Dropdown, Pagination } from 'semantic-ui-react';
 import Countdown from './Countdown';
 import moment from 'moment';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import _ from 'lodash';
 
 // Flux.
 import store from '../stores/RentStore';
@@ -24,7 +25,9 @@ class ActiveRents extends Component {
         this.state = {
             rents: store.getActiveRents().activeRents,
             size: store.getActiveRents().size,
-            showPrintWindow: false
+            showPrintWindow: false,
+            column: null,
+            direction: null
         }
         this.updateRentsList = this.updateRentsList.bind(this);
         this.fetchData = this.fetchData.bind(this);
@@ -61,41 +64,84 @@ class ActiveRents extends Component {
         });
     }
 
+    handleSort = clickedColumn => () => {
+        const { column, rents, direction } = this.state
+
+        if (column !== clickedColumn) {
+            this.setState({
+                column: clickedColumn,
+                rents: _.sortBy(rents, [clickedColumn]),
+                direction: 'ascending',
+            });
+
+            return;
+        }
+
+        this.setState({
+            rents: rents.reverse(),
+            direction: direction === 'ascending' ? 'descending' : 'ascending',
+        });
+    }
+
+    handleDateSort = clickedColumn => () => {
+        const { column, rents, direction } = this.state
+
+        if (column !== clickedColumn) {
+            this.setState({
+                column: clickedColumn,
+                rents: _.orderBy(rents, (item) => {
+                    return new moment(item[clickedColumn]).format('YYYY/MM/DD HH:mm')
+                }, [clickedColumn]),
+                direction: 'ascending',
+            });
+
+            return;
+        }
+
+        this.setState({
+            rents: rents.reverse(),
+            direction: direction === 'ascending' ? 'descending' : 'ascending',
+        });
+    }
+
     render() {
+
+        const { column, rents, direction } = this.state;
+
         return (
             <div>
-                <Table unstackable selectable compact>
+                <Table stackable sortable selectable compact>
                     <Table.Header>
-                        <Table.Row>
-                            <Table.HeaderCell colSpan='7' style={style.typeHeader}> 
-                                <i className='fa fa-hourglass-half'/>
-                            Active </Table.HeaderCell>
+                        <Table.Row className='y-padding-none'>
+                            <Table.HeaderCell colSpan='7' style={style.typeHeader}>
+                                <i className='fa fa-hourglass-half' />
+                                Active </Table.HeaderCell>
                         </Table.Row>
                     </Table.Header>
                     <Table.Header>
                         <Table.Row>
-                            <Table.HeaderCell> Car </Table.HeaderCell>
-                            <Table.HeaderCell> Income, &euro; </Table.HeaderCell>
-                            <Table.HeaderCell> Start Date </Table.HeaderCell>
-                            <Table.HeaderCell> End Date </Table.HeaderCell>
-                            <Table.HeaderCell textAlign='right'> Time left </Table.HeaderCell>
+                            <Table.HeaderCell sorted={column === 'regNumber' ? direction : null} onClick={this.handleSort('regNumber')}> Car </Table.HeaderCell>
+                            <Table.HeaderCell sorted={column === 'value' ? direction : null} onClick={this.handleSort('value')} > Income, &euro; </Table.HeaderCell>
+                            <Table.HeaderCell sorted={column === 'startDate' ? direction : null} onClick={this.handleDateSort('startDate')}> Start Date </Table.HeaderCell>
+                            <Table.HeaderCell sorted={column === 'endDate' ? direction : null} onClick={this.handleDateSort('endDate')}> End Date </Table.HeaderCell>
+                            <Table.HeaderCell className='align-right-large'> Time left </Table.HeaderCell>
                             <Table.HeaderCell textAlign='right' />
                             <Table.HeaderCell textAlign='right' />
                         </Table.Row>
                     </Table.Header>
 
                     <Table.Body>
-                        {this.state.rents.map((rent, index) =>
+                        {rents.map((rent, index) =>
                             <Table.Row key={index}>
                                 <Table.Cell> <Link to={'/car/' + rent.carId}> {rent.regNumber} </Link> </Table.Cell>
                                 <Table.Cell> {rent.value} </Table.Cell>
                                 <Table.Cell> {moment(rent.startDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
                                 <Table.Cell> {moment(rent.endDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
-                                <Table.Cell textAlign='right'>
+                                <Table.Cell className='align-right-large'>
                                     <Countdown startDate={rent.startDate} endDate={rent.endDate} />
                                 </Table.Cell>
 
-                                <Table.Cell textAlign='right' width='1'>
+                                <Table.Cell className='align-right-large' width='1'>
                                     <Dropdown icon={<Icon style={{ margin: '2px' }} name='ellipsis horizontal' />} button>
                                         <Dropdown.Menu>
                                             <Dropdown.Item onClick={() => printContract(rent._id)}>
@@ -119,7 +165,7 @@ class ActiveRents extends Component {
                                     </Dropdown>
                                 </Table.Cell>
 
-                                <Table.Cell textAlign='right' width='1'>
+                                <Table.Cell className='align-right-large' width='1'>
                                     <Button animated='vertical' color='green' onClick={() => openInfoModal(RENT_ACTIONS.UPDATE_ACTIVE_RENT, rent._id)}>
                                         <Button.Content hidden> INFO </Button.Content>
                                         <Button.Content visible>

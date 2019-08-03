@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Table, Icon, Button, Dropdown, Pagination } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
+import _ from 'lodash';
 
 // Flux.
 import store from '../stores/RentStore';
@@ -22,11 +23,13 @@ class ReservedRents extends Component {
         super();
         this.state = {
             reservedRents: store.getReservedRents().reservedRents,
-            size: store.getReservedRents().size
+            size: store.getReservedRents().size,
+            column: null,
+            direction: null
         }
         this.updateRentsList = this.updateRentsList.bind(this);
         this.fetchData = this.fetchData.bind(this);
-        this.handlePageChange = this.handlePageChange.bind(this)
+        this.handlePageChange = this.handlePageChange.bind(this);
     }
 
     updateRentsList() {
@@ -56,11 +59,54 @@ class ReservedRents extends Component {
         getRents(RENT_ACTIONS.GET_RESERVED_RENTS, 'reserved',  data.activePage)
     }
 
+    handleSort = clickedColumn => () => {
+        const { column, reservedRents, direction } = this.state
+
+        if (column !== clickedColumn) {
+            this.setState({
+                column: clickedColumn,
+                reservedRents: _.sortBy(reservedRents, [clickedColumn]),
+                direction: 'ascending',
+            });
+
+            return;
+        }
+
+        this.setState({
+            rents: reservedRents.reverse(),
+            direction: direction === 'ascending' ? 'descending' : 'ascending',
+        });
+    }
+
+    handleDateSort = clickedColumn => () => {
+        const { column, reservedRents, direction } = this.state
+
+        if (column !== clickedColumn) {
+            this.setState({
+                column: clickedColumn,
+                reservedRents: _.orderBy(reservedRents, (item) => {
+                    return new moment(item[clickedColumn]).format('YYYY/MM/DD HH:mm')
+                }, [clickedColumn]),
+                direction: 'ascending',
+            });
+
+            return;
+        }
+
+        this.setState({
+            reservedRents: reservedRents.reverse(),
+            direction: direction === 'ascending' ? 'descending' : 'ascending',
+        });
+    }
+
     render() {
+
+        const { column, reservedRents, direction } = this.state;
+
         return (
-            <Table unstackable selectable compact>
+            <Table stackable sortable selectable compact>
                 <Table.Header>
-                    <Table.Row>
+                    <Table.Row className='y-padding-none'>
                         <Table.HeaderCell colSpan='7' style={style.typeHeader}>
                             Reserved
                         </Table.HeaderCell>
@@ -68,23 +114,22 @@ class ReservedRents extends Component {
                 </Table.Header>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell> Car </Table.HeaderCell>
-                        <Table.HeaderCell> Income, &euro; </Table.HeaderCell>
-                        <Table.HeaderCell> Start Date </Table.HeaderCell>
-                        <Table.HeaderCell> End Date </Table.HeaderCell>
+                        <Table.HeaderCell sorted={column === 'regNumber' ? direction : null} onClick={this.handleSort('regNumber')} > Car </Table.HeaderCell>
+                        <Table.HeaderCell sorted={column === 'value' ? direction : null} onClick={this.handleSort('value')}> Income, &euro; </Table.HeaderCell>
+                        <Table.HeaderCell sorted={column === 'startDate' ? direction : null} onClick={this.handleDateSort('startDate')}> Start Date </Table.HeaderCell>
+                        <Table.HeaderCell sorted={column === 'endDate' ? direction : null} onClick={this.handleDateSort('endDate')}>  End Date </Table.HeaderCell>
                         <Table.HeaderCell />
                         <Table.HeaderCell />
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {this.state.reservedRents.map((rent, index) =>
+                    {reservedRents.map((rent, index) =>
                         <Table.Row key={index}>
                             <Table.Cell> <Link to={'/car/' + rent.carId}> {rent.regNumber} </Link> </Table.Cell>
                             <Table.Cell> {rent.value} </Table.Cell>
                             <Table.Cell> {moment(rent.startDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
                             <Table.Cell> {moment(rent.endDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
-                            <Table.Cell textAlign='right' width='1'>
-
+                            <Table.Cell className='align-right-large' width='1'>
                                 <Dropdown icon={<Icon style={{ margin: '2px' }} name='ellipsis horizontal' />} button>
                                     <Dropdown.Menu>
                                         <Dropdown.Item onClick={() => printContract(rent._id)}>
@@ -98,7 +143,7 @@ class ReservedRents extends Component {
                                     </Dropdown.Menu>
                                 </Dropdown>
                             </Table.Cell>
-                            <Table.Cell textAlign='right' width='1'>
+                            <Table.Cell className='align-right-large' width='1'>
                                 <Button animated='vertical' color='green' onClick={() => openInfoModal(RENT_ACTIONS.UPDATE_RESERVED_RENT, rent._id)} >
                                     <Button.Content hidden> INFO </Button.Content>
                                     <Button.Content visible>

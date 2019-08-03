@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, Button, Divider, Grid, Form, Segment, Header } from 'semantic-ui-react';
+import { Modal, Button, Divider, Grid, Form, Segment, Header, Icon } from 'semantic-ui-react';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 
@@ -115,18 +115,8 @@ class RentInfoModal extends Component {
                     <Grid>
                         <Grid.Row columns={2}>
                             <Grid.Column>
-                                <p> Rent start {moment(this.state.rent.startDate).format('YYYY/MM/DD HH:mm')}</p>
-                            </Grid.Column>
-
-                            <Grid.Column>
-                                <p> Rent end {moment(this.state.rent.endDate).format('YYYY/MM/DD HH:mm')}</p>
-                            </Grid.Column>
-
-                        </Grid.Row>
-
-                        <Grid.Row columns={2}>
-                            <Grid.Column>
                                 <Form widths='equal'>
+                                    <Form.Input inline name='startDate' label={<InfoLabel content='Start date' />} value={moment(this.state.rent.startDate).format('YYYY/MM/DD HH:mm')} />
                                     <Form.Input inline name='name' label={<InfoLabel content='First name' />} value={this.state.rent.name} onChange={this.handleChange} />
                                     <Form.Input inline name='surname' label={<InfoLabel content='Last name' />} value={this.state.rent.surname} onChange={this.handleChange} />
                                     <Form.Input inline name='odometer' label={<InfoLabel content='Kilometers' />} value={this.state.rent.odometer} onChange={this.handleChange} />
@@ -135,27 +125,33 @@ class RentInfoModal extends Component {
                             </Grid.Column>
                             <Grid.Column>
                                 <Form>
+                                    <Form.Input inline name='endDate' label={<InfoLabel content='End date' />} value={moment(this.state.rent.endDate).format('YYYY/MM/DD HH:mm')} />
                                     <Form.Input inline name='phone' label={<InfoLabel content='Phone' />} value={this.state.rent.phone} onChange={this.handleChange} />
                                     <Form.Input inline name='value' label={<InfoLabel content='Income' />} value={this.state.rent.value} onChange={this.handleChange} />
                                     <Form.Dropdown inline selection options={depositOptions} compact defaultValue={this.state.rent.deposit} onChange={this.handleDepositChange} label={<InfoLabel content='Deposit' />} />
                                 </Form>
                             </Grid.Column>
                         </Grid.Row>
-
-                        <Grid.Row>
+                    
+                        <Grid.Row style={{ paddingTop: 0 }}>
                             <Grid.Column>
-                                <Button icon='sticky note' color='blue' content='Notes' onClick={this.toggleNotes} style={{ marginBottom: 10 }} />
-                                    <Form>
-                                        <Form.TextArea value={this.state.rent.notes} onChange={this.handleChange} name='notes' style={{ display: `${this.state.notesVisible ? 'block' : 'none' }`, maxHeight: 300 }}/>
-                                    </Form>
+                                <Form>
+                                    <Form.TextArea value={this.state.rent.notes} label={<InfoLabel content='Notes' />} onChange={this.handleChange} name='notes' style={{ maxHeight: 300, minHeight: 41 }} />
+                                </Form>
                             </Grid.Column>
                         </Grid.Row>
                     </Grid>
 
                     <Divider />
 
-                    <Button color='green' content="Save changes" onClick={this.handleSubmit} />
-                    <Button color='red' content='Close' onClick={() => { this.setState({ notesVisible: false}); closeInfoModal()} } />
+                    <Button color='green' icon labelPosition='left' onClick={this.handleSubmit}>
+                        <Icon name='save' />
+                        Save changes
+                    </Button>
+                    <Button color='red' icon labelPosition='left' onClick={() => { this.setState({ notesVisible: false }); closeInfoModal() }}>
+                        <Icon name='close'/>
+                        Close
+                    </Button>
                 </Modal.Content>
             </Modal>
         )

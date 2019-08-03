@@ -5,20 +5,13 @@ import { EventEmitter } from 'events';
 class AppStore extends EventEmitter {
     constructor(){
         super();
-        this.colorTheme = '';
-        this.fontSize = '';
     }
 
     handleActions(action){
         switch(action.type){
-            case GLOBAL_ACTIONS.COLOR_SCHEME_CHANGE: {
-                this.colorTheme = action.value;
-                this.emit('colorSchemeChanged');
-                break;
-            }
-            case GLOBAL_ACTIONS.FONT_SIZE_CHANGE: {
-                this.fontSize = action.value;
-                this.emit('fontSizeChanged');
+            case GLOBAL_ACTIONS.CHANGE_LANGUAGE: {
+                this.languageId = action.value;
+                this.emit('languageChanged');
                 break;
             }
             case GLOBAL_ACTIONS.REQUEST_FAILED: {

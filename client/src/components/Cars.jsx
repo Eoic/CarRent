@@ -5,6 +5,7 @@ import store from '../stores/CarStore';
 import CarModal from './CarModal';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
+import _ from 'lodash';
 
 const styles = {
     deleteButton: {
@@ -23,7 +24,9 @@ class Cars extends Component {
             deleteItem: {
                 id: '',
                 regNumber: ''
-            }
+            },
+            column: null,
+            direction: null
         };
         this.updateList = this.updateList.bind(this);
         this.fetchData = this.fetchData.bind(this);
@@ -77,9 +80,30 @@ class Cars extends Component {
         this.props.history.push('/car/' + id);
     }
 
+    handleSort = clickedColumn => () => {
+        const { column, cars, direction } = this.state
+
+        if (column !== clickedColumn) {
+            this.setState({
+                column: clickedColumn,
+                cars: _.sortBy(cars, [clickedColumn]),
+                direction: 'ascending',
+            });
+
+            return;
+        }
+
+        this.setState({
+            cars: cars.reverse(),
+            direction: direction === 'ascending' ? 'descending' : 'ascending',
+        });
+    }
+
     render() {
+        const { column, cars, direction } = this.state;
+
         return (
-            <Table selectable size='large' unstackable compact>
+            <Table selectable size='large' stackable compact sortable>
                 <Modal size='mini' open={this.state.deleteConfirmOpen}>
                     <Modal.Header>Are you sure?</Modal.Header>
                     <Modal.Content>
@@ -93,20 +117,20 @@ class Cars extends Component {
 
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell width='4'> Registration nr. </Table.HeaderCell>
-                        <Table.HeaderCell> Model </Table.HeaderCell>
-                        <Table.HeaderCell> Color </Table.HeaderCell>
+                        <Table.HeaderCell sorted={column === 'registrationNumber' ? direction : null} onClick={this.handleSort('registrationNumber')}> Registration nr. </Table.HeaderCell>
+                        <Table.HeaderCell sorted={column === 'model' ? direction : null } onClick={this.handleSort('model')}> Model </Table.HeaderCell>
+                        <Table.HeaderCell sorted={column === 'color' ? direction : null } onClick={this.handleSort('color')}> Color </Table.HeaderCell>
                         <Table.HeaderCell />
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {this.state.cars.map(car =>
+                    {cars.map(car =>
                         <Table.Row key={car._id}>
                             <Table.Cell>
                                 <Link className={'custom-link'} to={'/car/' + car._id} > {car.registrationNumber} </Link>
                             </Table.Cell>
                             <Table.Cell> {car.model} </Table.Cell>
-                            <Table.Cell> <div className='color-sample' style={{ backgroundColor: car.color }}></div> </Table.Cell>
+                            <Table.Cell width='1'> <div className='color-sample' style={{ backgroundColor: car.color }}></div> </Table.Cell>
                             <Table.Cell textAlign='center'>
                                 <Dropdown icon={<Icon name='ellipsis horizontal' style={{ margin: '1px' }} />} button>
                                     <Dropdown.Menu>

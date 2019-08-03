@@ -50,9 +50,9 @@ class EndedRents extends Component {
 
     render() {
         return (
-            <Table unstackable selectable compact>
+            <Table stackable selectable compact>
                 <Table.Header>
-                    <Table.Row>
+                    <Table.Row className='y-padding-none'>
                         <Table.HeaderCell colSpan='6' style={style.typeHeader}>
                             Ended
                         </Table.HeaderCell>
@@ -64,8 +64,8 @@ class EndedRents extends Component {
                         <Table.HeaderCell> Income, &euro; </Table.HeaderCell>
                         <Table.HeaderCell> Start Date </Table.HeaderCell>
                         <Table.HeaderCell> End Date </Table.HeaderCell>
-                        <Table.HeaderCell textAlign='right' />
-                        <Table.HeaderCell textAlign='right' />
+                        <Table.HeaderCell className='align-right-large' />
+                        <Table.HeaderCell className='align-right-large' />
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
@@ -75,7 +75,7 @@ class EndedRents extends Component {
                             <Table.Cell> {rent.value} </Table.Cell>
                             <Table.Cell> {moment(rent.startDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
                             <Table.Cell> {moment(rent.endDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
-                            <Table.Cell textAlign='right'>
+                            <Table.Cell className='align-right-large'>
                                 <Dropdown icon={<Icon style={{ margin: '2px' }} name='ellipsis horizontal' />} button>
                                     <Dropdown.Menu>
                                         <Dropdown.Item onClick={() => deleteRent(RENT_ACTIONS.DELETE_ENDED_RENT, rent._id)} style={{ color: 'red' }}>
@@ -85,7 +85,7 @@ class EndedRents extends Component {
                                     </Dropdown.Menu>
                                 </Dropdown>
                             </Table.Cell>
-                            <Table.Cell textAlign='right' width='1'>
+                            <Table.Cell className='align-right-large' width='1'>
                                 <Button animated='vertical' color='green' onClick={() => openInfoModal(RENT_ACTIONS.UPDATE_ENDED_RENT, rent._id)} >
                                     <Button.Content hidden> INFO </Button.Content>
                                     <Button.Content visible>
@@ -99,7 +99,7 @@ class EndedRents extends Component {
                 <Table.Footer>
                     <Table.Row>
                         <Table.HeaderCell colSpan='6'>
-                            <Pagination defaultActivePage={1} totalPages={Math.ceil(this.state.size / 10)} onPageChange={(_event, data) => getRents(RENT_ACTIONS.GET_ENDED_RENTS, 'ended', data.activePage)} />
+                            <Pagination defaultActivePage={1} ellipsisItem={null} totalPages={Math.ceil(this.state.size / 10)} onPageChange={(_event, data) => getRents(RENT_ACTIONS.GET_ENDED_RENTS, 'ended', data.activePage)} />
                         </Table.HeaderCell>
                     </Table.Row>
                 </Table.Footer>

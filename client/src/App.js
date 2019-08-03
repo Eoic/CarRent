@@ -19,9 +19,15 @@ import Logout from './components/Logout';
 import axios from 'axios';
 //import Profile from './components/Profile';
 import Register from './components/Register'
+
 // Logging.
 import MessageQueue from './components/MessageQueue';
 import Calendar from './components/Calendar';
+
+// Translation
+import { LocaleContext } from './utils/locale-context';
+//import appStore from './stores/AppStore';
+//import { changeLanguage } from './actions/appActions';
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
 	<Route {...rest} render={props => (
@@ -47,7 +53,6 @@ const PublicRoute = ({ component: Component, ...rest }) => (
 	)} />
 );
 
-
 const token = Auth.getToken();
 axios.defaults.headers.common['x-access-token'] = (token) ? token : null;
 
@@ -56,7 +61,8 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			authenticated: false
+			authenticated: false,
+			locale: 'en'
 		}
 	}
 
