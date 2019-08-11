@@ -6,6 +6,7 @@ import CarModal from './CarModal';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
+import ConfirmAction from './ConfirmAction';
 
 const styles = {
     deleteButton: {
@@ -104,17 +105,11 @@ class Cars extends Component {
 
         return (
             <Table selectable size='large' stackable compact sortable celled singleLine>
-                <Modal size='mini' open={this.state.deleteConfirmOpen}>
-                    <Modal.Header>Are you sure?</Modal.Header>
-                    <Modal.Content>
-                        <p> Are you sure you want to delete <b> {this.state.deleteItem.regNumber} </b> ? </p>
-                    </Modal.Content>
-                    <Modal.Actions>
-                        <Button negative icon='times' labelPosition='left' content='No' onClick={this.handleCancel} />
-                        <Button positive icon='checkmark' labelPosition='left' content='Yes' onClick={this.handleConfirm} />
-                    </Modal.Actions>
-                </Modal>
-
+                <ConfirmAction open={this.state.deleteConfirmOpen} 
+                               handleConfirm={this.handleConfirm} 
+                               handleCancel={this.handleCancel} 
+                               content={<p> Are you sure you want to delete <b> {this.state.deleteItem.regNumber} </b> ? </p>}
+                               title={"Are you sure?"}/>
                 <Table.Header>
                     <Table.Row>
                         <Table.HeaderCell width={2} sorted={column === 'registrationNumber' ? direction : null} onClick={this.handleSort('registrationNumber')}> Registration nr. </Table.HeaderCell>

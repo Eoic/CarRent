@@ -3,10 +3,6 @@ import { GLOBAL_ACTIONS } from '../actions/types';
 import { EventEmitter } from 'events';
 
 class AppStore extends EventEmitter {
-    constructor(){
-        super();
-    }
-
     handleActions(action){
         switch(action.type){
             case GLOBAL_ACTIONS.CHANGE_LANGUAGE: {
@@ -18,8 +14,17 @@ class AppStore extends EventEmitter {
                 this.emit('requestFailed', action.value);
                 break;
             }
+            case GLOBAL_ACTIONS.CONFIRM_ACTION: {
+                this.confirmationData = action.value;
+                this.emit('openConfirmModal');
+                break;
+            }
             default: {}
         }
+    }
+
+    getConfirmationData() {
+        return this.confirmationData;
     }
 
     getColorScheme(){

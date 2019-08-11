@@ -41,7 +41,7 @@ class RentForm extends Component {
         super();
 
         var rentCopy = rentStore.getRentCopy();
-        
+
         var initialState = {
             startDate: moment(rentCopy.startDate) || moment(),
             endDate: moment(rentCopy.endDate) || moment(),
@@ -75,8 +75,8 @@ class RentForm extends Component {
         this.handleRentSuccess = this.handleRentSuccess.bind(this)
         this.handleFormReset = this.handleFormReset.bind(this)
 
-        if(!(Object.keys(rentCopy).length === 0 && rentCopy.constructor === Object))
-            rentStore.flushRentCopy(); 
+        if (!(Object.keys(rentCopy).length === 0 && rentCopy.constructor === Object))
+            rentStore.flushRentCopy();
     }
 
     handleFormReset() {
@@ -172,6 +172,7 @@ class RentForm extends Component {
             <Grid padded columns='1' centered>
                 {this.state.rentAdded ? <RentSummary data={this.state.processedRentData} resetForm={this.handleFormReset} duration={dateFormatter.getLongDurationString(this.state.duration)} /> :
                     <React.Fragment>
+                        {/*
                         <Grid padded style={styles.innerGrid}>
                             <label style={styles.label}> Start Date </label>
                             <DatePicker
@@ -201,10 +202,38 @@ class RentForm extends Component {
                                 onChange={this.handleEndDateChange}
                                 disabled={this.state.isRented}
                             />
-                        </Grid>
+                        </Grid> */}
                         <Grid.Row>
                             <Grid.Column style={styles.formColumn}>
                                 <Form onSubmit={this.handleSubmit} autoComplete='off'>
+                                    <Form.Group widths='equal'>
+                                        <Form.Input label='Start date'>
+                                            <DatePicker
+                                                showTimeSelect
+                                                timeFormat="HH:mm"
+                                                timeIntervals={30}
+                                                dateFormat="YYYY/MM/DD HH:mm"
+                                                timeCaption="time"
+                                                locale='lt'
+                                                selected={this.state.startDate}
+                                                onChange={this.handleStartDateChange}
+                                                disabled={this.state.isRented}
+                                            />
+                                        </Form.Input>
+                                        <Form.Input label='End date'>
+                                            <DatePicker
+                                                showTimeSelect
+                                                timeFormat="HH:mm"
+                                                locale='lt'
+                                                timeIntervals={30}
+                                                dateFormat="YYYY/MM/DD HH:mm"
+                                                timeCaption="time"
+                                                selected={this.state.endDate}
+                                                onChange={this.handleEndDateChange}
+                                                disabled={this.state.isRented}
+                                            />
+                                        </Form.Input>
+                                    </Form.Group>
                                     <Form.Group widths='equal'>
                                         <Form.Input required name='firstName' label='First Name' onChange={this.handleChange} value={this.state.firstName} />
                                         <Form.Input required name='lastName' label='Last Name' onChange={this.handleChange} value={this.state.lastName} />

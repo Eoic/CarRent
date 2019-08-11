@@ -25,7 +25,8 @@ export const CAR_ACTIONS = {
 export const GLOBAL_ACTIONS = {
     REQUEST_FAILED:         'globalActions.RequestFailed',
     CHANGE_LANGUAGE:        'globalActions.ChangeLanguage',
-    GET_USER_PROFILE:       'globalActions.GetUserProfile'
+    GET_USER_PROFILE:       'globalActions.GetUserProfile',
+    CONFIRM_ACTION:         'globalActions.ConfirmAction'
 };
 
 export const RENT_ACTIONS = {

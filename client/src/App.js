@@ -27,6 +27,7 @@ import Calendar from './components/Calendar';
 // Translation
 //import { LocaleContext } from './utils/locale-context';
 import Availability from './components/Availability';
+//import ConfirmAction from './components/ConfirmAction';
 //import appStore from './stores/AppStore';
 //import { changeLanguage } from './actions/appActions';
 
@@ -63,7 +64,8 @@ class App extends Component {
 		super(props);
 		this.state = {
 			authenticated: false,
-			locale: 'en'
+			locale: 'en',
+			renderConfirmModal: false
 		}
 	}
 
