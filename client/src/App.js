@@ -25,7 +25,8 @@ import MessageQueue from './components/MessageQueue';
 import Calendar from './components/Calendar';
 
 // Translation
-import { LocaleContext } from './utils/locale-context';
+//import { LocaleContext } from './utils/locale-context';
+import Availability from './components/Availability';
 //import appStore from './stores/AppStore';
 //import { changeLanguage } from './actions/appActions';
 
@@ -86,6 +87,7 @@ class App extends Component {
 							<PrivateRoute path='/overview' component={Overview} />
 							<PrivateRoute path='/cars' component={Cars} />
 							<PrivateRoute path='/car/:id' component={CarEditForm} />
+							<PrivateRoute path='/availability' component={Availability} />
 							<PrivateRoute path='/reports/:active/:reserved/:ended' component={Reports} />
 							<PrivateRoute path='/history' component={History} />
 							<PrivateRoute path='/calendar' component={Calendar} />

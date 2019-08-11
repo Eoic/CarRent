@@ -122,7 +122,7 @@ class Invoice extends Component {
 
                         <View style={styles.container}>
                             {tableHeaders.map((header, index) =>
-                                <View style={{ width: tableStyle.columnWidths[index] }}>
+                                <View style={{ width: tableStyle.columnWidths[index] }} key={index}>
                                     <Text style={[styles.bold, { marginBottom: 4 }]}> {header} </Text>
                                 </View>
                             )}

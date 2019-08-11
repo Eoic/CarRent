@@ -103,21 +103,21 @@ class Cars extends Component {
         const { column, cars, direction } = this.state;
 
         return (
-            <Table selectable size='large' stackable compact sortable>
+            <Table selectable size='large' stackable compact sortable celled singleLine>
                 <Modal size='mini' open={this.state.deleteConfirmOpen}>
                     <Modal.Header>Are you sure?</Modal.Header>
                     <Modal.Content>
                         <p> Are you sure you want to delete <b> {this.state.deleteItem.regNumber} </b> ? </p>
                     </Modal.Content>
                     <Modal.Actions>
-                        <Button negative icon='times' labelPosition='right' content='No' onClick={this.handleCancel} />
-                        <Button positive icon='checkmark' labelPosition='right' content='Yes' onClick={this.handleConfirm} />
+                        <Button negative icon='times' labelPosition='left' content='No' onClick={this.handleCancel} />
+                        <Button positive icon='checkmark' labelPosition='left' content='Yes' onClick={this.handleConfirm} />
                     </Modal.Actions>
                 </Modal>
 
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell sorted={column === 'registrationNumber' ? direction : null} onClick={this.handleSort('registrationNumber')}> Registration nr. </Table.HeaderCell>
+                        <Table.HeaderCell width={2} sorted={column === 'registrationNumber' ? direction : null} onClick={this.handleSort('registrationNumber')}> Registration nr. </Table.HeaderCell>
                         <Table.HeaderCell sorted={column === 'model' ? direction : null } onClick={this.handleSort('model')}> Model </Table.HeaderCell>
                         <Table.HeaderCell sorted={column === 'color' ? direction : null } onClick={this.handleSort('color')}> Color </Table.HeaderCell>
                         <Table.HeaderCell />
@@ -131,7 +131,7 @@ class Cars extends Component {
                             </Table.Cell>
                             <Table.Cell> {car.model} </Table.Cell>
                             <Table.Cell width='1'> <div className='color-sample' style={{ backgroundColor: car.color }}></div> </Table.Cell>
-                            <Table.Cell textAlign='center'>
+                            <Table.Cell textAlign='center' width={1} className='align-right-large' >
                                 <Dropdown icon={<Icon name='ellipsis horizontal' style={{ margin: '1px' }} />} button>
                                     <Dropdown.Menu>
                                         <Dropdown.Item onClick={this.handleEdit.bind(this, car._id)}>

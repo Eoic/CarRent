@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Grid, Segment, Header, Button, Form, Message /*, Icon */ } from 'semantic-ui-react';
+import { Segment, Button, Form, Message /*, Icon */ } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import StickyHeader from './StickyHeader';
 import PropTypes from 'prop-types';
@@ -7,9 +7,6 @@ import Auth from '../utils/authorize';
 //import { Link } from 'react-router-dom';
 import axios from 'axios';
 
-const CustomButton = () => (
-    <Button fluid className='login-button' size='huge' form='login-form' type='submit'> LOGIN </Button>
-)
 
 class Login extends Component {
 
@@ -66,7 +63,6 @@ class Login extends Component {
                 // Failed.
                 const errors = xhr.response.errors ? xhr.response.errors : {};
                 errors.summary = xhr.response.message;
-
                 this.setState({ errors, showErrors: true });
             }
         });
@@ -77,38 +73,17 @@ class Login extends Component {
     render() {
         return (
             <div className='login-wrapper'>
-                <Grid columns={1} centered style={{ height: 'inherit' }}>
-                    <StickyHeader />
-                    <Grid.Column verticalAlign='middle' style={{ maxWidth: '400px' }}>
-                        <Segment.Group raised>
-                            <Header as={Segment} size='huge'>
-                                ACCOUNT LOGIN
-                            </Header>
-                            <Message as={Segment} hidden={!this.state.showErrors} error textAlign='left'>
-                                {(this.state.showErrors) ? this.state.errors.map((key, index) => <p key={index}> {key} </p>) : ''}
-                            </Message>
-                            <Segment>
-                                <Form id='login-form' onSubmit={this.handleSubmit}>
-                                    <Form.Input required name='username' icon='user' type='text' placeholder='Username' onChange={this.handleChange} size='huge' />
-                                    <Form.Input required name='password' icon='lock' type='password' placeholder='Password' onChange={this.handleChange} size='huge' />
-                                </Form>
-                            </Segment>
-                            <Segment compact as={CustomButton}>
-                                LOGIN
-                            </Segment>
-
-                            {/*
-                        <Message warning attached='bottom'>
-                            <Icon name='help' />
-                            Don't have an account?
-
-                             <Button form='login-form' type='submit' color='green' fluid> LOGIN </Button>
-
-                            <Link to='/register'> Register here </Link>
-                        </Message> */}
-                        </Segment.Group>
-                    </Grid.Column>
-                </Grid>
+                <StickyHeader/>
+                <div className='login-form-container'>
+                    <Message as={Segment} hidden={!this.state.showErrors} error textAlign='left'>
+                        {(this.state.showErrors) ? this.state.errors.map((key, index) => <p key={index}> {key} </p>) : ''}
+                    </Message>
+                    <Form id='login-form' onSubmit={this.handleSubmit}>
+                        <Form.Input autoComplete='username' required name='username' icon='user' type='text' placeholder='Username' onChange={this.handleChange} size='huge' />
+                        <Form.Input autoComplete='current-password' required name='password' icon='lock' type='password' placeholder='Password' onChange={this.handleChange} size='huge' />
+                        <Button fluid className='login-button' size='huge' form='login-form' type='submit'> LOGIN </Button>
+                    </Form>
+                </div>
             </div>
         );
     }

@@ -50,20 +50,22 @@ class EndedRents extends Component {
 
     render() {
         return (
-            <Table stackable selectable compact>
+            <Table stackable selectable compact celled singleLine>
                 <Table.Header>
                     <Table.Row className='y-padding-none'>
-                        <Table.HeaderCell colSpan='6' style={style.typeHeader}>
+                        <Table.HeaderCell colSpan='8' style={style.typeHeader}>
                             Ended
                         </Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell> Car </Table.HeaderCell>
+                        <Table.HeaderCell width={2}> Car </Table.HeaderCell>
                         <Table.HeaderCell> Income, &euro; </Table.HeaderCell>
                         <Table.HeaderCell> Start Date </Table.HeaderCell>
                         <Table.HeaderCell> End Date </Table.HeaderCell>
+                        <Table.HeaderCell> Payment type </Table.HeaderCell>
+                        <Table.HeaderCell> Deposit </Table.HeaderCell>
                         <Table.HeaderCell className='align-right-large' />
                         <Table.HeaderCell className='align-right-large' />
                     </Table.Row>
@@ -75,7 +77,9 @@ class EndedRents extends Component {
                             <Table.Cell> {rent.value} </Table.Cell>
                             <Table.Cell> {moment(rent.startDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
                             <Table.Cell> {moment(rent.endDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
-                            <Table.Cell className='align-right-large'>
+                            <Table.Cell> {rent.paymentType || 'In Cash'}</Table.Cell>
+                            <Table.Cell> {(rent.deposit) ? "Yes" : "No" } </Table.Cell>
+                            <Table.Cell className='align-right-large' width={1}>
                                 <Dropdown icon={<Icon style={{ margin: '2px' }} name='ellipsis horizontal' />} button>
                                     <Dropdown.Menu>
                                         <Dropdown.Item onClick={() => deleteRent(RENT_ACTIONS.DELETE_ENDED_RENT, rent._id)} style={{ color: 'red' }}>

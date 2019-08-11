@@ -52,7 +52,7 @@ class SidebarMenu extends Component {
                 <div className="left-sidebar">
                     <Menu icon='labeled' inverted vertical visible='true' style={sidebarStyles.menu}>
                         <Menu.Item style={sidebarStyles.menuHeader} content={
-                            <ItemText content='NAVIGATION' />
+                            <ItemText content='NAVIGATION' icon='compass' />
                         } />
                         <Menu.Item as={NavLink} to='/overview' content={
                             <ItemText content='Overview' icon='home' />
@@ -60,13 +60,19 @@ class SidebarMenu extends Component {
                         <Menu.Item as={NavLink} to='/cars' content={
                             <ItemText content='Cars' icon='truck' />
                         } />
+
+                        {/*
+                        <Menu.Item as={NavLink} to='/availability' content={
+                            <ItemText content='Availability' icon='retweet' />
+                        } />
+                    */}
                         <Menu.Item as={NavLink} to='/calendar' content={
-                            <ItemText content='Calendar' icon='retweet' />
+                            <ItemText content='Calendar' icon='calendar' />
                         } />
                         <Menu.Item as={NavLink} to='/reports/1/1/1' content={
                             <ItemText content='History' icon='history' />
                         } />
-                        <Menu.Item as={NavLink} to='/history' content={
+                        <Menu.Item as={NavLink} to='/history' style={{ borderBottom: "1px solid #414fa7" }} content={
                             <ItemText content='Reports' icon='book' />
                         } />
                     </Menu>

@@ -104,17 +104,18 @@ class ReservedRents extends Component {
         const { column, reservedRents, direction } = this.state;
 
         return (
-            <Table stackable sortable selectable compact>
+            <Table stackable sortable selectable compact celled singleLine>
                 <Table.Header>
                     <Table.Row className='y-padding-none'>
-                        <Table.HeaderCell colSpan='7' style={style.typeHeader}>
+                        <Table.HeaderCell colSpan='8' style={style.typeHeader}>
                             Reserved
                         </Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell sorted={column === 'regNumber' ? direction : null} onClick={this.handleSort('regNumber')} > Car </Table.HeaderCell>
+                        <Table.HeaderCell width={2} sorted={column === 'regNumber' ? direction : null} onClick={this.handleSort('regNumber')} > Car </Table.HeaderCell>
+                        <Table.HeaderCell> Client </Table.HeaderCell>
                         <Table.HeaderCell sorted={column === 'value' ? direction : null} onClick={this.handleSort('value')}> Income, &euro; </Table.HeaderCell>
                         <Table.HeaderCell sorted={column === 'startDate' ? direction : null} onClick={this.handleDateSort('startDate')}> Start Date </Table.HeaderCell>
                         <Table.HeaderCell sorted={column === 'endDate' ? direction : null} onClick={this.handleDateSort('endDate')}>  End Date </Table.HeaderCell>
@@ -126,6 +127,7 @@ class ReservedRents extends Component {
                     {reservedRents.map((rent, index) =>
                         <Table.Row key={index}>
                             <Table.Cell> <Link to={'/car/' + rent.carId}> {rent.regNumber} </Link> </Table.Cell>
+                            <Table.Cell> {rent.name} {rent.surname}</Table.Cell>
                             <Table.Cell> {rent.value} </Table.Cell>
                             <Table.Cell> {moment(rent.startDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
                             <Table.Cell> {moment(rent.endDate).format('YYYY/MM/DD HH:mm')} </Table.Cell>
