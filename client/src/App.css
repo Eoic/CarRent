@@ -48,6 +48,7 @@
     display: grid;
     justify-items: center;
     align-items: center;
+    column-width: auto;
 }
 
 @media screen and (max-width: 768px), (max-height: 500px) {
@@ -55,6 +56,7 @@
         height: 100%;
         width: 100%;
         border-radius: 0px;
+        padding: 0;
     }
 }
 
@@ -122,4 +124,8 @@
     .align-right-large {
         text-align: right !important;
     }
+}
+
+#login-form {
+    min-width: 100px;
 }
