@@ -4,3 +4,6 @@ module.exports = {
     jwtSecret: "b6xnChQsHW25ICphSN8U3k4rLBuL1HmHMlmLZyS0",
     expiresIn: '365d'
 }
+
+// karolis KDU3IrT5xyBa4zQS
+// mongodb+srv://karolis:<password>@cluster0.wrphj.mongodb.net/<dbname>?retryWrites=true&w=majority

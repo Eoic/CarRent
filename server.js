@@ -15,8 +15,12 @@ const turnover = require('./routes/api/turnover');
 // Authorize user.
 const verifyToken = require('./routes/verifyToken');
 
+// Load environment variables (development only)
+if (process.env.NODE_ENV === 'development')
+    require('dotenv').config()
+
 // Connect to MongoDB.
-require('./models/Index').connect(process.env.MONGO_URI || config.dbUri);
+require('./models/Index').connect();
 
 // Middleware
 app.use(helmet())

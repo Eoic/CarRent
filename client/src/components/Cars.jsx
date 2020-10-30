@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Table, Dropdown, Modal, Button, Icon } from 'semantic-ui-react';
+import { Table, Dropdown, Icon } from 'semantic-ui-react';
 import { getCars, deleteCar } from '../actions/carActions';
 import store from '../stores/CarStore';
 import CarModal from './CarModal';

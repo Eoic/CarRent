@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { Segment, Button, Form, Message /*, Icon */ } from 'semantic-ui-react';
+import {Segment, Button, Form, Message, Grid, Icon, Header /*, Icon */} from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import StickyHeader from './StickyHeader';
 import PropTypes from 'prop-types';
 import Auth from '../utils/authorize';
 //import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Link from "react-router-dom/Link";
+import Register from "./Register";
 
 
 class Login extends Component {
@@ -72,18 +74,31 @@ class Login extends Component {
 
     render() {
         return (
-            <div className='login-wrapper'>
-                <StickyHeader/>
-                <div className='login-form-container'>
-                    <Message as={Segment} hidden={!this.state.showErrors} error textAlign='left'>
-                        {(this.state.showErrors) ? this.state.errors.map((key, index) => <p key={index}> {key} </p>) : ''}
-                    </Message>
-                    <Form id='login-form' onSubmit={this.handleSubmit}>
-                        <Form.Input autoComplete='username' required name='username' icon='user' type='text' placeholder='Username' onChange={this.handleChange} size='huge' />
-                        <Form.Input autoComplete='current-password' required name='password' icon='lock' type='password' placeholder='Password' onChange={this.handleChange} size='huge' />
-                        <Button fluid className='login-button' size='huge' form='login-form' type='submit'> LOGIN </Button>
-                    </Form>
-                </div>
+            <div style={{'backgroundColor': '#1B263B', marginTop: '1rem' }}>
+                <Grid columns={1} centered style={{ height: '100vh' }} >
+                    <StickyHeader />
+                    <Grid.Column verticalAlign='middle' style={{ maxWidth: '400px' }}>
+                        <Segment.Group raised>
+                            <Header as={Segment} size='huge'>
+                                MEMBER LOGIN
+                            </Header>
+                            <Message as={Segment} hidden={!this.state.showErrors} error textAlign='left'>
+                                {(this.state.showErrors) ? this.state.errors.map((key, index) => <p key={index}> {key} </p>) : ''}
+                            </Message>
+                            <Segment>
+                                <Form id='login-form' onSubmit={this.handleSubmit}>
+                                    <Form.Input autoComplete='username' required name='username' icon='user' type='text' placeholder='Username' onChange={this.handleChange} />
+                                    <Form.Input autoComplete='current-password' required name='password' icon='lock' type='password' placeholder='Password' onChange={this.handleChange} />
+                                    <Button fluid className='btn-dark-blue' form='login-form' type='submit'> LOGIN </Button>
+                                </Form>
+                            </Segment>
+                            <Message info attached='bottom'>
+                                <Icon name='help' /> Don't have an account?
+                                <Link to='/register'> Register here </Link>
+                            </Message>
+                        </Segment.Group>
+                    </Grid.Column>
+                </Grid>
             </div>
         );
     }

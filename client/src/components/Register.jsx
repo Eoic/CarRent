@@ -62,35 +62,37 @@ class Register extends Component {
 
     render() {
         return (
-            <Grid columns={1} centered style={{ height: 'inherit' }}>
-                <StickyHeader />
-                <Grid.Column verticalAlign='middle' style={{ maxWidth: '400px' }}>
-                    <Segment.Group raised>
-                        <Header as={Segment} inverted color='blue' size='huge'>
-                            Registration
-                        </Header>
-                        <Message as={Segment} hidden={!this.state.showErrors} error textAlign='left'>
-                                { (this.state.showErrors) ? this.state.errors.map((key, index) => <p key={index}> { key.msg } </p>) : '' }
-                        </Message>  
-                        <Segment>
-                            <Form id='register-form' onSubmit={this.handleSubmit} autoComplete="off">
-                                <Form.Input name='username' required icon='user' type='text' placeholder='Username' onChange={this.handleChange} />
-                                <Form.Input name='email' required icon='mail' type='email' placeholder='Email' onChange={this.handleChange} />
-                                <Form.Input name='passwordFirst' required icon='lock' type='password' placeholder='Password' onChange={this.handleChange} />
-                                <Form.Input name='passwordSecond' required icon='lock' type='password' placeholder='Repeat password' onChange={this.handleChange} />
-                            </Form>
-                        </Segment>
-                        <Segment>
-                            <Button form='register-form' type='submit' color='blue' fluid> Register </Button>
-                        </Segment>
-                        <Message warning attached='bottom'>
-                            <Icon name='help' />
-                            Already have an account?
-                            <Link to='/'> Login here </Link>
-                        </Message>
-                    </Segment.Group>
-                </Grid.Column>
-            </Grid>
+            <div style={{'backgroundColor': '#1B263B', marginTop: '1rem' }}>
+                <Grid columns={1} centered style={{ height: '100vh' }}>
+                    <StickyHeader />
+                    <Grid.Column verticalAlign='middle' style={{ maxWidth: '400px' }}>
+                        <Segment.Group raised>
+                            <Header as={Segment} size='huge'>
+                                NEW ACCOUNT REGISTRATION
+                            </Header>
+                            <Message as={Segment} hidden={!this.state.showErrors} error textAlign='left'>
+                                    { (this.state.showErrors) ? this.state.errors.map((key, index) => <p key={index}> { key.msg } </p>) : '' }
+                            </Message>
+                            <Segment>
+                                <Form id='register-form' onSubmit={this.handleSubmit} autoComplete="off">
+                                    <Form.Input name='username' required icon='user' type='text' placeholder='Username' onChange={this.handleChange} />
+                                    <Form.Input name='email' required icon='mail' type='email' placeholder='Email' onChange={this.handleChange} />
+                                    <Form.Input name='passwordFirst' required icon='lock' type='password' placeholder='Password' onChange={this.handleChange} />
+                                    <Form.Input name='passwordSecond' required icon='lock' type='password' placeholder='Repeat password' onChange={this.handleChange} />
+                                </Form>
+                            </Segment>
+                            <Segment>
+                                <Button form='register-form' type='submit' className={'btn-dark-blue'} fluid> Register </Button>
+                            </Segment>
+                            <Message info attached='bottom'>
+                                <Icon name='help' />
+                                Already have an account?
+                                <Link to='/'> Login here </Link>
+                            </Message>
+                        </Segment.Group>
+                    </Grid.Column>
+                </Grid>
+            </div>
         );
     }
 }
