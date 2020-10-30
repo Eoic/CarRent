@@ -65,3 +65,8 @@ export const RENT_ACTIONS = {
     // FILTER
     FILTER_RECORDS:         'rentActions.FilterRecords'
 };
+
+export const USER_ACTIONS = {
+    GET_USERS: 'userActions.GetUsers',
+    GET_USER_BY_ID: 'userActions.GetUserById'
+}

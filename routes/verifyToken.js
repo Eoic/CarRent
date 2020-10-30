@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const { jwtSecret } = require('../config/index');
 
 function verifyToken(req, res, next) {
     const token = req.headers['x-access-token'];
@@ -11,7 +10,7 @@ function verifyToken(req, res, next) {
         });
     }
 
-    jwt.verify(token, process.env.JWT_SECRET || jwtSecret, (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {
             return res.status(500).send({
                 auth: false,

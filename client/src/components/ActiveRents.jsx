@@ -9,6 +9,7 @@ import _ from 'lodash';
 import store from '../stores/RentStore';
 import { getRents, endRent, deleteRent, openInfoModal, printInvoice, printContract } from '../actions/rentActions';
 import { RENT_ACTIONS } from '../actions/types';
+import BlankTable from "./BlankTable";
 
 const style = {
     typeHeader: {
@@ -177,11 +178,12 @@ class ActiveRents extends Component {
                                 </Table.Cell>
                             </Table.Row>
                         )}
+                        {!rents.length && <BlankTable colSpan={8} text={'No active rents.'} />}
                     </Table.Body>
 
                     <Table.Footer>
                         <Table.Row>
-                            <Table.HeaderCell colSpan='7'>
+                            <Table.HeaderCell colSpan='8'>
                                 <Pagination defaultActivePage={1} totalPages={Math.ceil(this.state.size / 10)} onPageChange={(_event, data) => getRents(RENT_ACTIONS.GET_ACTIVE_RENTS, '', data.activePage)} />
                             </Table.HeaderCell>
                         </Table.Row>

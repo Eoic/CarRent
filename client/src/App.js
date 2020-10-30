@@ -11,6 +11,7 @@ import Cars from './components/Cars';
 import Reports from './components/Reports';
 import History from './components/History';
 import CarEditForm from './components/CarEditForm';
+import Users from './components/Users'
 import { ToastContainer } from '../node_modules/react-toastify';
 
 // Authentication.
@@ -93,6 +94,7 @@ class App extends Component {
 							<PrivateRoute path='/reports/:active/:reserved/:ended' component={Reports} />
 							<PrivateRoute path='/history' component={History} />
 							<PrivateRoute path='/calendar' component={Calendar} />
+							<PrivateRoute path={'/users'} component={Users} />
 						</Sidebar>
 					</Switch>
 				</BrowserRouter>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Menu, Icon } from 'semantic-ui-react';
 import { NavLink } from 'react-router-dom';
 import MenuTop from './MenuTop';
+import Auth from '../utils/authorize'
 
 const sidebarStyles = {
     menu: {
@@ -75,6 +76,10 @@ class SidebarMenu extends Component {
                         <Menu.Item as={NavLink} to='/history' style={{ borderBottom: "1px solid #414fa7" }} content={
                             <ItemText content='Reports' icon='book' />
                         } />
+                        {Auth.parseToken().is_admin &&
+                        <Menu.Item as={NavLink} to='/users' style={{ borderBottom: "1px solid #414fa7" }} content={
+                            <ItemText content='Users' icon='users' />
+                        } />}
                     </Menu>
                 </div>
 

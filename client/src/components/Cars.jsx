@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
 import ConfirmAction from './ConfirmAction';
+import BlankTable from "./BlankTable";
 
 const styles = {
     deleteButton: {
@@ -142,6 +143,7 @@ class Cars extends Component {
                             </Table.Cell>
                         </Table.Row>
                     )}
+                {!cars.length && <BlankTable colSpan={3} text={'No cars were created yet.'} />}
                 </Table.Body>
                 <Table.Footer>
                     <Table.Row>

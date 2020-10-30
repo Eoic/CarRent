@@ -8,6 +8,7 @@ import _ from 'lodash';
 import store from '../stores/RentStore';
 import { getRents, deleteRent, openInfoModal, printContract } from '../actions/rentActions';
 import { RENT_ACTIONS } from '../actions/types';
+import BlankTable from "./BlankTable";
 
 const style = {
     typeHeader: {
@@ -100,7 +101,6 @@ class ReservedRents extends Component {
     }
 
     render() {
-
         const { column, reservedRents, direction } = this.state;
 
         return (
@@ -154,7 +154,7 @@ class ReservedRents extends Component {
                                 </Button>
                             </Table.Cell>
                         </Table.Row>
-                    )}{this.state.reservedRents.length === 0 && <Table.Row><Table.Cell colSpan='6'>No reserved rents</Table.Cell></Table.Row>}
+                    )}{this.state.reservedRents.length === 0 && <BlankTable colSpan={6} text={'No reserved rents.'} />}
                 </Table.Body>
                 <Table.Footer>
                     <Table.Row>

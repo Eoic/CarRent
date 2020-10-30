@@ -4,7 +4,6 @@ const bcrypt = require('bcryptjs');
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
 const { check, body, validationResult } = require('express-validator/check');
-const { jwtSecret, expiresIn } = require('../config/index');
 
 router.post('/login', (req, res) => {
     if (typeof req.body.username === 'undefined' || typeof req.body.password === 'undefined')
@@ -16,17 +15,14 @@ router.post('/login', (req, res) => {
     };
 
     User.findOne({
-        username: user.username
+        username: user.username,
+        is_verified: true
     }, (err, userObject) => {
         if (err)
-            return res.status(500).json({
-                errors: ['Internal server error']
-            })
+            return res.status(500).json({ errors: ['An error has occurred. Please try again later.']})
 
         if (!userObject) {
-            return res.status(404).json({
-                errors: ["Invalid username or password"]
-            });
+            return res.status(404).json({ errors: ["Invalid username or password"]});
         }
 
         bcrypt.compare(user.password, userObject.password, (err, success) => {
@@ -37,8 +33,10 @@ router.post('/login', (req, res) => {
             else {
                 const token = jwt.sign({
                     id: userObject._id,
-                    username: userObject.username
-                }, process.env.JWT_SECRET || jwtSecret, { expiresIn: process.env.JWT_EXPIRES || expiresIn });
+                    username: userObject.username,
+                    is_verified: userObject.is_verified,
+                    is_admin: userObject.is_admin
+                }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
 
                 res.status(200).send({
                     auth: true,
@@ -95,17 +93,8 @@ router.post('/register', [
         username: user.username,
         password: user.password,
         email: user.email
-    }).then((response) => {
-        const token = jwt.sign({
-            id: response._id
-        }, process.env.JWT_SECRET || jwtSecret, {
-                expiresIn: process.env.JWT_EXPIRES || expiresIn
-            });
-
-        res.json({
-            auth: true,
-            token
-        });
+    }).then(() => {
+        res.sendStatus(200)
     });
 });
 

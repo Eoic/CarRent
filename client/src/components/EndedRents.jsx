@@ -7,6 +7,7 @@ import moment from 'moment';
 import store from '../stores/RentStore';
 import { getRents, openInfoModal, deleteRent } from '../actions/rentActions';
 import { RENT_ACTIONS } from '../actions/types';
+import BlankTable from "./BlankTable";
 
 const style = {
     typeHeader: {
@@ -99,10 +100,11 @@ class EndedRents extends Component {
                             </Table.Cell>
                         </Table.Row>
                     )}
+                    {!this.state.endedRents.length && <BlankTable colSpan={8} text={'No ended rents.'} />}
                 </Table.Body>
                 <Table.Footer>
                     <Table.Row>
-                        <Table.HeaderCell colSpan='6'>
+                        <Table.HeaderCell colSpan='8'>
                             <Pagination defaultActivePage={1} ellipsisItem={null} totalPages={Math.ceil(this.state.size / 10)} onPageChange={(_event, data) => getRents(RENT_ACTIONS.GET_ENDED_RENTS, 'ended', data.activePage)} />
                         </Table.HeaderCell>
                     </Table.Row>

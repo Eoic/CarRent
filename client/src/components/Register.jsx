@@ -13,8 +13,10 @@ class Register extends Component {
             passwordFirst: '',
             passwordSecond: '',
             errors: [],
-            showErrors: false
+            showErrors: false,
+            accountCreated: false
         }
+
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -41,11 +43,10 @@ class Register extends Component {
         xhr.addEventListener('load', () => {
             if(xhr.status === 200){
                 this.setState({
-                    errors: {},
-                    showErrors: false
+                    errors: [],
+                    showErrors: false,
+                    accountCreated: true
                 });
-
-                this.props.history.push('/');
             } else {
                 
                 const errors = xhr.response.errors ? xhr.response.errors : {};
@@ -60,37 +61,64 @@ class Register extends Component {
         xhr.send(formData)
     }
 
+    componentWillUnmount() {
+        this.setState({
+            username: '',
+            email: '',
+            passwordFirst: '',
+            passwordSecond: '',
+            errors: [],
+            showErrors: false,
+            accountCreated: false
+        })
+    }
+
     render() {
         return (
             <div style={{'backgroundColor': '#1B263B', marginTop: '1rem' }}>
                 <Grid columns={1} centered style={{ height: '100vh' }}>
                     <StickyHeader />
-                    <Grid.Column verticalAlign='middle' style={{ maxWidth: '400px' }}>
-                        <Segment.Group raised>
-                            <Header as={Segment} size='huge'>
-                                NEW ACCOUNT REGISTRATION
-                            </Header>
-                            <Message as={Segment} hidden={!this.state.showErrors} error textAlign='left'>
-                                    { (this.state.showErrors) ? this.state.errors.map((key, index) => <p key={index}> { key.msg } </p>) : '' }
-                            </Message>
-                            <Segment>
-                                <Form id='register-form' onSubmit={this.handleSubmit} autoComplete="off">
-                                    <Form.Input name='username' required icon='user' type='text' placeholder='Username' onChange={this.handleChange} />
-                                    <Form.Input name='email' required icon='mail' type='email' placeholder='Email' onChange={this.handleChange} />
-                                    <Form.Input name='passwordFirst' required icon='lock' type='password' placeholder='Password' onChange={this.handleChange} />
-                                    <Form.Input name='passwordSecond' required icon='lock' type='password' placeholder='Repeat password' onChange={this.handleChange} />
-                                </Form>
-                            </Segment>
-                            <Segment>
-                                <Button form='register-form' type='submit' className={'btn-dark-blue'} fluid> Register </Button>
-                            </Segment>
-                            <Message info attached='bottom'>
-                                <Icon name='help' />
-                                Already have an account?
-                                <Link to='/'> Login here </Link>
-                            </Message>
-                        </Segment.Group>
-                    </Grid.Column>
+                    {!this.state.accountCreated &&
+                        <Grid.Column verticalAlign='middle' style={{ maxWidth: '400px' }}>
+                            <Segment.Group raised>
+                                <Header as={Segment} size='huge'>
+                                    NEW ACCOUNT REGISTRATION
+                                </Header>
+                                <Message as={Segment} hidden={!this.state.showErrors} error textAlign='left'>
+                                    {this.state.showErrors ?
+                                        <ul>
+                                            {this.state.errors.map((key, index) => <li key={index}> {key.msg} </li>)}
+                                        </ul> : ''}
+                                </Message>
+                                <Segment>
+                                    <Form id='register-form' onSubmit={this.handleSubmit} autoComplete="off">
+                                        <Form.Input name='username' required icon='user' type='text' placeholder='Username' onChange={this.handleChange} />
+                                        <Form.Input name='email' required icon='mail' type='email' placeholder='Email' onChange={this.handleChange} />
+                                        <Form.Input name='passwordFirst' required icon='lock' type='password' placeholder='Password' onChange={this.handleChange} />
+                                        <Form.Input name='passwordSecond' required icon='lock' type='password' placeholder='Repeat password' onChange={this.handleChange} />
+                                    </Form>
+                                </Segment>
+                                <Segment>
+                                    <Button form='register-form' type='submit' className={'btn-dark-blue'} fluid> Register </Button>
+                                </Segment>
+                                <Message info attached='bottom'>
+                                    <Icon name='help' />
+                                    Already have an account?
+                                    <Link to='/'> Login here </Link>
+                                </Message>
+                            </Segment.Group>
+                        </Grid.Column>}
+                    {this.state.accountCreated &&
+                    <Grid.Column verticalAlign={'middle'} style={{'maxWidth': 600 }}>
+                        <Message info header={'Your account has been created!'} align={'justify'} content={
+                            <>
+                                <p>
+                                    You will get an email when administrator verifies your account.
+                                    Click {<Link to='/'> <strong> here </strong> </Link>} to open up login page.
+                                </p>
+                            </>
+                        } />
+                    </Grid.Column>}
                 </Grid>
             </div>
         );
