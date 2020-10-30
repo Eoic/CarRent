@@ -68,5 +68,7 @@ export const RENT_ACTIONS = {
 
 export const USER_ACTIONS = {
     GET_USERS: 'userActions.GetUsers',
-    GET_USER_BY_ID: 'userActions.GetUserById'
+    GET_USER_BY_ID: 'userActions.GetUserById',
+    SWITCH_USER_VERIFICATION: 'userActions.SwitchUserVerification',
+    SWITCH_USER_TYPE: 'userActions.SwitchUserType'
 }

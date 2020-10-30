@@ -19,6 +19,8 @@ function verifyToken(req, res, next) {
         }
 
         req.userId = decoded.id;
+        req.is_verified = decoded.is_verified;
+        req.is_admin = decoded.is_admin;
         next();
     });
 }

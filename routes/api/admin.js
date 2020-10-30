@@ -13,5 +13,36 @@ router.get('/users', (req, res) => {
     })
 });
 
+router.patch('/user/verification/:id', (req, res) => {
+    if (req.is_admin) {
+        User.findById(req.params.id).then(user => {
+            user.is_verified = !user.is_verified
+            user.save()
+                .then(() => { return res.sendStatus(200)})
+                .catch(() => { return res.sendStatus(404) })
+        }).catch(err => {
+            return res.sendStatus(404)
+        })
+    } else {
+        res.sendStatus(401)
+    }
+})
+
+router.patch('/user/type/:id', (req, res) => {
+    if (req.is_admin) {
+        User.findById(req.params.id).then(user => {
+            user.is_admin = !user.is_admin
+            user.save()
+                .then(() => { return res.sendStatus(200)})
+                .catch(() => { return res.sendStatus(404) })
+        }).catch(err => {
+            return res.sendStatus(404)
+        })
+    } else {
+        res.sendStatus(401)
+    }
+})
+
+
 
 module.exports = router

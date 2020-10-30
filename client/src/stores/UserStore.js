@@ -22,6 +22,14 @@ class UserStore extends EventEmitter {
                 this.emit('storeUpdated');
                 break;
             }
+            case USER_ACTIONS.SWITCH_USER_VERIFICATION: {
+                this.emit('updateRequired')
+                break;
+            }
+            case USER_ACTIONS.SWITCH_USER_TYPE: {
+                this.emit('updateRequired')
+                break;
+            }
             default: {}
         }
     }
