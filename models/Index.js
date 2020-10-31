@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 
 const build_uri = (user, password, database, srv, url, queryParams) => {
-    let uri = `mongodb${process.env.DB_SRV === 'true' ? '+srv' : ''}://${user}:${password}@${url}/${database}`
+    let uri = `mongodb${srv === 'true' ? '+srv' : ''}://${user}:${password}@${url}/${database}`
 
-    if (String(process.env.DB_PARAMS).trim())
-        uri = `uri${process.env.DB_PARAMS}`
+    if (typeof(queryParams) !== 'undefined' && String(queryParams).trim() !== '')
+        uri = `${uri}?${queryParams}`
 
     return uri
 }
