@@ -58,8 +58,8 @@ const styles = StyleSheet.create({
     }
 });
 
-Font.register('//fonts.gstatic.com/s/opensans/v15/mem8YaGs126MiZpBA-U1Ug.ttf', { family: 'Open-Sans' });
-Font.register('//fonts.gstatic.com/s/opensans/v15/mem5YaGs126MiZpBA-UN7rg-VQ.ttf', { family: 'Open-Sans-Bold' });
+Font.register({ family: 'Open-Sans', src: '//fonts.gstatic.com/s/opensans/v15/mem8YaGs126MiZpBA-U1Ug.ttf' });
+Font.register({ family: 'Open-Sans-Bold', src: '//fonts.gstatic.com/s/opensans/v15/mem5YaGs126MiZpBA-UN7rg-VQ.ttf' });
 
 class Contract extends Component {
 

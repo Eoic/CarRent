@@ -11,6 +11,7 @@ const users = require('./routes/users');
 const rents = require('./routes/api/rents');
 const turnover = require('./routes/api/turnover');
 const admin = require('./routes/api/admin')
+const appInfo = require('./routes/app')
 
 // Authorize user.
 const verifyToken = require('./routes/verifyToken');
@@ -31,6 +32,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/api', verifyToken);
 
 app.use('/', users);
+app.use('/app', appInfo)
 app.use('/api/cars', cars);
 app.use('/api/expenses', expenses);
 app.use('/api/rents', rents);

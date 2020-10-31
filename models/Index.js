@@ -10,7 +10,7 @@ const build_uri = (user, password, database, srv, url, queryParams) => {
 }
 
 module.exports.connect = () => {
-    const uri = build_uri(process.env.DB_USER, process.env.DB_PASS, process.env.DB_NAME, false, process.env.DB_URL, process.env.DB_PARAMS)
+    const uri = build_uri(process.env.DB_USER, process.env.DB_PASS, process.env.DB_NAME, process.env.DB_SRV, process.env.DB_URL, process.env.DB_PARAMS)
 
     mongoose.connect(uri, {
         useNewUrlParser: true,

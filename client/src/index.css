@@ -12,3 +12,11 @@ html {
 body {
   min-height: 100%;
 }
+
+::placeholder {
+  color: black !important;
+}
+
+input {
+  border-color: #959595 !important;
+}

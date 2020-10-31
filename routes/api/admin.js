@@ -10,6 +10,8 @@ router.get('/users', (req, res) => {
         .sort({ username: 1})
         .then(users => {
             res.json(users);
+    }).catch(() => {
+        res.json([])
     })
 });
 

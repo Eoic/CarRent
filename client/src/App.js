@@ -32,6 +32,8 @@ import Availability from './components/Availability';
 //import appStore from './stores/AppStore';
 //import { changeLanguage } from './actions/appActions';
 
+import 'semantic-ui-css/semantic.min.css'
+
 const PrivateRoute = ({ component: Component, ...rest }) => (
 	<Route {...rest} render={props => (
 		Auth.isUserAuthenticated() ? (<Component {...props} {...rest} />) : (
