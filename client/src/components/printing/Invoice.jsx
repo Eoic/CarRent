@@ -74,8 +74,8 @@ const tablePlaceholders = [
     "0 €"
 ]
 
-Font.register({ family: 'Open-Sans', src: 'http://fonts.gstatic.com/s/opensans/v15/mem8YaGs126MiZpBA-U1Ug.ttf' });
-Font.register({ family: 'Open-Sans-Bold', src: 'http://fonts.gstatic.com/s/opensans/v15/mem5YaGs126MiZpBA-UN7rg-VQ.ttf' });
+Font.register({ family: 'Open-Sans', src: '//fonts.gstatic.com/s/opensans/v15/mem8YaGs126MiZpBA-U1Ug.ttf' });
+Font.register({ family: 'Open-Sans-Bold', src: '//fonts.gstatic.com/s/opensans/v15/mem5YaGs126MiZpBA-UN7rg-VQ.ttf' });
 
 class Invoice extends Component {
 
