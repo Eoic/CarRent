@@ -17,7 +17,7 @@ const appInfo = require('./routes/app')
 const verifyToken = require('./routes/verifyToken');
 
 // Load environment variables (development only)
-if (process.env.NODE_ENV === 'development')
+if (process.env.NODE_ENV !== 'production')
     require('dotenv').config()
 
 // Connect to MongoDB.
