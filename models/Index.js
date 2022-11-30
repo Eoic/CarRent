@@ -15,7 +15,8 @@ module.exports.connect = () => {
     mongoose.connect(uri, {
         useNewUrlParser: true,
         useCreateIndex: true,
-        useFindAndModify: false
+        useFindAndModify: false,
+        useUnifiedTopology: true
     });
 
     mongoose.Promise = global.Promise;

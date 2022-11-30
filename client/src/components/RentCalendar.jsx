@@ -7,7 +7,7 @@ import moment from 'moment'
 import store from '../stores/RentStore';
 import { getCalendarRents } from '../actions/rentActions';
 
-import '../styles/calendar.scss';
+// import '../styles/calendar.scss';
 import { Modal, Button, Header, Grid, Icon } from 'semantic-ui-react';
 
 class RentCalendar extends Component {

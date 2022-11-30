@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import {Segment, Button, Form, Message, Grid, Icon, Header /*, Icon */} from 'semantic-ui-react';
+import { Segment, Button, Form, Message, Grid, Icon, Header } from 'semantic-ui-react';
 import { withRouter } from 'react-router-dom';
 import StickyHeader from './StickyHeader';
 import PropTypes from 'prop-types';
 import Auth from '../utils/authorize';
-//import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Link from "react-router-dom/Link";
 
