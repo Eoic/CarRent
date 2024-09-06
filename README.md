@@ -1,4 +1,4 @@
-# Rajesas
+# Car renting application
 Car rent information system
 
 ### Deployment
