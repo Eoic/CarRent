@@ -2,7 +2,8 @@
 Car rent information system
 
 ### Deployment
-#### Debian 12
+OS: Debian 12
+
 1. Upgrade the system:
    ```
    apt update && apt upgrade -y
