@@ -1,7 +1,7 @@
 {
   "name": "car-rent",
-  "version": "0.0.1",
-  "description": "",
+  "version": "1.2.8",
+  "description": "Car rent management system.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
@@ -18,8 +18,8 @@
     "type": "git",
     "url": "git+https://github.com/Eoic/car-rent.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Karolis Strazdas",
+  "license": "AGPL",
   "bugs": {
     "url": "https://github.com/Eoic/car-rent/issues"
   },
